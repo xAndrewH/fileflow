@@ -72,45 +72,45 @@ export default function SvgToPngPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">SVG to PNG</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">SVG to PNG</h1>
         <p className="text-slate-500 text-sm mb-8">Convert SVG files or code to PNG, processed entirely in your browser.</p>
 
         <div className="space-y-5">
           {/* Upload */}
           <div
-            className="bg-slate-900/60 border-2 border-dashed border-slate-700 rounded-xl p-8 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
+            className="bg-slate-50 dark:bg-slate-900/60 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
             onClick={() => fileRef.current?.click()}
             onDragOver={e => e.preventDefault()}
             onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }}>
-            <p className="text-slate-400 text-sm">Drop an SVG file here or <span className="text-blue-400">browse</span></p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">Drop an SVG file here or <span className="text-blue-600 dark:text-blue-400">browse</span></p>
             <input ref={fileRef} type="file" accept=".svg,image/svg+xml" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
           </div>
 
           {/* Paste SVG */}
           <div>
-            <label className="text-slate-400 text-xs mb-1.5 block">Or paste SVG code</label>
+            <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">Or paste SVG code</label>
             <textarea
               value={svg}
               onChange={e => { setSvg(e.target.value); process(e.target.value, scale); }}
               placeholder="<svg xmlns=…>…</svg>"
               spellCheck={false}
-              className="w-full h-36 bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-600"
+              className="w-full h-36 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-400 dark:placeholder-slate-600"
             />
           </div>
 
           {/* Scale */}
-          <div className="flex items-center gap-4 bg-slate-900/60 border border-slate-800/60 rounded-xl px-4 py-3">
-            <span className="text-slate-400 text-sm">Output scale</span>
+          <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-3">
+            <span className="text-slate-500 dark:text-slate-400 text-sm">Output scale</span>
             <div className="flex gap-2">
               {[1, 2, 3, 4].map(s => (
                 <button key={s} onClick={() => { setScale(s); process(svg, s); }}
-                  className={`px-3 py-1 rounded-lg text-sm transition-colors ${scale === s ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                  className={`px-3 py-1 rounded-lg text-sm transition-colors ${scale === s ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                   {s}×
                 </button>
               ))}
@@ -121,10 +121,10 @@ export default function SvgToPngPage() {
 
           {/* Preview */}
           {preview && (
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
-              <p className="text-slate-400 text-xs mb-3">Preview</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
+              <p className="text-slate-500 dark:text-slate-400 text-xs mb-3">Preview</p>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={preview} alt="PNG preview" className="max-w-full rounded-lg border border-slate-700" />
+              <img src={preview} alt="PNG preview" className="max-w-full rounded-lg border border-slate-300 dark:border-slate-700" />
             </div>
           )}
 

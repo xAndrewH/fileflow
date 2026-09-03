@@ -50,8 +50,8 @@ export function CopyButton({
       type="button"
       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${
         copied
-          ? "bg-green-600/20 border-green-500/40 text-green-400"
-          : "bg-slate-800 hover:bg-slate-700 border-slate-700/60 text-slate-300 hover:text-white"
+          ? "bg-green-600/20 border-green-500/40 text-green-600 dark:text-green-400"
+          : "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
       } ${className}`}
     >
       {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}

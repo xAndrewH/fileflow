@@ -167,21 +167,21 @@ export default function PalettePage() {
   const displayColors = displayPalette.map(p => p.hex);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Color Palette Generator</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Color Palette Generator</h1>
         <p className="text-slate-500 text-sm mb-8">Generate harmonious color palettes from a base color or extract from an image.</p>
 
         <div className="space-y-5">
           {/* Source toggle */}
-          <div className="flex gap-1 bg-slate-900/60 border border-slate-800/60 rounded-xl p-1 w-fit">
+          <div className="flex gap-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-1 w-fit">
             {([["color", "Color picker"], ["image", "From image"]] as const).map(([v, label]) => (
               <button key={v} onClick={() => setSource(v)}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${source === v ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}>
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${source === v ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                 {label}
               </button>
             ))}
@@ -189,7 +189,7 @@ export default function PalettePage() {
 
           {source === "color" ? (
             /* Color picker + harmony */
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-4">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4">
               <div className="flex items-center gap-4">
                 <div className="relative">
                   <div className="w-12 h-12 rounded-xl border-2 border-white/10 cursor-pointer" style={{ background: base }} />
@@ -197,7 +197,7 @@ export default function PalettePage() {
                     className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
                 </div>
                 <div>
-                  <p className="text-white font-mono text-lg font-bold">{base.toUpperCase()}</p>
+                  <p className="text-slate-900 dark:text-white font-mono text-lg font-bold">{base.toUpperCase()}</p>
                   <p className="text-slate-500 text-xs mt-0.5">
                     {(() => { const { r, g, b } = hexToRgb(base); return `rgb(${r}, ${g}, ${b})`; })()}
                   </p>
@@ -206,7 +206,7 @@ export default function PalettePage() {
               <div className="flex flex-wrap gap-2">
                 {HARMONIES.map(h => (
                   <button key={h.value} onClick={() => setHarmony(h.value)}
-                    className={`px-3 py-1.5 rounded-lg text-xs transition-colors ${harmony === h.value ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`px-3 py-1.5 rounded-lg text-xs transition-colors ${harmony === h.value ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {h.label}
                   </button>
                 ))}
@@ -214,28 +214,28 @@ export default function PalettePage() {
             </div>
           ) : (
             /* Image upload */
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <p className="text-white text-sm font-medium">Upload an image to extract colors</p>
+                <p className="text-slate-900 dark:text-white text-sm font-medium">Upload an image to extract colors</p>
                 <div className="flex items-center gap-2">
                   <span className="text-slate-500 text-xs">Colors:</span>
                   {[4, 5, 6, 8, 10].map(n => (
                     <button key={n} onClick={() => reExtract(n)}
-                      className={`px-2 py-0.5 rounded text-xs transition-colors ${imgCount === n ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                      className={`px-2 py-0.5 rounded text-xs transition-colors ${imgCount === n ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                       {n}
                     </button>
                   ))}
                   <button onClick={() => imgFileRef.current?.click()}
-                    className="px-3 py-1.5 text-xs bg-slate-700 hover:bg-slate-600 border border-slate-600 text-slate-300 rounded-lg transition-colors">
+                    className="px-3 py-1.5 text-xs bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg transition-colors">
                     {imgLoaded ? "Change" : "Upload"}
                   </button>
                   <input ref={imgFileRef} type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
                 </div>
               </div>
-              <canvas ref={imgCanvasRef} className={`w-full rounded-lg border border-slate-700/60 ${imgLoaded ? "block" : "hidden"}`} />
+              <canvas ref={imgCanvasRef} className={`w-full rounded-lg border border-slate-300 dark:border-slate-700/60 ${imgLoaded ? "block" : "hidden"}`} />
               {!imgLoaded && (
                 <button onClick={() => imgFileRef.current?.click()}
-                  className="w-full h-32 border-2 border-dashed border-slate-700 rounded-lg text-slate-500 text-xs hover:border-slate-600 hover:text-slate-300 transition-colors flex flex-col items-center justify-center gap-2">
+                  className="w-full h-32 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg text-slate-500 text-xs hover:border-slate-400 dark:hover:border-slate-600 hover:text-slate-800 dark:hover:text-slate-300 transition-colors flex flex-col items-center justify-center gap-2">
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
                   Click to upload an image
                 </button>
@@ -246,7 +246,7 @@ export default function PalettePage() {
           {(source === "color" || (source === "image" && imgPalette.length > 0)) && (
             <>
               {/* Palette strip */}
-              <div className="h-20 rounded-2xl overflow-hidden flex border border-slate-800">
+              <div className="h-20 rounded-2xl overflow-hidden flex border border-slate-200 dark:border-slate-800">
                 {displayPalette.map((p, i) => (
                   <div key={i} className="flex-1" style={{ background: p.hex }} />
                 ))}
@@ -258,10 +258,10 @@ export default function PalettePage() {
                   const { r, g, b } = hexToRgb(p.hex);
                   const [ph, ps, pl] = hexToHsl(p.hex);
                   return (
-                    <div key={i} className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 flex items-center gap-4">
+                    <div key={i} className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 flex items-center gap-4">
                       <div className="w-14 h-14 rounded-xl shrink-0 border border-white/10" style={{ background: p.hex }} />
                       <div className="flex-1 min-w-0">
-                        <p className="text-white font-mono font-bold">{p.hex.toUpperCase()}</p>
+                        <p className="text-slate-900 dark:text-white font-mono font-bold">{p.hex.toUpperCase()}</p>
                         <p className="text-slate-500 text-xs mt-0.5">{p.label} · rgb({r}, {g}, {b}) · hsl({ph}, {ps}%, {pl}%)</p>
                       </div>
                       <CopyButton text={p.hex} className="shrink-0" />

@@ -128,41 +128,41 @@ export default function CalculatorPage() {
 
   const btnClass = (key: string) => {
     const base = "flex items-center justify-center rounded-xl text-base font-medium h-14 transition-all active:scale-95 select-none cursor-pointer";
-    if (key === "=") return `${base} bg-blue-600 hover:bg-blue-500 text-white col-span-1`;
-    if (["÷", "×", "−", "+"].includes(key)) return `${base} bg-slate-700 hover:bg-slate-600 text-blue-300`;
-    if (["C", "±", "%", "⌫"].includes(key)) return `${base} bg-slate-700 hover:bg-slate-600 text-slate-300`;
-    return `${base} bg-slate-800 hover:bg-slate-700 text-white`;
+    if (key === "=") return `${base} bg-blue-600 hover:bg-blue-500 text-slate-900 dark:text-white col-span-1`;
+    if (["÷", "×", "−", "+"].includes(key)) return `${base} bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-blue-700 dark:text-blue-300`;
+    if (["C", "±", "%", "⌫"].includes(key)) return `${base} bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300`;
+    return `${base} bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white`;
   };
 
-  const advBtnClass = "flex items-center justify-center rounded-xl text-sm font-mono h-11 bg-slate-800/80 hover:bg-slate-700 border border-slate-700/50 text-slate-300 transition-all active:scale-95 cursor-pointer select-none";
+  const advBtnClass = "flex items-center justify-center rounded-xl text-sm font-mono h-11 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 transition-all active:scale-95 cursor-pointer select-none";
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-sm mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
 
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-white">Calculator</h1>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Calculator</h1>
           </div>
-          <div className="flex gap-1 bg-slate-900/60 border border-slate-800/60 rounded-xl p-1">
+          <div className="flex gap-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-1">
             {(["basic", "advanced"] as Mode[]).map(m => (
               <button key={m} onClick={() => setMode(m)}
-                className={`px-3 py-1 rounded-lg text-xs capitalize transition-colors ${mode === m ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}>
+                className={`px-3 py-1 rounded-lg text-xs capitalize transition-colors ${mode === m ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                 {m}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl overflow-hidden">
+        <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl overflow-hidden">
           {/* Display */}
           <div className="px-5 py-4 min-h-[80px] flex flex-col items-end justify-end">
             <p className="text-slate-500 text-xs font-mono truncate w-full text-right">{expr || " "}</p>
-            <p className="text-white text-4xl font-light font-mono truncate w-full text-right">{display}</p>
+            <p className="text-slate-900 dark:text-white text-4xl font-light font-mono truncate w-full text-right">{display}</p>
           </div>
 
           <div className="p-3 space-y-3">
@@ -176,7 +176,7 @@ export default function CalculatorPage() {
                     ))}
                   </div>
                 ))}
-                <div className="border-t border-slate-700/50 pt-2" />
+                <div className="border-t border-slate-300 dark:border-slate-700/50 pt-2" />
               </div>
             )}
 
@@ -195,17 +195,17 @@ export default function CalculatorPage() {
 
         {/* History */}
         {history.length > 0 && (
-          <div className="mt-5 bg-slate-900/60 border border-slate-800/60 rounded-2xl p-4">
+          <div className="mt-5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-white text-sm font-medium">History</p>
-              <button onClick={() => setHistory([])} className="text-slate-500 hover:text-slate-300 text-xs">Clear</button>
+              <p className="text-slate-900 dark:text-white text-sm font-medium">History</p>
+              <button onClick={() => setHistory([])} className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-xs">Clear</button>
             </div>
             <div className="space-y-1 max-h-40 overflow-y-auto">
               {history.map((h, i) => (
-                <div key={i} className="flex justify-between items-center text-xs py-1 border-b border-slate-800/40 last:border-0">
+                <div key={i} className="flex justify-between items-center text-xs py-1 border-b border-slate-200 dark:border-slate-800/40 last:border-0">
                   <span className="text-slate-500 font-mono truncate mr-2">{h.expr}</span>
                   <button onClick={() => { setDisplay(h.result); setExpr(h.result); }}
-                    className="text-slate-300 font-mono shrink-0 hover:text-blue-400 transition-colors">{h.result}</button>
+                    className="text-slate-700 dark:text-slate-300 font-mono shrink-0 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{h.result}</button>
                 </div>
               ))}
             </div>

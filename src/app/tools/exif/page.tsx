@@ -66,49 +66,49 @@ export default function ExifPage() {
   const otherEntries = data ? Object.entries(data).filter(([k]) => !allDisplayedKeys.includes(k) && !k.startsWith("GPS") || (k.startsWith("GPS") && !["GPSLatitude","GPSLongitude","GPSLatitudeRef","GPSLongitudeRef"].includes(k))) : [];
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">EXIF Viewer</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">EXIF Viewer</h1>
         <p className="text-slate-500 text-sm mb-8">Read image metadata: camera settings, GPS, timestamps and more.</p>
 
         <div className="space-y-5">
           <div
-            className="bg-slate-900/60 border-2 border-dashed border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
+            className="bg-slate-50 dark:bg-slate-900/60 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
             onClick={() => fileRef.current?.click()}
             onDragOver={e => e.preventDefault()}
             onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }}>
             {loading ? (
               <div className="flex flex-col items-center gap-2">
                 <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-                <p className="text-slate-400 text-sm">Reading EXIF data…</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Reading EXIF data…</p>
               </div>
             ) : preview ? (
               <div className="flex flex-col items-center gap-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={preview} alt="Preview" className="max-h-32 rounded-lg border border-slate-700 object-contain" />
+                <img src={preview} alt="Preview" className="max-h-32 rounded-lg border border-slate-300 dark:border-slate-700 object-contain" />
                 <p className="text-slate-500 text-xs">Click to load a different image</p>
               </div>
             ) : (
               <>
-                <p className="text-slate-400 text-sm">Drop an image here or <span className="text-blue-400">browse</span></p>
-                <p className="text-slate-600 text-xs mt-1">JPEG, HEIC, TIFF, and RAW files typically contain EXIF data</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Drop an image here or <span className="text-blue-600 dark:text-blue-400">browse</span></p>
+                <p className="text-slate-400 dark:text-slate-600 text-xs mt-1">JPEG, HEIC, TIFF, and RAW files typically contain EXIF data</p>
               </>
             )}
             <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
           </div>
 
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>}
 
           {data && !loading && (
             <div className="space-y-4">
               {gpsStr && (
                 <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-blue-300 text-sm font-medium">GPS Location</p>
+                    <p className="text-blue-700 dark:text-blue-300 text-sm font-medium">GPS Location</p>
                     <p className="text-blue-200 font-mono text-sm mt-0.5">{gpsStr}</p>
                   </div>
                   <a href={`https://maps.google.com/?q=${gpsStr.replace("°, ", ",").replace("°", "")}`}
@@ -123,13 +123,13 @@ export default function ExifPage() {
                 const entries = keys.filter(k => data[k] != null).map(k => [k, data[k]] as [string, unknown]);
                 if (entries.length === 0) return null;
                 return (
-                  <div key={section} className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
-                    <p className="text-white text-sm font-medium mb-3">{section}</p>
+                  <div key={section} className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
+                    <p className="text-slate-900 dark:text-white text-sm font-medium mb-3">{section}</p>
                     <div className="space-y-2">
                       {entries.map(([k, v]) => (
                         <div key={k} className="flex gap-4 text-sm">
                           <span className="text-slate-500 w-40 shrink-0 text-xs">{k}</span>
-                          <span className="text-slate-300 font-mono text-xs break-all">{formatValue(v)}</span>
+                          <span className="text-slate-700 dark:text-slate-300 font-mono text-xs break-all">{formatValue(v)}</span>
                         </div>
                       ))}
                     </div>
@@ -138,13 +138,13 @@ export default function ExifPage() {
               })}
 
               {otherEntries.length > 0 && (
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
-                  <p className="text-white text-sm font-medium mb-3">Other</p>
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
+                  <p className="text-slate-900 dark:text-white text-sm font-medium mb-3">Other</p>
                   <div className="space-y-2">
                     {otherEntries.map(([k, v]) => (
                       <div key={k} className="flex gap-4 text-sm">
                         <span className="text-slate-500 w-40 shrink-0 text-xs">{k}</span>
-                        <span className="text-slate-300 font-mono text-xs break-all">{formatValue(v)}</span>
+                        <span className="text-slate-700 dark:text-slate-300 font-mono text-xs break-all">{formatValue(v)}</span>
                       </div>
                     ))}
                   </div>
@@ -152,9 +152,9 @@ export default function ExifPage() {
               )}
 
               {Object.keys(data).length === 0 && (
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-8 text-center">
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-8 text-center">
                   <p className="text-slate-500 text-sm">No EXIF data found in this image.</p>
-                  <p className="text-slate-600 text-xs mt-1">Screenshots and heavily edited images often have no metadata.</p>
+                  <p className="text-slate-400 dark:text-slate-600 text-xs mt-1">Screenshots and heavily edited images often have no metadata.</p>
                 </div>
               )}
             </div>

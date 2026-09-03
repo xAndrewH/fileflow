@@ -53,37 +53,37 @@ export default function LoremPage() {
   }, [type, count, startWithLorem]);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Lorem Ipsum Generator</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Lorem Ipsum Generator</h1>
         <p className="text-slate-500 text-sm mb-8">Generate placeholder text for your designs and mockups.</p>
 
         <div className="space-y-5">
           {/* Controls */}
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-4">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4">
             <div className="flex flex-wrap gap-4 items-center">
               <div className="flex gap-2">
                 {(["paragraphs", "sentences", "words"] as const).map(t => (
                   <button key={t} onClick={() => setType(t)}
-                    className={`px-3 py-1.5 rounded-lg text-sm capitalize transition-colors ${type === t ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`px-3 py-1.5 rounded-lg text-sm capitalize transition-colors ${type === t ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {t}
                   </button>
                 ))}
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-slate-400 text-sm">Count</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm">Count</span>
                 <input type="number" min={1} max={type === "words" ? 500 : type === "sentences" ? 50 : 20}
                   value={count} onChange={e => setCount(Math.max(1, +e.target.value))}
-                  className="w-16 bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-white text-sm text-center focus:outline-none focus:border-blue-500" />
+                  className="w-16 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-2 py-1.5 text-slate-900 dark:text-white text-sm text-center focus:outline-none focus:border-blue-500" />
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={startWithLorem} onChange={e => setStartWithLorem(e.target.checked)}
                   className="w-4 h-4 rounded accent-blue-500" />
-                <span className="text-slate-400 text-sm">Start with "Lorem ipsum"</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm">Start with "Lorem ipsum"</span>
               </label>
             </div>
 
@@ -95,7 +95,7 @@ export default function LoremPage() {
 
           {output && (
             <div className="relative">
-              <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+              <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 text-slate-700 dark:text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
                 {output}
               </div>
               <CopyButton text={output} label="Copy" className="absolute top-3 right-3" />

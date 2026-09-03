@@ -56,7 +56,7 @@ export default function CategoryTabs({ selected, onChange }: Props) {
       {canScrollLeft && (
         <button
           onClick={() => scroll("left")}
-          className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors z-10"
+          className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors z-10"
           aria-label="Scroll left"
         >
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -67,7 +67,7 @@ export default function CategoryTabs({ selected, onChange }: Props) {
 
       {/* Fade left */}
       {canScrollLeft && (
-        <div className="absolute left-8 top-0 bottom-0 w-6 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none z-10" />
+        <div className="absolute left-8 top-0 bottom-0 w-6 bg-gradient-to-r from-white dark:from-slate-950 to-transparent pointer-events-none z-10" />
       )}
 
       {/* Scrollable row */}
@@ -82,7 +82,7 @@ export default function CategoryTabs({ selected, onChange }: Props) {
             className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-150 ${
               selected === key
                 ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
-                : "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white"
+                : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             <span>{emoji}</span>
@@ -93,14 +93,14 @@ export default function CategoryTabs({ selected, onChange }: Props) {
 
       {/* Fade right */}
       {canScrollRight && (
-        <div className="absolute right-8 top-0 bottom-0 w-6 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none z-10" />
+        <div className="absolute right-8 top-0 bottom-0 w-6 bg-gradient-to-l from-white dark:from-slate-950 to-transparent pointer-events-none z-10" />
       )}
 
       {/* Right arrow */}
       {canScrollRight && (
         <button
           onClick={() => scroll("right")}
-          className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors z-10"
+          className="flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors z-10"
           aria-label="Scroll right"
         >
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

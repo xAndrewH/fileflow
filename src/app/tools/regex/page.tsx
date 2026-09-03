@@ -143,27 +143,27 @@ export default function RegexPage() {
   const hasGroups = result?.matches.some(m => m.groups.length > 0 || m.namedGroups);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Regex Tester</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Regex Tester</h1>
         <p className="text-slate-500 text-sm mb-8">Test regular expressions with live match highlighting.</p>
 
         <div className="space-y-4">
           {/* Pattern + flags */}
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 flex items-center gap-3">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 flex items-center gap-3">
             <span className="text-slate-500 font-mono text-lg select-none">/</span>
             <input value={pattern} onChange={e => setPattern(e.target.value)}
               placeholder="pattern" spellCheck={false}
-              className="flex-1 bg-transparent text-white font-mono text-sm focus:outline-none placeholder-slate-600" />
+              className="flex-1 bg-transparent text-slate-900 dark:text-white font-mono text-sm focus:outline-none placeholder-slate-400 dark:placeholder-slate-600" />
             <span className="text-slate-500 font-mono text-lg select-none">/</span>
             <div className="flex gap-1">
               {FLAG_OPTS.map(({ f, title }) => (
                 <button key={f} onClick={() => toggleFlag(f)} title={title}
-                  className={`w-7 h-7 rounded font-mono text-sm transition-colors ${flags.includes(f) ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                  className={`w-7 h-7 rounded font-mono text-sm transition-colors ${flags.includes(f) ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                   {f}
                 </button>
               ))}
@@ -174,7 +174,7 @@ export default function RegexPage() {
             <button
               onClick={() => { setPattern(SAMPLE_PATTERN); setText(SAMPLE_TEXT); }}
               type="button"
-              className="bg-slate-800 hover:bg-slate-700 border border-slate-700/60 text-slate-300 text-xs rounded-lg px-3 py-1.5">
+              className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-xs rounded-lg px-3 py-1.5">
               Try an example
             </button>
           </div>
@@ -183,17 +183,17 @@ export default function RegexPage() {
 
           {/* Test string */}
           <div>
-            <label className="text-slate-400 text-xs mb-1.5 block">Test string</label>
+            <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">Test string</label>
             <textarea value={text} onChange={e => setText(e.target.value)}
               placeholder="Paste text to test against…" spellCheck={false}
-              className="w-full h-40 bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-600" />
+              className="w-full h-40 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-400 dark:placeholder-slate-600" />
           </div>
 
           {/* Highlighted preview */}
           {highlighted && (
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-slate-400 text-xs">
+                <p className="text-slate-500 dark:text-slate-400 text-xs">
                   {result?.matches.length ?? 0} match{result?.matches.length !== 1 ? "es" : ""}
                 </p>
                 {result && result.matches.length > 0 && (
@@ -205,8 +205,8 @@ export default function RegexPage() {
                   part.match
                     ? part.empty
                       ? <mark key={i} className="inline-block w-px h-[1em] bg-blue-400 align-middle" />
-                      : <mark key={i} className="bg-blue-500/30 text-blue-300 rounded px-0.5">{part.text}</mark>
-                    : <span key={i} className="text-slate-300">{part.text}</span>
+                      : <mark key={i} className="bg-blue-500/30 text-blue-700 dark:text-blue-300 rounded px-0.5">{part.text}</mark>
+                    : <span key={i} className="text-slate-700 dark:text-slate-300">{part.text}</span>
                 )}
               </div>
             </div>
@@ -214,13 +214,13 @@ export default function RegexPage() {
 
           {/* Match list */}
           {result && result.matches.length > 0 && (
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-2">
-              <p className="text-white text-xs font-semibold mb-3">Matches</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-2">
+              <p className="text-slate-900 dark:text-white text-xs font-semibold mb-3">Matches</p>
               {result.matches.map((m, i) => (
                 <div key={i} className="text-xs font-mono">
                   <div className="flex items-start gap-3">
-                    <span className="text-slate-600 w-5 shrink-0 pt-0.5">{i + 1}</span>
-                    <span className="text-blue-300 bg-blue-500/10 px-2 py-0.5 rounded break-all">
+                    <span className="text-slate-400 dark:text-slate-600 w-5 shrink-0 pt-0.5">{i + 1}</span>
+                    <span className="text-blue-700 dark:text-blue-300 bg-blue-500/10 px-2 py-0.5 rounded break-all">
                       {m.match || "(empty match)"}
                     </span>
                     <span className="text-slate-500 pt-0.5">@{m.index}</span>
@@ -230,7 +230,7 @@ export default function RegexPage() {
                     <div className="ml-8 mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
                       {Object.entries(m.namedGroups).map(([name, val]) => (
                         <span key={name} className="text-slate-500">
-                          <span className="text-violet-400">{name}</span>: <span className="text-slate-300">{val ?? "undefined"}</span>
+                          <span className="text-violet-600 dark:text-violet-400">{name}</span>: <span className="text-slate-700 dark:text-slate-300">{val ?? "undefined"}</span>
                         </span>
                       ))}
                     </div>
@@ -240,7 +240,7 @@ export default function RegexPage() {
                     <div className="ml-8 mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
                       {m.groups.map((g, gi) => (
                         <span key={gi} className="text-slate-500">
-                          <span className="text-violet-400">${gi + 1}</span>: <span className="text-slate-300">{g ?? "undefined"}</span>
+                          <span className="text-violet-600 dark:text-violet-400">${gi + 1}</span>: <span className="text-slate-700 dark:text-slate-300">{g ?? "undefined"}</span>
                         </span>
                       ))}
                     </div>
@@ -253,22 +253,22 @@ export default function RegexPage() {
           {/* Replace mode */}
           <div>
             <button onClick={() => setShowReplace(s => !s)}
-              className="flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-xs transition-colors">
+              className="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-xs transition-colors">
               <svg className={`w-3 h-3 transition-transform ${showReplace ? "rotate-90" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               Replace mode
             </button>
             {showReplace && (
               <div className="mt-3 space-y-3">
                 <div>
-                  <label className="text-slate-400 text-xs mb-1.5 block">Replacement string <span className="text-slate-600">(use $1, $2, … or $&lt;name&gt; for groups)</span></label>
+                  <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">Replacement string <span className="text-slate-400 dark:text-slate-600">(use $1, $2, … or $&lt;name&gt; for groups)</span></label>
                   <input value={replacement} onChange={e => setReplacement(e.target.value)}
                     placeholder="$1 or literal text"
-                    className="w-full bg-slate-900/60 border border-slate-800/60 rounded-xl px-4 py-2.5 text-white text-sm font-mono focus:outline-none focus:border-blue-500/50 placeholder-slate-600" />
+                    className="w-full bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white text-sm font-mono focus:outline-none focus:border-blue-500/50 placeholder-slate-400 dark:placeholder-slate-600" />
                 </div>
                 {replaceResult !== null && (
-                  <div className="relative bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
-                    <p className="text-slate-400 text-xs mb-2">Result</p>
-                    <pre className="text-slate-300 text-sm font-mono whitespace-pre-wrap break-all">{replaceResult}</pre>
+                  <div className="relative bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
+                    <p className="text-slate-500 dark:text-slate-400 text-xs mb-2">Result</p>
+                    <pre className="text-slate-700 dark:text-slate-300 text-sm font-mono whitespace-pre-wrap break-all">{replaceResult}</pre>
                     <CopyButton
                       text={replaceResult ?? ""}
                       label="Copy"
@@ -282,7 +282,7 @@ export default function RegexPage() {
 
           {/* Quick reference */}
           <details className="group">
-            <summary className="text-slate-500 hover:text-slate-300 text-xs cursor-pointer transition-colors list-none flex items-center gap-1.5">
+            <summary className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-xs cursor-pointer transition-colors list-none flex items-center gap-1.5">
               <svg className="w-3 h-3 transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               Quick reference
             </summary>
@@ -295,8 +295,8 @@ export default function RegexPage() {
                 ["(?:abc)","Non-capturing group"], ["(?<n>abc)","Named group"], ["a|b","a or b"],
                 ["[abc]","Character class"], ["[^abc]","Negated class"], ["\\p{L}","Unicode letter (u flag)"],
               ].map(([sym, desc]) => (
-                <div key={sym} className="flex items-start gap-2 bg-slate-900/40 rounded-lg px-2.5 py-1.5">
-                  <code className="text-blue-300 font-mono text-xs shrink-0 w-20">{sym}</code>
+                <div key={sym} className="flex items-start gap-2 bg-slate-50 dark:bg-slate-900/40 rounded-lg px-2.5 py-1.5">
+                  <code className="text-blue-700 dark:text-blue-300 font-mono text-xs shrink-0 w-20">{sym}</code>
                   <span className="text-slate-500 text-xs leading-relaxed">{desc}</span>
                 </div>
               ))}

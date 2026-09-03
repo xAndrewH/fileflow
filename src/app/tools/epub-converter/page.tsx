@@ -116,9 +116,9 @@ export default function EpubConverterPage() {
   const doneCount = books.filter((i) => i.status === "done").length;
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
@@ -126,7 +126,7 @@ export default function EpubConverterPage() {
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-1">EPUB Converter</h1>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">EPUB Converter</h1>
           <p className="text-slate-500 text-sm">Convert EPUB ebooks to HTML or plain text, in bulk, entirely in your browser.</p>
         </div>
 
@@ -138,8 +138,8 @@ export default function EpubConverterPage() {
           onClick={() => inputRef.current?.click()}
           className={`flex flex-col items-center justify-center gap-3 py-10 rounded-2xl border border-dashed cursor-pointer transition-all mb-5 ${
             isDragging
-              ? "border-blue-500/70 bg-blue-500/8 text-blue-400"
-              : "border-slate-700/60 text-slate-500 hover:border-slate-600 hover:text-slate-300"
+              ? "border-blue-500/70 bg-blue-500/8 text-blue-600 dark:text-blue-400"
+              : "border-slate-300 dark:border-slate-700/60 text-slate-500 hover:border-slate-400 dark:hover:border-slate-600 hover:text-slate-800 dark:hover:text-slate-300"
           }`}
         >
           <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -161,13 +161,13 @@ export default function EpubConverterPage() {
         </div>
 
         {/* Options */}
-        <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-4 mb-5">
+        <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4 mb-5">
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-slate-400 text-sm w-24 shrink-0">Convert to</span>
+            <span className="text-slate-500 dark:text-slate-400 text-sm w-24 shrink-0">Convert to</span>
             <div className="flex gap-2">
               {FORMATS.map(({ id, label }) => (
                 <button key={id} onClick={() => setFormat(id)}
-                  className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-colors ${format === id ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                  className={`px-3 py-1 rounded-lg text-xs font-mono font-bold transition-colors ${format === id ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                   {label}
                 </button>
               ))}
@@ -181,15 +181,15 @@ export default function EpubConverterPage() {
         {books.length > 0 && (
           <div className="space-y-2 mb-5">
             {books.map((item) => (
-              <div key={item.id} className="flex items-center gap-3 bg-slate-900/60 border border-slate-800/60 rounded-xl px-3 py-3">
+              <div key={item.id} className="flex items-center gap-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-3 py-3">
                 <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm truncate">{item.file.name}</p>
+                  <p className="text-slate-900 dark:text-white text-sm truncate">{item.file.name}</p>
                   <p className="text-slate-500 text-xs">
                     {formatBytes(item.file.size)}
                     {item.status === "done" && item.resultSize !== undefined && (
-                      <> → <span className="text-green-400">{formatBytes(item.resultSize)}</span></>
+                      <> → <span className="text-green-600 dark:text-green-400">{formatBytes(item.resultSize)}</span></>
                     )}
-                    {item.status === "error" && <span className="text-red-400"> · {item.error}</span>}
+                    {item.status === "error" && <span className="text-red-600 dark:text-red-400"> · {item.error}</span>}
                   </p>
                 </div>
                 {item.status === "done" ? (
@@ -200,7 +200,7 @@ export default function EpubConverterPage() {
                 ) : item.status === "pending" && processing ? (
                   <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin shrink-0" />
                 ) : null}
-                <button onClick={() => remove(item.id)} className="p-1 text-slate-600 hover:text-red-400 transition-colors shrink-0">
+                <button onClick={() => remove(item.id)} className="p-1 text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors shrink-0">
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                   </svg>
@@ -231,12 +231,12 @@ export default function EpubConverterPage() {
             </button>
             {doneCount > 0 && (
               <button onClick={downloadAll}
-                className="px-4 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700/60 text-slate-200 text-sm font-medium rounded-xl transition-colors">
+                className="px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 text-slate-800 dark:text-slate-200 text-sm font-medium rounded-xl transition-colors">
                 {doneCount === 1 ? "Download" : "Download all (ZIP)"}
               </button>
             )}
             <button onClick={clearAll}
-              className="px-4 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700/60 text-slate-400 hover:text-white text-sm font-medium rounded-xl transition-colors">
+              className="px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-medium rounded-xl transition-colors">
               Clear
             </button>
           </div>

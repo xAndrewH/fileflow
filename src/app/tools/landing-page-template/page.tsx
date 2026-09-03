@@ -103,14 +103,14 @@ const CHECKLIST = [
 ];
 
 const COLOR_MAP: Record<string, { badge: string; bar: string }> = {
-  blue:   { badge: "bg-blue-500/15 text-blue-400",    bar: "bg-blue-500" },
-  violet: { badge: "bg-violet-500/15 text-violet-400", bar: "bg-violet-500" },
-  green:  { badge: "bg-green-500/15 text-green-400",   bar: "bg-green-500" },
-  amber:  { badge: "bg-amber-500/15 text-amber-400",   bar: "bg-amber-500" },
-  pink:   { badge: "bg-pink-500/15 text-pink-400",     bar: "bg-pink-500" },
-  cyan:   { badge: "bg-cyan-500/15 text-cyan-400",     bar: "bg-cyan-500" },
-  slate:  { badge: "bg-slate-700/60 text-slate-300",   bar: "bg-slate-400" },
-  orange: { badge: "bg-orange-500/15 text-orange-400", bar: "bg-orange-500" },
+  blue:   { badge: "bg-blue-500/15 text-blue-600 dark:text-blue-400",    bar: "bg-blue-500" },
+  violet: { badge: "bg-violet-500/15 text-violet-600 dark:text-violet-400", bar: "bg-violet-500" },
+  green:  { badge: "bg-green-500/15 text-green-600 dark:text-green-400",   bar: "bg-green-500" },
+  amber:  { badge: "bg-amber-500/15 text-amber-600 dark:text-amber-400",   bar: "bg-amber-500" },
+  pink:   { badge: "bg-pink-500/15 text-pink-600 dark:text-pink-400",     bar: "bg-pink-500" },
+  cyan:   { badge: "bg-cyan-500/15 text-cyan-600 dark:text-cyan-400",     bar: "bg-cyan-500" },
+  slate:  { badge: "bg-slate-200 dark:bg-slate-700/60 text-slate-700 dark:text-slate-300",   bar: "bg-slate-400" },
+  orange: { badge: "bg-orange-500/15 text-orange-600 dark:text-orange-400", bar: "bg-orange-500" },
 };
 
 export default function LandingPageChecklistPage() {
@@ -125,34 +125,34 @@ export default function LandingPageChecklistPage() {
   const overallPct   = Math.round((totalChecked / totalItems) * 100);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-10">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
           Back to Tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">Landing Page Checklist</h1>
-        <p className="text-slate-400 text-sm mb-8">Everything your landing page needs to convert visitors into customers.</p>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Landing Page Checklist</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mb-8">Everything your landing page needs to convert visitors into customers.</p>
 
         {/* Overall progress */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 mb-8">
+        <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 mb-8">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-white font-semibold">{totalChecked} / {totalItems} completed</span>
-            <span className="text-2xl font-bold text-white">{overallPct}%</span>
+            <span className="text-slate-900 dark:text-white font-semibold">{totalChecked} / {totalItems} completed</span>
+            <span className="text-2xl font-bold text-slate-900 dark:text-white">{overallPct}%</span>
           </div>
-          <div className="h-2.5 bg-slate-800 rounded-full overflow-hidden">
+          <div className="h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-blue-500 to-violet-500 rounded-full transition-all duration-300"
               style={{ width: `${overallPct}%` }}
             />
           </div>
           <div className="flex gap-3 mt-4">
-            <button onClick={() => setChecked(new Set(allIds))} className="text-xs text-slate-400 hover:text-white transition-colors">Check all</button>
-            <span className="text-slate-700">·</span>
-            <button onClick={() => setChecked(new Set())} className="text-xs text-slate-400 hover:text-red-400 transition-colors">Reset</button>
+            <button onClick={() => setChecked(new Set(allIds))} className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Check all</button>
+            <span className="text-slate-300 dark:text-slate-700">·</span>
+            <button onClick={() => setChecked(new Set())} className="text-xs text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">Reset</button>
           </div>
         </div>
 
@@ -164,29 +164,29 @@ export default function LandingPageChecklistPage() {
             const catPct    = Math.round((catChecked / items.length) * 100);
 
             return (
-              <div key={category} className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
-                <div className="px-5 py-4 flex items-center justify-between border-b border-slate-800">
+              <div key={category} className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
+                <div className="px-5 py-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
                   <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${colors.badge}`}>{category}</span>
                   <span className="text-xs text-slate-500">{catChecked}/{items.length}</span>
                 </div>
-                <div className="h-0.5 bg-slate-800">
+                <div className="h-0.5 bg-slate-100 dark:bg-slate-800">
                   <div className={`h-full ${colors.bar} transition-all duration-300`} style={{ width: `${catPct}%` }} />
                 </div>
-                <div className="divide-y divide-slate-800/60">
+                <div className="divide-y divide-slate-200 dark:divide-slate-800/60">
                   {items.map(item => {
                     const isDone = checked.has(item.id);
                     return (
-                      <label key={item.id} className="flex items-start gap-3 px-5 py-3.5 cursor-pointer hover:bg-slate-800/40 transition-colors">
+                      <label key={item.id} className="flex items-start gap-3 px-5 py-3.5 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/40 transition-colors">
                         <div className={`mt-0.5 w-5 h-5 rounded-md border flex-shrink-0 flex items-center justify-center transition-colors ${
-                          isDone ? `${colors.bar} border-transparent` : "border-slate-600 bg-slate-800"
+                          isDone ? `${colors.bar} border-transparent` : "border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800"
                         }`}>
                           {isDone && (
-                            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                            <svg className="w-3 h-3 text-slate-900 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                             </svg>
                           )}
                         </div>
-                        <span className={`text-sm leading-snug transition-colors ${isDone ? "text-slate-500 line-through" : "text-slate-300"}`}>
+                        <span className={`text-sm leading-snug transition-colors ${isDone ? "text-slate-500 line-through" : "text-slate-700 dark:text-slate-300"}`}>
                           {item.text}
                         </span>
                         <input type="checkbox" className="sr-only" checked={isDone} onChange={() => toggle(item.id)} />

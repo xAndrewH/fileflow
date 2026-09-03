@@ -66,20 +66,20 @@ export default function CsvJsonPage() {
   const switchMode = (m: typeof mode) => { setMode(m); setInput(""); };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">CSV ↔ JSON Converter</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">CSV ↔ JSON Converter</h1>
         <p className="text-slate-500 text-sm mb-8">Convert between CSV and JSON with a live table preview.</p>
 
         <div className="space-y-5">
-          <div className="flex gap-2 bg-slate-900/60 border border-slate-800/60 rounded-xl p-1 w-fit">
+          <div className="flex gap-2 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-1 w-fit">
             {([["csv-to-json", "CSV → JSON"], ["json-to-csv", "JSON → CSV"]] as const).map(([m, label]) => (
               <button key={m} onClick={() => switchMode(m)}
-                className={`px-5 py-1.5 rounded-lg text-sm font-medium transition-colors ${mode === m ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}>
+                className={`px-5 py-1.5 rounded-lg text-sm font-medium transition-colors ${mode === m ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                 {label}
               </button>
             ))}
@@ -87,27 +87,27 @@ export default function CsvJsonPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-slate-400 text-xs mb-1.5 block">{mode === "csv-to-json" ? "CSV input" : "JSON input"}</label>
+              <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">{mode === "csv-to-json" ? "CSV input" : "JSON input"}</label>
               <textarea
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 placeholder={mode === "csv-to-json" ? "name,age,city\nAlice,30,NYC\nBob,25,LA" : '[{"name":"Alice","age":30}]'}
                 spellCheck={false}
-                className="w-full h-64 bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-600"
+                className="w-full h-64 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-400 dark:placeholder-slate-600"
               />
             </div>
             <div className="relative">
-              <label className="text-slate-400 text-xs mb-1.5 block">{mode === "csv-to-json" ? "JSON output" : "CSV output"}</label>
+              <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">{mode === "csv-to-json" ? "JSON output" : "CSV output"}</label>
               <textarea
                 readOnly
                 value={result?.output ?? ""}
                 placeholder="Output will appear here…"
                 spellCheck={false}
-                className="w-full h-64 bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none placeholder-slate-600"
+                className="w-full h-64 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none placeholder-slate-400 dark:placeholder-slate-600"
               />
               {result && (
                 <button onClick={copy}
-                  className="absolute bottom-3 right-3 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">
+                  className="absolute bottom-3 right-3 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors">
                   {copied ? "Copied!" : "Copy"}
                 </button>
               )}
@@ -115,28 +115,28 @@ export default function CsvJsonPage() {
           </div>
 
           {result && result.tableData.length > 0 && (
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 overflow-x-auto">
-              <p className="text-slate-400 text-xs mb-3">{result.tableData.length} row{result.tableData.length !== 1 ? "s" : ""}</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 overflow-x-auto">
+              <p className="text-slate-500 dark:text-slate-400 text-xs mb-3">{result.tableData.length} row{result.tableData.length !== 1 ? "s" : ""}</p>
               <table className="w-full text-sm text-left min-w-max">
                 <thead>
-                  <tr className="border-b border-slate-800">
+                  <tr className="border-b border-slate-200 dark:border-slate-800">
                     {result.headers.map(h => (
-                      <th key={h} className="text-slate-400 font-medium pb-2 pr-6 text-xs uppercase tracking-wide">{h}</th>
+                      <th key={h} className="text-slate-500 dark:text-slate-400 font-medium pb-2 pr-6 text-xs uppercase tracking-wide">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {result.tableData.slice(0, 50).map((row, i) => (
-                    <tr key={i} className="border-b border-slate-800/50 hover:bg-slate-800/20">
+                    <tr key={i} className="border-b border-slate-200 dark:border-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800/20">
                       {result.headers.map(h => (
-                        <td key={h} className="py-2 pr-6 text-slate-300 font-mono text-xs max-w-xs truncate">{String((row as Record<string, unknown>)[h] ?? "")}</td>
+                        <td key={h} className="py-2 pr-6 text-slate-700 dark:text-slate-300 font-mono text-xs max-w-xs truncate">{String((row as Record<string, unknown>)[h] ?? "")}</td>
                       ))}
                     </tr>
                   ))}
                 </tbody>
               </table>
               {result.tableData.length > 50 && (
-                <p className="text-slate-600 text-xs mt-2">Showing first 50 rows</p>
+                <p className="text-slate-400 dark:text-slate-600 text-xs mt-2">Showing first 50 rows</p>
               )}
             </div>
           )}

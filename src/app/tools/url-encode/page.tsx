@@ -63,21 +63,21 @@ export default function UrlEncodePage() {
   const plusInDecode  = mode === "decode" && variant !== "form" && input.includes("+");
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">URL Encoder / Decoder</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">URL Encoder / Decoder</h1>
         <p className="text-slate-500 text-sm mb-8">Percent-encode or decode URLs and query strings.</p>
 
         <div className="space-y-5">
           {/* Mode toggle */}
-          <div className="flex gap-1 bg-slate-900/60 border border-slate-800/60 rounded-xl p-1 w-fit">
+          <div className="flex gap-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-1 w-fit">
             {(["encode", "decode"] as const).map(m => (
               <button key={m} onClick={() => switchMode(m)}
-                className={`px-5 py-1.5 rounded-lg text-sm font-medium transition-colors capitalize ${mode === m ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}>
+                className={`px-5 py-1.5 rounded-lg text-sm font-medium transition-colors capitalize ${mode === m ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                 {m}
               </button>
             ))}
@@ -85,14 +85,14 @@ export default function UrlEncodePage() {
 
           {/* Variant */}
           <div>
-            <label className="text-slate-400 text-xs block mb-2">Encoding method</label>
+            <label className="text-slate-500 dark:text-slate-400 text-xs block mb-2">Encoding method</label>
             <div className="space-y-1.5">
               {VARIANTS.map(({ id, label, desc }) => (
-                <label key={id} className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-colors ${variant === id ? "border-blue-500/50 bg-blue-500/5" : "border-slate-800/60 bg-slate-900/40 hover:border-slate-700"}`}>
+                <label key={id} className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-colors ${variant === id ? "border-blue-500/50 bg-blue-500/5" : "border-slate-200 dark:border-slate-800/60 bg-slate-50 dark:bg-slate-900/40 hover:border-slate-400 dark:hover:border-slate-700"}`}>
                   <input type="radio" name="variant" value={id} checked={variant === id}
                     onChange={() => changeVariant(id)} className="mt-0.5 accent-blue-500 shrink-0" />
                   <div>
-                    <p className="text-white text-xs font-mono font-medium">{label}</p>
+                    <p className="text-slate-900 dark:text-white text-xs font-mono font-medium">{label}</p>
                     <p className="text-slate-500 text-xs mt-0.5 leading-relaxed">{desc}</p>
                   </div>
                 </label>
@@ -103,26 +103,26 @@ export default function UrlEncodePage() {
           {/* Input */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-slate-400 text-xs">{mode === "encode" ? "Plain text / URL" : "Encoded string"}</label>
+              <label className="text-slate-500 dark:text-slate-400 text-xs">{mode === "encode" ? "Plain text / URL" : "Encoded string"}</label>
               {input && (
                 <button onClick={() => { setInput(""); setOutput(""); setError(""); }}
-                  className="text-slate-600 hover:text-slate-400 text-xs transition-colors">Clear</button>
+                  className="text-slate-400 dark:text-slate-600 hover:text-slate-700 dark:hover:text-slate-400 text-xs transition-colors">Clear</button>
               )}
             </div>
             <textarea value={input} onChange={e => handleInput(e.target.value)}
               placeholder={mode === "encode" ? "https://example.com/search?q=hello world&lang=en" : "https%3A%2F%2Fexample.com%2Fsearch%3Fq%3Dhello+world"}
-              className="w-full h-36 bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-600" />
+              className="w-full h-36 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-400 dark:placeholder-slate-600" />
           </div>
 
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>}
           {doubleEncoded && (
-            <div className="flex gap-2 text-amber-400 text-xs bg-amber-400/5 border border-amber-400/20 rounded-xl p-3">
+            <div className="flex gap-2 text-amber-600 dark:text-amber-400 text-xs bg-amber-400/5 border border-amber-400/20 rounded-xl p-3">
               <span className="shrink-0">⚠</span>
               <span>Output contains <code className="font-mono">%25</code> | the input may already be encoded. Encoding it again causes double-encoding.</span>
             </div>
           )}
           {plusInDecode && (
-            <div className="flex gap-2 text-amber-400 text-xs bg-amber-400/5 border border-amber-400/20 rounded-xl p-3">
+            <div className="flex gap-2 text-amber-600 dark:text-amber-400 text-xs bg-amber-400/5 border border-amber-400/20 rounded-xl p-3">
               <span className="shrink-0">ℹ</span>
               <span>Input contains <code className="font-mono">+</code> signs. If they represent spaces (HTML form data), switch to <strong>Form-encoded</strong> to decode them correctly.</span>
             </div>
@@ -131,14 +131,14 @@ export default function UrlEncodePage() {
           {/* Output */}
           <div className="relative">
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-slate-400 text-xs">{mode === "encode" ? "Encoded output" : "Decoded text"}</label>
-              {output && <span className="text-slate-600 text-xs">{output.length} chars</span>}
+              <label className="text-slate-500 dark:text-slate-400 text-xs">{mode === "encode" ? "Encoded output" : "Decoded text"}</label>
+              {output && <span className="text-slate-400 dark:text-slate-600 text-xs">{output.length} chars</span>}
             </div>
             <textarea readOnly value={output} placeholder="Output will appear here…"
-              className="w-full h-36 bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none placeholder-slate-600" />
+              className="w-full h-36 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none placeholder-slate-400 dark:placeholder-slate-600" />
             {output && (
               <button onClick={copy}
-                className="absolute bottom-3 right-3 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">
+                className="absolute bottom-3 right-3 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors">
                 {copied ? "Copied!" : "Copy"}
               </button>
             )}

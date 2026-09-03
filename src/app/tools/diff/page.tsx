@@ -139,25 +139,25 @@ export default function DiffPage() {
   }, [lines]);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Text Diff Checker</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Text Diff Checker</h1>
         <p className="text-slate-500 text-sm mb-8">Paste two blocks of text and see exactly what changed, word by word.</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
           {([["Original", left, setLeft], ["Modified", right, setRight]] as const).map(([label, val, set]) => (
             <div key={label}>
-              <label className="text-slate-400 text-xs mb-1.5 block">{label}</label>
+              <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">{label}</label>
               <textarea
                 value={val}
                 onChange={e => set(e.target.value)}
                 placeholder={`Paste ${label.toLowerCase()} text here…`}
                 spellCheck={false}
-                className="w-full h-48 bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-600"
+                className="w-full h-48 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-400 dark:placeholder-slate-600"
               />
             </div>
           ))}
@@ -170,26 +170,26 @@ export default function DiffPage() {
               {removed > 0 && (
                 <span className="flex items-center gap-1.5 text-xs">
                   <span className="inline-block w-2.5 h-2.5 rounded-sm bg-red-500/40 border border-red-500/30" />
-                  <span className="text-red-400">{removed} removed</span>
+                  <span className="text-red-600 dark:text-red-400">{removed} removed</span>
                 </span>
               )}
               {added > 0 && (
                 <span className="flex items-center gap-1.5 text-xs">
                   <span className="inline-block w-2.5 h-2.5 rounded-sm bg-green-500/40 border border-green-500/30" />
-                  <span className="text-green-400">{added} added</span>
+                  <span className="text-green-600 dark:text-green-400">{added} added</span>
                 </span>
               )}
-              {added === 0 && removed === 0 && <span className="text-slate-400 text-xs">No differences found</span>}
+              {added === 0 && removed === 0 && <span className="text-slate-500 dark:text-slate-400 text-xs">No differences found</span>}
               <div className="ml-auto flex gap-1">
                 {(added > 0 || removed > 0) && (
                   <button onClick={copyDiff}
-                    className="px-3 py-1 rounded-lg text-xs bg-slate-800 text-slate-400 hover:text-white transition-colors">
+                    className="px-3 py-1 rounded-lg text-xs bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                     {copied ? "Copied" : "Copy diff"}
                   </button>
                 )}
                 {(["split", "inline"] as const).map(m => (
                   <button key={m} onClick={() => setViewMode(m)}
-                    className={`px-3 py-1 rounded-lg text-xs capitalize transition-colors ${viewMode === m ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`px-3 py-1 rounded-lg text-xs capitalize transition-colors ${viewMode === m ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {m}
                   </button>
                 ))}
@@ -198,28 +198,28 @@ export default function DiffPage() {
 
             {viewMode === "split" ? (
               /* Split diff view */
-              <div className="rounded-xl overflow-hidden border border-slate-800/60">
-                <div className="grid grid-cols-2 border-b border-slate-800/60">
-                  <div className="flex items-center gap-2 px-4 py-2 bg-slate-900/80 border-r border-slate-800/60">
-                    <span className="text-slate-400 text-xs font-medium">Original</span>
-                    {removed > 0 && <span className="text-xs text-red-400 bg-red-500/10 px-1.5 py-0.5 rounded-full">−{removed}</span>}
+              <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800/60">
+                <div className="grid grid-cols-2 border-b border-slate-200 dark:border-slate-800/60">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-900/80 border-r border-slate-200 dark:border-slate-800/60">
+                    <span className="text-slate-500 dark:text-slate-400 text-xs font-medium">Original</span>
+                    {removed > 0 && <span className="text-xs text-red-600 dark:text-red-400 bg-red-500/10 px-1.5 py-0.5 rounded-full">−{removed}</span>}
                   </div>
-                  <div className="flex items-center gap-2 px-4 py-2 bg-slate-900/80">
-                    <span className="text-slate-400 text-xs font-medium">Modified</span>
-                    {added > 0 && <span className="text-xs text-green-400 bg-green-500/10 px-1.5 py-0.5 rounded-full">+{added}</span>}
+                  <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-900/80">
+                    <span className="text-slate-500 dark:text-slate-400 text-xs font-medium">Modified</span>
+                    {added > 0 && <span className="text-xs text-green-600 dark:text-green-400 bg-green-500/10 px-1.5 py-0.5 rounded-full">+{added}</span>}
                   </div>
                 </div>
                 <div className="text-xs font-mono">
                   {splitRows.map((row, ri) => {
                     if (row.kind === "same") {
                       return (
-                        <div key={ri} className="grid grid-cols-2 border-b border-slate-800/30 last:border-0">
-                          <div className="flex border-r border-slate-800/60">
-                            <span className="w-10 text-right px-2 py-1 text-slate-700 select-none tabular-nums shrink-0 border-r border-slate-800/40">{row.leftNum}</span>
+                        <div key={ri} className="grid grid-cols-2 border-b border-slate-200 dark:border-slate-800/30 last:border-0">
+                          <div className="flex border-r border-slate-200 dark:border-slate-800/60">
+                            <span className="w-10 text-right px-2 py-1 text-slate-300 dark:text-slate-700 select-none tabular-nums shrink-0 border-r border-slate-200 dark:border-slate-800/40">{row.leftNum}</span>
                             <span className="px-3 py-1 text-slate-500 whitespace-pre-wrap break-all">{row.text || " "}</span>
                           </div>
                           <div className="flex">
-                            <span className="w-10 text-right px-2 py-1 text-slate-700 select-none tabular-nums shrink-0 border-r border-slate-800/40">{row.rightNum}</span>
+                            <span className="w-10 text-right px-2 py-1 text-slate-300 dark:text-slate-700 select-none tabular-nums shrink-0 border-r border-slate-200 dark:border-slate-800/40">{row.rightNum}</span>
                             <span className="px-3 py-1 text-slate-500 whitespace-pre-wrap break-all">{row.text || " "}</span>
                           </div>
                         </div>
@@ -227,41 +227,41 @@ export default function DiffPage() {
                     }
                     if (row.kind === "change") {
                       return (
-                        <div key={ri} className="grid grid-cols-2 border-b border-slate-800/30 last:border-0">
-                          <div className="flex bg-red-500/8 border-r border-slate-800/60">
-                            <span className="w-10 text-right px-2 py-1 text-red-700 select-none tabular-nums shrink-0 border-r border-red-900/40 bg-red-500/10">{row.leftNum}</span>
-                            <span className="px-3 py-1 text-slate-300 whitespace-pre-wrap break-all"><InlineText tokens={row.leftTokens} side="left" /></span>
+                        <div key={ri} className="grid grid-cols-2 border-b border-slate-200 dark:border-slate-800/30 last:border-0">
+                          <div className="flex bg-red-500/8 border-r border-slate-200 dark:border-slate-800/60">
+                            <span className="w-10 text-right px-2 py-1 text-red-700 select-none tabular-nums shrink-0 border-r border-red-200 dark:border-red-900/40 bg-red-500/10">{row.leftNum}</span>
+                            <span className="px-3 py-1 text-slate-700 dark:text-slate-300 whitespace-pre-wrap break-all"><InlineText tokens={row.leftTokens} side="left" /></span>
                           </div>
                           <div className="flex bg-green-500/8">
-                            <span className="w-10 text-right px-2 py-1 text-green-700 select-none tabular-nums shrink-0 border-r border-green-900/40 bg-green-500/10">{row.rightNum}</span>
-                            <span className="px-3 py-1 text-slate-300 whitespace-pre-wrap break-all"><InlineText tokens={row.rightTokens} side="right" /></span>
+                            <span className="w-10 text-right px-2 py-1 text-green-700 select-none tabular-nums shrink-0 border-r border-green-200 dark:border-green-900/40 bg-green-500/10">{row.rightNum}</span>
+                            <span className="px-3 py-1 text-slate-700 dark:text-slate-300 whitespace-pre-wrap break-all"><InlineText tokens={row.rightTokens} side="right" /></span>
                           </div>
                         </div>
                       );
                     }
                     if (row.kind === "removed") {
                       return (
-                        <div key={ri} className="grid grid-cols-2 border-b border-slate-800/30 last:border-0">
-                          <div className="flex bg-red-500/8 border-r border-slate-800/60">
-                            <span className="w-10 text-right px-2 py-1 text-red-700 select-none tabular-nums shrink-0 border-r border-red-900/40 bg-red-500/10">{row.leftNum}</span>
-                            <span className="px-3 py-1 text-red-300 whitespace-pre-wrap break-all">{row.text || " "}</span>
+                        <div key={ri} className="grid grid-cols-2 border-b border-slate-200 dark:border-slate-800/30 last:border-0">
+                          <div className="flex bg-red-500/8 border-r border-slate-200 dark:border-slate-800/60">
+                            <span className="w-10 text-right px-2 py-1 text-red-700 select-none tabular-nums shrink-0 border-r border-red-200 dark:border-red-900/40 bg-red-500/10">{row.leftNum}</span>
+                            <span className="px-3 py-1 text-red-700 dark:text-red-300 whitespace-pre-wrap break-all">{row.text || " "}</span>
                           </div>
-                          <div className="flex bg-slate-900/20">
-                            <span className="w-10 shrink-0 border-r border-slate-800/40" />
+                          <div className="flex bg-slate-50 dark:bg-slate-900/20">
+                            <span className="w-10 shrink-0 border-r border-slate-200 dark:border-slate-800/40" />
                             <span className="px-3 py-1" />
                           </div>
                         </div>
                       );
                     }
                     return (
-                      <div key={ri} className="grid grid-cols-2 border-b border-slate-800/30 last:border-0">
-                        <div className="flex bg-slate-900/20 border-r border-slate-800/60">
-                          <span className="w-10 shrink-0 border-r border-slate-800/40" />
+                      <div key={ri} className="grid grid-cols-2 border-b border-slate-200 dark:border-slate-800/30 last:border-0">
+                        <div className="flex bg-slate-50 dark:bg-slate-900/20 border-r border-slate-200 dark:border-slate-800/60">
+                          <span className="w-10 shrink-0 border-r border-slate-200 dark:border-slate-800/40" />
                           <span className="px-3 py-1" />
                         </div>
                         <div className="flex bg-green-500/8">
-                          <span className="w-10 text-right px-2 py-1 text-green-700 select-none tabular-nums shrink-0 border-r border-green-900/40 bg-green-500/10">{row.rightNum}</span>
-                          <span className="px-3 py-1 text-green-300 whitespace-pre-wrap break-all">{row.text || " "}</span>
+                          <span className="w-10 text-right px-2 py-1 text-green-700 select-none tabular-nums shrink-0 border-r border-green-200 dark:border-green-900/40 bg-green-500/10">{row.rightNum}</span>
+                          <span className="px-3 py-1 text-green-700 dark:text-green-300 whitespace-pre-wrap break-all">{row.text || " "}</span>
                         </div>
                       </div>
                     );
@@ -270,47 +270,47 @@ export default function DiffPage() {
               </div>
             ) : (
               /* Inline diff view */
-              <div className="rounded-xl overflow-hidden border border-slate-800/60">
-                <div className="flex items-center gap-3 px-4 py-2 bg-slate-900/80 border-b border-slate-800/60">
-                  <span className="text-slate-400 text-xs font-medium">Inline comparison</span>
-                  <span className="text-xs text-red-400 font-mono">− Original</span>
-                  <span className="text-xs text-green-400 font-mono">+ Modified</span>
+              <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800/60">
+                <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800/60">
+                  <span className="text-slate-500 dark:text-slate-400 text-xs font-medium">Inline comparison</span>
+                  <span className="text-xs text-red-600 dark:text-red-400 font-mono">− Original</span>
+                  <span className="text-xs text-green-600 dark:text-green-400 font-mono">+ Modified</span>
                 </div>
                 <div className="text-xs font-mono">
                   {splitRows.map((row, ri) => {
                     if (row.kind === "same") return (
-                      <div key={ri} className="flex border-b border-slate-800/20 last:border-0">
-                        <span className="w-8 text-right px-2 py-1 text-slate-700 select-none tabular-nums shrink-0 border-r border-slate-800/40">{row.leftNum}</span>
-                        <span className="w-5 text-center py-1 text-slate-700 select-none shrink-0 border-r border-slate-800/40"> </span>
+                      <div key={ri} className="flex border-b border-slate-200 dark:border-slate-800/20 last:border-0">
+                        <span className="w-8 text-right px-2 py-1 text-slate-300 dark:text-slate-700 select-none tabular-nums shrink-0 border-r border-slate-200 dark:border-slate-800/40">{row.leftNum}</span>
+                        <span className="w-5 text-center py-1 text-slate-300 dark:text-slate-700 select-none shrink-0 border-r border-slate-200 dark:border-slate-800/40"> </span>
                         <span className="px-3 py-1 text-slate-500 whitespace-pre-wrap break-all flex-1">{row.text || " "}</span>
                       </div>
                     );
                     if (row.kind === "change") return (
                       <div key={ri}>
-                        <div className="flex bg-red-500/8 border-b border-red-900/20">
-                          <span className="w-8 text-right px-2 py-1 text-red-700 select-none tabular-nums shrink-0 border-r border-red-900/30 bg-red-500/10">{row.leftNum}</span>
-                          <span className="w-5 text-center py-1 text-red-600 select-none shrink-0 border-r border-red-900/30 bg-red-500/10">−</span>
-                          <span className="px-3 py-1 text-slate-300 whitespace-pre-wrap break-all flex-1"><InlineText tokens={row.leftTokens} side="left" /></span>
+                        <div className="flex bg-red-500/8 border-b border-red-200 dark:border-red-900/20">
+                          <span className="w-8 text-right px-2 py-1 text-red-700 select-none tabular-nums shrink-0 border-r border-red-200 dark:border-red-900/30 bg-red-500/10">{row.leftNum}</span>
+                          <span className="w-5 text-center py-1 text-red-600 select-none shrink-0 border-r border-red-200 dark:border-red-900/30 bg-red-500/10">−</span>
+                          <span className="px-3 py-1 text-slate-700 dark:text-slate-300 whitespace-pre-wrap break-all flex-1"><InlineText tokens={row.leftTokens} side="left" /></span>
                         </div>
-                        <div className="flex bg-green-500/8 border-b border-green-900/20">
-                          <span className="w-8 text-right px-2 py-1 text-green-700 select-none tabular-nums shrink-0 border-r border-green-900/30 bg-green-500/10">{row.rightNum}</span>
-                          <span className="w-5 text-center py-1 text-green-600 select-none shrink-0 border-r border-green-900/30 bg-green-500/10">+</span>
-                          <span className="px-3 py-1 text-slate-300 whitespace-pre-wrap break-all flex-1"><InlineText tokens={row.rightTokens} side="right" /></span>
+                        <div className="flex bg-green-500/8 border-b border-green-200 dark:border-green-900/20">
+                          <span className="w-8 text-right px-2 py-1 text-green-700 select-none tabular-nums shrink-0 border-r border-green-200 dark:border-green-900/30 bg-green-500/10">{row.rightNum}</span>
+                          <span className="w-5 text-center py-1 text-green-600 select-none shrink-0 border-r border-green-200 dark:border-green-900/30 bg-green-500/10">+</span>
+                          <span className="px-3 py-1 text-slate-700 dark:text-slate-300 whitespace-pre-wrap break-all flex-1"><InlineText tokens={row.rightTokens} side="right" /></span>
                         </div>
                       </div>
                     );
                     if (row.kind === "removed") return (
-                      <div key={ri} className="flex bg-red-500/8 border-b border-red-900/20 last:border-0">
-                        <span className="w-8 text-right px-2 py-1 text-red-700 select-none tabular-nums shrink-0 border-r border-red-900/30 bg-red-500/10">{row.leftNum}</span>
-                        <span className="w-5 text-center py-1 text-red-600 select-none shrink-0 border-r border-red-900/30 bg-red-500/10">−</span>
-                        <span className="px-3 py-1 text-red-300 whitespace-pre-wrap break-all flex-1">{row.text || " "}</span>
+                      <div key={ri} className="flex bg-red-500/8 border-b border-red-200 dark:border-red-900/20 last:border-0">
+                        <span className="w-8 text-right px-2 py-1 text-red-700 select-none tabular-nums shrink-0 border-r border-red-200 dark:border-red-900/30 bg-red-500/10">{row.leftNum}</span>
+                        <span className="w-5 text-center py-1 text-red-600 select-none shrink-0 border-r border-red-200 dark:border-red-900/30 bg-red-500/10">−</span>
+                        <span className="px-3 py-1 text-red-700 dark:text-red-300 whitespace-pre-wrap break-all flex-1">{row.text || " "}</span>
                       </div>
                     );
                     return (
-                      <div key={ri} className="flex bg-green-500/8 border-b border-green-900/20 last:border-0">
-                        <span className="w-8 text-right px-2 py-1 text-green-700 select-none tabular-nums shrink-0 border-r border-green-900/30 bg-green-500/10">{row.rightNum}</span>
-                        <span className="w-5 text-center py-1 text-green-600 select-none shrink-0 border-r border-green-900/30 bg-green-500/10">+</span>
-                        <span className="px-3 py-1 text-green-300 whitespace-pre-wrap break-all flex-1">{row.text || " "}</span>
+                      <div key={ri} className="flex bg-green-500/8 border-b border-green-200 dark:border-green-900/20 last:border-0">
+                        <span className="w-8 text-right px-2 py-1 text-green-700 select-none tabular-nums shrink-0 border-r border-green-200 dark:border-green-900/30 bg-green-500/10">{row.rightNum}</span>
+                        <span className="w-5 text-center py-1 text-green-600 select-none shrink-0 border-r border-green-200 dark:border-green-900/30 bg-green-500/10">+</span>
+                        <span className="px-3 py-1 text-green-700 dark:text-green-300 whitespace-pre-wrap break-all flex-1">{row.text || " "}</span>
                       </div>
                     );
                   })}

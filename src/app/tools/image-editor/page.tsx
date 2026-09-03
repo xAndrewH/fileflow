@@ -127,7 +127,7 @@ function Slider({ label, value, min, max, step = 1, unit = "", onChange, onSnap 
     <div>
       <div className="flex justify-between mb-1">
         <label className="text-xs text-slate-500">{label}</label>
-        <span className="text-xs text-slate-400 font-mono">{value}{unit}</span>
+        <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">{value}{unit}</span>
       </div>
       <input type="range" min={min} max={max} step={step} value={value}
         onPointerDown={e => { e.currentTarget.setPointerCapture(e.pointerId); onSnap?.(); }}
@@ -596,16 +596,16 @@ export default function ImageEditorPage() {
 
   /* ── Render ─────────────────────────────────────────────────────── */
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
           Tools
         </Link>
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-1">Image Editor</h1>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Image Editor</h1>
           <p className="text-slate-500 text-sm">Resize, crop, rotate, adjust, add markup. All in your browser.</p>
         </div>
 
@@ -616,7 +616,7 @@ export default function ImageEditorPage() {
             onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setIsDrop(false); }}
             onClick={() => inputRef.current?.click()}
             className={`flex flex-col items-center justify-center gap-4 py-24 rounded-2xl border border-dashed cursor-pointer transition-all ${
-              isDrop ? "border-blue-500/70 bg-blue-500/8 text-blue-400" : "border-slate-700/60 text-slate-500 hover:border-slate-600 hover:text-slate-300"
+              isDrop ? "border-blue-500/70 bg-blue-500/8 text-blue-600 dark:text-blue-400" : "border-slate-300 dark:border-slate-700/60 text-slate-500 hover:border-slate-400 dark:hover:border-slate-600 hover:text-slate-800 dark:hover:text-slate-300"
             }`}
           >
             <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -636,11 +636,11 @@ export default function ImageEditorPage() {
             {/* ── Left panel ── */}
             <div className="flex flex-col gap-4">
               {/* Tabs */}
-              <div className="flex rounded-xl bg-slate-900/60 border border-slate-800/60 p-1 gap-1">
+              <div className="flex rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 p-1 gap-1">
                 {tabs.map((t) => (
                   <button key={t.id} onClick={() => setTab(t.id)}
                     className={`flex-1 py-1.5 text-[11px] font-semibold rounded-lg transition-colors ${
-                      activeTab === t.id ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"
+                      activeTab === t.id ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                     }`}>
                     {t.label}
                   </button>
@@ -650,11 +650,11 @@ export default function ImageEditorPage() {
               {/* Transform */}
               {activeTab === "transform" && (
                 <div className="space-y-4">
-                  <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
+                  <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-white text-sm font-semibold">Resize</h3>
+                      <h3 className="text-slate-900 dark:text-white text-sm font-semibold">Resize</h3>
                       <button onClick={() => setLockAR((l) => !l)}
-                        className={`text-xs px-2 py-1 rounded-lg border transition-colors ${lockAR ? "bg-blue-500/10 border-blue-500/30 text-blue-400" : "bg-slate-800 border-slate-700 text-slate-500"}`}>
+                        className={`text-xs px-2 py-1 rounded-lg border transition-colors ${lockAR ? "bg-blue-500/10 border-blue-500/30 text-blue-600 dark:text-blue-400" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500"}`}>
                         {lockAR ? "🔒 Locked" : "🔓 Free"}
                       </button>
                     </div>
@@ -663,13 +663,13 @@ export default function ImageEditorPage() {
                         <label className="text-xs text-slate-500 block mb-1">Width (px)</label>
                         <input type="number" value={edits.width}
                           onChange={(e) => setWidth(Math.max(1, parseInt(e.target.value) || 1))}
-                          className="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500/60" />
+                          className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500/60" />
                       </div>
                       <div>
                         <label className="text-xs text-slate-500 block mb-1">Height (px)</label>
                         <input type="number" value={edits.height}
                           onChange={(e) => setHeight(Math.max(1, parseInt(e.target.value) || 1))}
-                          className="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500/60" />
+                          className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500/60" />
                       </div>
                     </div>
                     {orig && (
@@ -679,37 +679,37 @@ export default function ImageEditorPage() {
                             const srcW = cropRgn?.w ?? orig.naturalWidth;
                             const srcH = cropRgn?.h ?? orig.naturalHeight;
                             setEdits((e) => ({ ...e, width: Math.round(srcW * pct / 100), height: Math.round(srcH * pct / 100) }));
-                          }} className="px-2 py-0.5 text-[10px] bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-400 rounded-md transition-colors">
+                          }} className="px-2 py-0.5 text-[10px] bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-md transition-colors">
                             {pct}%
                           </button>
                         ))}
                       </div>
                     )}
-                    {orig && <p className="text-slate-600 text-xs">Original: {orig.naturalWidth}×{orig.naturalHeight}px</p>}
+                    {orig && <p className="text-slate-400 dark:text-slate-600 text-xs">Original: {orig.naturalWidth}×{orig.naturalHeight}px</p>}
                   </div>
 
-                  <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
-                    <h3 className="text-white text-sm font-semibold">Rotate &amp; Flip</h3>
+                  <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
+                    <h3 className="text-slate-900 dark:text-white text-sm font-semibold">Rotate &amp; Flip</h3>
                     <div className="grid grid-cols-2 gap-2">
-                      <button onClick={() => rotate90(-1)} className="py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">↺ 90° CCW</button>
-                      <button onClick={() => rotate90(1)}  className="py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">↻ 90° CW</button>
+                      <button onClick={() => rotate90(-1)} className="py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors">↺ 90° CCW</button>
+                      <button onClick={() => rotate90(1)}  className="py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors">↻ 90° CW</button>
                       <button onClick={() => setEdits((e) => ({ ...e, flipH: !e.flipH }))}
-                        className={`py-2 border text-xs rounded-lg transition-colors ${edits.flipH ? "bg-blue-500/10 border-blue-500/30 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700"}`}>
+                        className={`py-2 border text-xs rounded-lg transition-colors ${edits.flipH ? "bg-blue-500/10 border-blue-500/30 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
                         Flip H
                       </button>
                       <button onClick={() => setEdits((e) => ({ ...e, flipV: !e.flipV }))}
-                        className={`py-2 border text-xs rounded-lg transition-colors ${edits.flipV ? "bg-blue-500/10 border-blue-500/30 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700"}`}>
+                        className={`py-2 border text-xs rounded-lg transition-colors ${edits.flipV ? "bg-blue-500/10 border-blue-500/30 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"}`}>
                         Flip V
                       </button>
                     </div>
                     <Slider label="Custom angle" value={edits.rotation} min={0} max={359} unit="°" onChange={(v) => set("rotation", v)} />
                   </div>
 
-                  <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
+                  <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-white text-sm font-semibold">Crop</h3>
+                      <h3 className="text-slate-900 dark:text-white text-sm font-semibold">Crop</h3>
                       {cropRgn && !cropMode && (
-                        <button onClick={clearCrop} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear</button>
+                        <button onClick={clearCrop} className="text-xs text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors">Clear</button>
                       )}
                     </div>
                     {/* Aspect ratio presets */}
@@ -717,7 +717,7 @@ export default function ImageEditorPage() {
                       {CROP_RATIOS.map((r) => (
                         <button key={r.label} onClick={() => setCropRatio(r.ratio)}
                           className={`px-2 py-0.5 text-[10px] rounded-md border transition-colors ${
-                            cropRatio === r.ratio ? "bg-blue-500/15 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"
+                            cropRatio === r.ratio ? "bg-blue-500/15 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                           }`}>
                           {r.label}
                         </button>
@@ -727,20 +727,20 @@ export default function ImageEditorPage() {
                       <div className="space-y-2">
                         <p className="text-slate-500 text-xs">Drag on the image to draw the crop box.</p>
                         {cropSel && cropSel.w > 4 && (
-                          <p className="text-slate-400 text-xs font-mono">{Math.round(cropSel.w)} × {Math.round(cropSel.h)} px</p>
+                          <p className="text-slate-500 dark:text-slate-400 text-xs font-mono">{Math.round(cropSel.w)} × {Math.round(cropSel.h)} px</p>
                         )}
                         {/* Numeric crop inputs */}
                         {cropSel && (
                           <div className="grid grid-cols-2 gap-1.5">
                             {(["x","y","w","h"] as const).map((k) => (
                               <div key={k}>
-                                <label className="text-[10px] text-slate-600 block mb-0.5 uppercase">{k}</label>
+                                <label className="text-[10px] text-slate-400 dark:text-slate-600 block mb-0.5 uppercase">{k}</label>
                                 <input type="number" value={Math.round(cropSel[k])}
                                   onChange={(ev) => {
                                     const v = parseInt(ev.target.value) || 0;
                                     setCropSel((s) => s ? { ...s, [k]: v } : s);
                                   }}
-                                  className="w-full bg-slate-800 border border-slate-700 text-white text-xs rounded-md px-2 py-1 focus:outline-none focus:border-blue-500/60" />
+                                  className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-xs rounded-md px-2 py-1 focus:outline-none focus:border-blue-500/60" />
                               </div>
                             ))}
                           </div>
@@ -751,14 +751,14 @@ export default function ImageEditorPage() {
                             Apply
                           </button>
                           <button onClick={() => { setCropMode(false); setCropSel(null); }}
-                            className="flex-1 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-lg transition-colors">
+                            className="flex-1 py-1.5 text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg transition-colors">
                             Cancel
                           </button>
                         </div>
                       </div>
                     ) : (
                       <button onClick={() => { setCropMode(true); setCropSel(null); setTab("transform"); }}
-                        className="w-full py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">
+                        className="w-full py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors">
                         {cropRgn ? "Re-crop" : "Start cropping"}
                       </button>
                     )}
@@ -768,8 +768,8 @@ export default function ImageEditorPage() {
 
               {/* Adjust */}
               {activeTab === "adjust" && (
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-4">
-                  <h3 className="text-white text-sm font-semibold">Adjustments</h3>
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4">
+                  <h3 className="text-slate-900 dark:text-white text-sm font-semibold">Adjustments</h3>
                   <Slider label="Brightness" value={edits.brightness} min={0} max={200} unit="%" onSnap={pushSnap} onChange={(v) => setEditsRaw((e) => ({ ...e, brightness: v }))} />
                   <Slider label="Contrast"   value={edits.contrast}   min={0} max={200} unit="%" onSnap={pushSnap} onChange={(v) => setEditsRaw((e) => ({ ...e, contrast:   v }))} />
                   <Slider label="Saturation" value={edits.saturation} min={0} max={200} unit="%" onSnap={pushSnap} onChange={(v) => setEditsRaw((e) => ({ ...e, saturation: v }))} />
@@ -780,9 +780,9 @@ export default function ImageEditorPage() {
                     <label className="text-xs text-slate-500 block mb-1">Background fill</label>
                     <div className="flex items-center gap-2">
                       <input type="color" value={edits.bgColor} onChange={(e) => set("bgColor", e.target.value)}
-                        className="w-8 h-8 rounded-lg border border-slate-700 bg-transparent cursor-pointer" />
-                      <span className="text-xs text-slate-400 font-mono">{edits.bgColor}</span>
-                      <span className="text-xs text-slate-600 ml-auto">JPEG &amp; rotation</span>
+                        className="w-8 h-8 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent cursor-pointer" />
+                      <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">{edits.bgColor}</span>
+                      <span className="text-xs text-slate-400 dark:text-slate-600 ml-auto">JPEG &amp; rotation</span>
                     </div>
                   </div>
                 </div>
@@ -790,8 +790,8 @@ export default function ImageEditorPage() {
 
               {/* Filters */}
               {activeTab === "filters" && (
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
-                  <h3 className="text-white text-sm font-semibold">Filter Presets</h3>
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
+                  <h3 className="text-slate-900 dark:text-white text-sm font-semibold">Filter Presets</h3>
                   <div className="grid grid-cols-2 gap-2">
                     {FILTER_PRESETS.map((p) => (
                       <button key={p.id} onClick={() => {
@@ -799,26 +799,26 @@ export default function ImageEditorPage() {
                         setEditsRaw((e) => ({ ...e, ...DEFAULT_ADJ, filterPreset: p.id, ...p.v, width: e.width, height: e.height, rotation: e.rotation, flipH: e.flipH, flipV: e.flipV, quality: e.quality }));
                       }}
                         className={`py-2.5 text-xs font-medium rounded-lg border transition-colors ${
-                          edits.filterPreset === p.id ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700"
+                          edits.filterPreset === p.id ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
                         }`}>
                         {p.label}
                       </button>
                     ))}
                   </div>
-                  <p className="text-slate-600 text-xs">Fine-tune in the Adjust tab.</p>
+                  <p className="text-slate-400 dark:text-slate-600 text-xs">Fine-tune in the Adjust tab.</p>
                 </div>
               )}
 
               {/* Markup */}
               {activeTab === "markup" && (
                 <div className="space-y-3">
-                  <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
-                    <h3 className="text-white text-sm font-semibold">Tools</h3>
+                  <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
+                    <h3 className="text-slate-900 dark:text-white text-sm font-semibold">Tools</h3>
                     <div className="grid grid-cols-4 gap-1.5">
                       {MARKUP_TOOLS.map((t) => (
                         <button key={t.id} onClick={() => setMarkupTool(t.id as Stroke["tool"])}
                           className={`py-2 text-xs rounded-lg border transition-colors flex flex-col items-center gap-0.5 ${
-                            markupTool === t.id ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700"
+                            markupTool === t.id ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
                           }`}>
                           <span className="text-base leading-none">{t.icon}</span>
                           <span className="text-[10px]">{t.label}</span>
@@ -827,11 +827,11 @@ export default function ImageEditorPage() {
                     </div>
                   </div>
 
-                  <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
-                    <h3 className="text-white text-sm font-semibold">Style</h3>
+                  <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
+                    <h3 className="text-slate-900 dark:text-white text-sm font-semibold">Style</h3>
                     <div className="flex items-center gap-3">
                       <input type="color" value={markupColor} onChange={(e) => setMarkupColor(e.target.value)}
-                        className="w-9 h-9 rounded-lg border border-slate-700 bg-transparent cursor-pointer flex-shrink-0" />
+                        className="w-9 h-9 rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent cursor-pointer flex-shrink-0" />
                       <div className="flex flex-wrap gap-1.5">
                         {["#ef4444","#f97316","#eab308","#22c55e","#3b82f6","#a855f7","#ffffff","#000000"].map((c) => (
                           <button key={c} onClick={() => setMarkupColor(c)}
@@ -846,31 +846,31 @@ export default function ImageEditorPage() {
                     )}
                   </div>
 
-                  <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-2">
+                  <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-2">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-white text-sm font-semibold">Strokes ({strokes.length})</h3>
+                      <h3 className="text-slate-900 dark:text-white text-sm font-semibold">Strokes ({strokes.length})</h3>
                       {strokes.length > 0 && (
                         <button onClick={() => { pushSnap(); setStrokes([]); }}
-                          className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear all</button>
+                          className="text-xs text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors">Clear all</button>
                       )}
                     </div>
-                    {strokes.length === 0 && <p className="text-slate-600 text-xs">Draw on the image to add markup.</p>}
+                    {strokes.length === 0 && <p className="text-slate-400 dark:text-slate-600 text-xs">Draw on the image to add markup.</p>}
                   </div>
-                  <p className="text-slate-600 text-xs text-center">Markup is included when you download.</p>
+                  <p className="text-slate-400 dark:text-slate-600 text-xs text-center">Markup is included when you download.</p>
                 </div>
               )}
 
               {/* Output */}
               {activeTab === "output" && (
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-4">
-                  <h3 className="text-white text-sm font-semibold">Output</h3>
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4">
+                  <h3 className="text-slate-900 dark:text-white text-sm font-semibold">Output</h3>
                   <div>
                     <label className="text-xs text-slate-500 block mb-2">Format</label>
                     <div className="grid grid-cols-3 gap-1.5">
                       {(["jpeg","png","webp"] as const).map((f) => (
                         <button key={f} onClick={() => setFmt(f)}
                           className={`py-2 text-xs font-mono font-bold rounded-lg border transition-colors ${
-                            outputFmt === f ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"
+                            outputFmt === f ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                           }`}>
                           {f.toUpperCase()}
                         </button>
@@ -886,7 +886,7 @@ export default function ImageEditorPage() {
                       {[0.25, 0.5, 1, 2].map((z) => (
                         <button key={z} onClick={() => setZoom(z)}
                           className={`flex-1 py-1 text-xs rounded-lg border transition-colors ${
-                            zoom === z ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"
+                            zoom === z ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                           }`}>
                           {z === 0.25 ? "¼×" : z === 0.5 ? "½×" : z === 1 ? "1×" : "2×"}
                         </button>
@@ -900,7 +900,7 @@ export default function ImageEditorPage() {
               <div className="flex gap-2">
                 <button onClick={undo} disabled={!canUndo}
                   title="Undo (Ctrl+Z)"
-                  className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-sm rounded-xl disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                  className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-xl disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                   </svg>
@@ -908,17 +908,17 @@ export default function ImageEditorPage() {
                 </button>
                 <button onClick={redo} disabled={!canRedo}
                   title="Redo (Ctrl+Shift+Z)"
-                  className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-sm rounded-xl disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                  className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-xl disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
                   </svg>
                   Redo
                 </button>
-                <button onClick={resetTab} className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-sm rounded-xl transition-colors">
+                <button onClick={resetTab} className="flex-1 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-xl transition-colors">
                   Reset tab
                 </button>
                 <button onClick={() => { setFile(null); setOrig(null); setCropRgn(null); setStrokes([]); setCropMode(false); setCropSel(null); historyRef.current = []; futureRef.current = []; setCanUndo(false); setCanRedo(false); }}
-                  className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-sm rounded-xl transition-colors">
+                  className="flex-1 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-xl transition-colors">
                   New
                 </button>
               </div>
@@ -934,7 +934,7 @@ export default function ImageEditorPage() {
             {/* ── Canvas area ── */}
             <div className="flex flex-col gap-2">
               <div
-                className="bg-slate-900/40 border border-slate-800/60 rounded-2xl p-4 flex items-start justify-center overflow-auto"
+                className="bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-4 flex items-start justify-center overflow-auto"
                 style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='8' height='8' fill='%231e293b'/%3E%3Crect x='8' y='8' width='8' height='8' fill='%231e293b'/%3E%3C/svg%3E\")" }}
               >
                 <div className="inline-block relative select-none"
@@ -1024,11 +1024,11 @@ export default function ImageEditorPage() {
               </div>
 
               {/* Status bar */}
-              <div className="flex items-center gap-3 text-xs text-slate-600">
+              <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-600">
                 {orig && <span>{orig.naturalWidth}×{orig.naturalHeight}px original</span>}
                 {previewRef.current && <span>→ {previewRef.current.width}×{previewRef.current.height}px output</span>}
-                {cropMode && <span className="text-blue-400 ml-auto">Crop mode: drag to select</span>}
-                {activeTab === "markup" && <span className="text-violet-400 ml-auto">Drawing: {markupTool}</span>}
+                {cropMode && <span className="text-blue-600 dark:text-blue-400 ml-auto">Crop mode: drag to select</span>}
+                {activeTab === "markup" && <span className="text-violet-600 dark:text-violet-400 ml-auto">Drawing: {markupTool}</span>}
               </div>
             </div>
           </div>

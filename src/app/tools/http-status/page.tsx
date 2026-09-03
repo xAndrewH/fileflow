@@ -42,11 +42,11 @@ const STATUSES = [
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  "1xx": "bg-slate-500/20 text-slate-300 border-slate-500/30",
-  "2xx": "bg-green-500/20 text-green-300 border-green-500/30",
-  "3xx": "bg-blue-500/20 text-blue-300 border-blue-500/30",
-  "4xx": "bg-orange-500/20 text-orange-300 border-orange-500/30",
-  "5xx": "bg-red-500/20 text-red-300 border-red-500/30",
+  "1xx": "bg-slate-500/20 text-slate-700 dark:text-slate-300 border-slate-500/30",
+  "2xx": "bg-green-500/20 text-green-700 dark:text-green-300 border-green-500/30",
+  "3xx": "bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-500/30",
+  "4xx": "bg-orange-500/20 text-orange-700 dark:text-orange-300 border-orange-500/30",
+  "5xx": "bg-red-500/20 text-red-700 dark:text-red-300 border-red-500/30",
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -84,13 +84,13 @@ export default function HttpStatusPage() {
   }, [filtered]);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">HTTP Status Code Reference</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">HTTP Status Code Reference</h1>
         <p className="text-slate-500 text-sm mb-8">A searchable reference for every HTTP status code.</p>
 
         <div className="space-y-5">
@@ -100,12 +100,12 @@ export default function HttpStatusPage() {
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder="Search by code, name, or description…"
-              className="flex-1 bg-slate-900/60 border border-slate-800/60 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500/50 placeholder-slate-600"
+              className="flex-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500/50 placeholder-slate-400 dark:placeholder-slate-600"
             />
-            <div className="flex gap-1 bg-slate-900/60 border border-slate-800/60 rounded-xl p-1">
+            <div className="flex gap-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-1">
               {["all", "1xx", "2xx", "3xx", "4xx", "5xx"].map(f => (
                 <button key={f} onClick={() => setFilter(f)}
-                  className={`px-3 py-1 rounded-lg text-xs transition-colors ${filter === f ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}>
+                  className={`px-3 py-1 rounded-lg text-xs transition-colors ${filter === f ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                   {f}
                 </button>
               ))}
@@ -120,12 +120,12 @@ export default function HttpStatusPage() {
               </div>
               <div className="space-y-2">
                 {statuses.map(s => (
-                  <div key={s.code} className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 flex gap-4">
+                  <div key={s.code} className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 flex gap-4">
                     <span className={`text-lg font-bold font-mono shrink-0 w-12 ${CATEGORY_COLORS[s.category].split(" ")[1]}`}>
                       {s.code}
                     </span>
                     <div>
-                      <p className="text-white text-sm font-medium">{s.name}</p>
+                      <p className="text-slate-900 dark:text-white text-sm font-medium">{s.name}</p>
                       <p className="text-slate-500 text-xs mt-1 leading-relaxed">{s.desc}</p>
                     </div>
                   </div>

@@ -97,59 +97,59 @@ export default function HashPage() {
   const hasResults = !loading && Object.keys(hashes).length > 0;
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Hash Generator</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Hash Generator</h1>
         <p className="text-slate-500 text-sm mb-8">Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or files.</p>
 
         <div className="space-y-5">
           {/* Input */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-slate-400 text-xs">{fileName ? `File: ${fileName}` : "Input text"}</label>
+              <label className="text-slate-500 dark:text-slate-400 text-xs">{fileName ? `File: ${fileName}` : "Input text"}</label>
               <div className="flex items-center gap-3">
                 <button onClick={() => fileRef.current?.click()}
-                  className="text-slate-500 hover:text-slate-300 text-xs transition-colors">Hash a file…</button>
+                  className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-xs transition-colors">Hash a file…</button>
                 <input ref={fileRef} type="file" className="hidden" onChange={handleFile} />
                 {(input || fileName) && (
                   <button onClick={() => { setInput(""); setFileName(null); setHashes({}); setError(""); lastData.current = null; }}
-                    className="text-slate-600 hover:text-slate-400 text-xs transition-colors">Clear</button>
+                    className="text-slate-400 dark:text-slate-600 hover:text-slate-700 dark:hover:text-slate-400 text-xs transition-colors">Clear</button>
                 )}
               </div>
             </div>
             {fileName ? (
-              <div className="w-full bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 flex items-center gap-3">
+              <div className="w-full bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 flex items-center gap-3">
                 <svg className="w-5 h-5 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                <span className="text-slate-300 text-sm truncate">{fileName}</span>
+                <span className="text-slate-700 dark:text-slate-300 text-sm truncate">{fileName}</span>
               </div>
             ) : (
               <textarea value={input} onChange={e => handleInput(e.target.value)}
                 placeholder="Enter text to hash…"
-                className="w-full h-36 bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-600" />
+                className="w-full h-36 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-400 dark:placeholder-slate-600" />
             )}
           </div>
 
           {/* Format */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-slate-400 text-xs">Output:</span>
+            <span className="text-slate-500 dark:text-slate-400 text-xs">Output:</span>
             {([
               { id: "hex"    as OutputFormat, label: "Hex (lowercase)" },
               { id: "HEX"    as OutputFormat, label: "Hex (uppercase)" },
               { id: "base64" as OutputFormat, label: "Base64" },
             ]).map(({ id, label }) => (
               <button key={id} onClick={() => changeFmt(id)}
-                className={`px-3 py-1 rounded-lg text-xs font-medium border transition-colors ${fmt === id ? "bg-blue-600/20 border-blue-500/50 text-blue-300" : "bg-slate-900/60 border-slate-800/60 text-slate-400 hover:text-white"}`}>
+                className={`px-3 py-1 rounded-lg text-xs font-medium border transition-colors ${fmt === id ? "bg-blue-600/20 border-blue-500/50 text-blue-700 dark:text-blue-300" : "bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                 {label}
               </button>
             ))}
           </div>
 
           {loading && <p className="text-slate-500 text-sm">Computing hashes…</p>}
-          {error   && <p className="text-red-400 text-sm">{error}</p>}
+          {error   && <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>}
 
           {hasResults && (
             <>
@@ -157,21 +157,21 @@ export default function HashPage() {
                 {ALGOS.map(algo => {
                   const hash = hashes[algo]; if (!hash) return null;
                   return (
-                    <div key={algo} className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+                    <div key={algo} className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-blue-400 text-xs font-mono font-bold">{algo}</span>
+                        <span className="text-blue-600 dark:text-blue-400 text-xs font-mono font-bold">{algo}</span>
                         <button onClick={() => copy(hash, algo)}
-                          className="px-3 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">
+                          className="px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors">
                           {copied === algo ? "Copied!" : "Copy"}
                         </button>
                       </div>
-                      <code className="text-slate-300 text-xs font-mono break-all leading-relaxed">{hash}</code>
+                      <code className="text-slate-700 dark:text-slate-300 text-xs font-mono break-all leading-relaxed">{hash}</code>
                     </div>
                   );
                 })}
               </div>
               <button onClick={copyAll}
-                className="w-full py-2 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-slate-400 hover:text-white text-xs font-medium transition-colors">
+                className="w-full py-2 rounded-xl bg-slate-100 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs font-medium transition-colors">
                 {copied === "__all__" ? "Copied all!" : "Copy all hashes"}
               </button>
             </>

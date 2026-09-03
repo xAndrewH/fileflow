@@ -6,9 +6,12 @@ import { CommandPalette } from "@/components/CommandPalette";
 import { BackToTop } from "@/components/BackToTop";
 import { RecordToolVisit } from "@/components/RecordToolVisit";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
+
+const THEME_INIT_SCRIPT = `(function(){try{var s=localStorage.getItem("filespark-theme");var t=s==="light"||s==="dark"?s:"system";var d=t==="dark"||(t==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);var r=document.documentElement;r.classList.toggle("dark",d);r.style.colorScheme=d?"dark":"light";}catch(e){}})();`;
 
 export const metadata: Metadata = {
   title: "FileSpark | File Converter & Browser Tools",
@@ -34,18 +37,28 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = { themeColor: "#0f172a" };
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} h-full`}>
-      <body className="min-h-full bg-slate-950 text-slate-100 antialiased">
-        {children}
-        <Footer />
-        <CommandPalette />
-        <BackToTop />
-        <RecordToolVisit />
-        <InstallPrompt />
+    <html lang="en" className={`${geist.variable} h-full`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
+      <body className="min-h-full bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
+        <ThemeProvider>
+          {children}
+          <Footer />
+          <CommandPalette />
+          <BackToTop />
+          <RecordToolVisit />
+          <InstallPrompt />
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

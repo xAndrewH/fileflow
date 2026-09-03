@@ -114,25 +114,25 @@ export default function PdfToImagesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">PDF to JPG, PNG &amp; WEBP</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">PDF to JPG, PNG &amp; WEBP</h1>
         <p className="text-slate-500 text-sm mb-8">Convert PDF pages to JPG, PNG, or WEBP images, entirely in your browser.</p>
 
         <div className="space-y-4">
           {/* Settings */}
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-4">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4">
             {/* Format */}
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="text-slate-400 text-sm w-24 shrink-0">Format</span>
+              <span className="text-slate-500 dark:text-slate-400 text-sm w-24 shrink-0">Format</span>
               <div className="flex gap-2">
                 {FORMATS.map((f) => (
                   <button key={f} onClick={() => setFmt(f)}
-                    className={`px-3 py-1 rounded-lg text-xs font-mono font-bold uppercase transition-colors ${fmt === f ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`px-3 py-1 rounded-lg text-xs font-mono font-bold uppercase transition-colors ${fmt === f ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {f}
                   </button>
                 ))}
@@ -142,19 +142,19 @@ export default function PdfToImagesPage() {
             {/* Quality (jpeg/webp only) */}
             {fmt !== "png" && (
               <div className="flex items-center gap-3">
-                <span className="text-slate-400 text-sm w-24 shrink-0">Quality</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm w-24 shrink-0">Quality</span>
                 <input type="range" min={1} max={100} value={quality} onChange={(e) => setQuality(+e.target.value)} className="flex-1 accent-blue-500" />
-                <span className="text-blue-400 font-mono text-sm w-10 text-right">{quality}%</span>
+                <span className="text-blue-600 dark:text-blue-400 font-mono text-sm w-10 text-right">{quality}%</span>
               </div>
             )}
 
             {/* Scale */}
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="text-slate-400 text-sm w-24 shrink-0">Resolution</span>
+              <span className="text-slate-500 dark:text-slate-400 text-sm w-24 shrink-0">Resolution</span>
               <div className="flex gap-2">
                 {SCALES.map(({ label, value }) => (
                   <button key={value} onClick={() => setScale(value)}
-                    className={`px-3 py-1 rounded-lg text-xs transition-colors ${scale === value ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`px-3 py-1 rounded-lg text-xs transition-colors ${scale === value ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {label}
                   </button>
                 ))}
@@ -163,14 +163,14 @@ export default function PdfToImagesPage() {
 
             {/* Page range */}
             <div className="flex items-center gap-3">
-              <span className="text-slate-400 text-sm w-24 shrink-0">Pages</span>
+              <span className="text-slate-500 dark:text-slate-400 text-sm w-24 shrink-0">Pages</span>
               <div className="flex items-center gap-2">
                 <input type="number" min={1} value={pageFrom} onChange={(e) => setPageFrom(Math.max(1, +e.target.value))}
-                  className="w-16 bg-slate-800 border border-slate-700 text-white text-sm rounded-lg px-2 py-1 focus:outline-none focus:border-blue-500 text-center" />
+                  className="w-16 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-lg px-2 py-1 focus:outline-none focus:border-blue-500 text-center" />
                 <span className="text-slate-500 text-sm">to</span>
                 <input type="number" min={1} value={pageTo} onChange={(e) => setPageTo(e.target.value === "" ? "" : Math.max(1, +e.target.value))}
                   placeholder="end"
-                  className="w-16 bg-slate-800 border border-slate-700 text-white text-sm rounded-lg px-2 py-1 focus:outline-none focus:border-blue-500 text-center placeholder-slate-600" />
+                  className="w-16 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-lg px-2 py-1 focus:outline-none focus:border-blue-500 text-center placeholder-slate-400 dark:placeholder-slate-600" />
                 {totalPages > 0 && <span className="text-slate-500 text-xs">of {totalPages}</span>}
               </div>
             </div>
@@ -178,21 +178,21 @@ export default function PdfToImagesPage() {
 
           {/* Drop zone */}
           <div
-            className="bg-slate-900/60 border-2 border-dashed border-slate-700 rounded-xl p-12 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
+            className="bg-slate-50 dark:bg-slate-900/60 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-12 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
             onClick={() => !processing && fileRef.current?.click()}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }}>
             {processing ? (
               <div className="space-y-2">
                 <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-slate-400 text-sm">{progress}</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">{progress}</p>
               </div>
             ) : (
               <>
-                <svg className="w-8 h-8 text-slate-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                 </svg>
-                <p className="text-slate-400 text-sm">Drop a PDF here or <span className="text-blue-400">browse</span></p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Drop a PDF here or <span className="text-blue-600 dark:text-blue-400">browse</span></p>
                 <p className="text-slate-500 text-xs mt-1">PDF files only</p>
               </>
             )}
@@ -206,7 +206,7 @@ export default function PdfToImagesPage() {
           {pages.length > 0 && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <p className="text-white text-sm font-medium">{pages.length} page{pages.length !== 1 ? "s" : ""} rendered</p>
+                <p className="text-slate-900 dark:text-white text-sm font-medium">{pages.length} page{pages.length !== 1 ? "s" : ""} rendered</p>
                 <button onClick={downloadAll}
                   className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded-lg transition-colors">
                   {pages.length === 1 ? "Download" : `Download all (ZIP)`}
@@ -215,14 +215,14 @@ export default function PdfToImagesPage() {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {pages.map((p) => (
                   <div key={p.pageNum} onClick={() => download(p)}
-                    className="group bg-slate-900/60 border border-slate-800/60 hover:border-slate-700 rounded-xl p-2 cursor-pointer transition-colors">
+                    className="group bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 hover:border-slate-400 dark:hover:border-slate-700 rounded-xl p-2 cursor-pointer transition-colors">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={p.url} alt={`Page ${p.pageNum}`} className="w-full rounded-lg object-contain border border-slate-800" />
+                    <img src={p.url} alt={`Page ${p.pageNum}`} className="w-full rounded-lg object-contain border border-slate-200 dark:border-slate-800" />
                     <div className="mt-2 flex items-center justify-between px-1">
-                      <p className="text-slate-400 text-xs">Page {p.pageNum}</p>
-                      <p className="text-slate-600 text-xs">{fmtSize(dataUrlSize(p.url))}</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-xs">Page {p.pageNum}</p>
+                      <p className="text-slate-400 dark:text-slate-600 text-xs">{fmtSize(dataUrlSize(p.url))}</p>
                     </div>
-                    <p className="text-center text-blue-400 text-[10px] mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Click to download</p>
+                    <p className="text-center text-blue-600 dark:text-blue-400 text-[10px] mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Click to download</p>
                   </div>
                 ))}
               </div>

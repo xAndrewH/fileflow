@@ -48,12 +48,12 @@ export function InstallPrompt() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 bg-slate-900 border border-slate-700/60 rounded-xl shadow-2xl px-4 py-3 max-w-sm w-[calc(100%-2rem)]">
+    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/60 rounded-xl shadow-2xl px-4 py-3 max-w-sm w-[calc(100%-2rem)]">
       <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center shrink-0">
         <Download className="w-4 h-4 text-white" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-white text-sm font-medium">Install FileSpark</p>
+        <p className="text-slate-900 dark:text-white text-sm font-medium">Install FileSpark</p>
         <p className="text-slate-500 text-xs">Faster access, works offline</p>
       </div>
       <button
@@ -64,7 +64,7 @@ export function InstallPrompt() {
       </button>
       <button
         onClick={dismiss}
-        className="shrink-0 p-1 text-slate-600 hover:text-slate-300 transition-colors"
+        className="shrink-0 p-1 text-slate-400 dark:text-slate-600 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
         aria-label="Dismiss install prompt"
       >
         <X className="w-4 h-4" />

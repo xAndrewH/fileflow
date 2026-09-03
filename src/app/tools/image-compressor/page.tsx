@@ -119,7 +119,7 @@ export default function ImageCompressorPage() {
   const totalSaved = results.reduce((s, r) => s + (r.originalSize - r.compressedSize), 0);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Image preview modal */}
       {preview && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={() => setPreview(null)}>
@@ -130,23 +130,23 @@ export default function ImageCompressorPage() {
       )}
 
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Image Compressor</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Image Compressor</h1>
         <p className="text-slate-500 text-sm mb-8">Compress and resize images in your browser. No uploads, no limits.</p>
 
         <div className="space-y-4">
           {/* Settings */}
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-4">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4">
             {/* Format */}
             <div className="flex items-center gap-3">
-              <span className="text-slate-400 text-sm w-20 shrink-0">Format</span>
+              <span className="text-slate-500 dark:text-slate-400 text-sm w-20 shrink-0">Format</span>
               <div className="flex gap-2">
                 {["jpeg","png","webp"].map((f) => (
                   <button key={f} onClick={() => setFormat(f)}
-                    className={`px-3 py-1 rounded-lg text-xs font-mono font-bold uppercase transition-colors ${format === f ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`px-3 py-1 rounded-lg text-xs font-mono font-bold uppercase transition-colors ${format === f ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {f}
                   </button>
                 ))}
@@ -155,45 +155,45 @@ export default function ImageCompressorPage() {
             {/* Quality */}
             {format !== "png" && (
               <div className="flex items-center gap-3">
-                <span className="text-slate-400 text-sm w-20 shrink-0">Quality</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm w-20 shrink-0">Quality</span>
                 <input type="range" min={1} max={100} value={globalQuality}
                   onChange={(e) => setGlobalQuality(+e.target.value)}
                   className="flex-1 accent-blue-500" />
-                <span className="text-blue-400 font-mono text-sm w-10 text-right">{globalQuality}%</span>
+                <span className="text-blue-600 dark:text-blue-400 font-mono text-sm w-10 text-right">{globalQuality}%</span>
               </div>
             )}
             {/* Max dimensions */}
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="text-slate-400 text-sm w-20 shrink-0">Max size</span>
+              <span className="text-slate-500 dark:text-slate-400 text-sm w-20 shrink-0">Max size</span>
               <div className="flex items-center gap-2">
                 <input type="number" placeholder="Width" value={maxW} onChange={(e) => setMaxW(e.target.value)}
-                  className="w-24 bg-slate-800 border border-slate-700 text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500 placeholder-slate-600" />
-                <span className="text-slate-600 text-sm">×</span>
+                  className="w-24 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500 placeholder-slate-400 dark:placeholder-slate-600" />
+                <span className="text-slate-400 dark:text-slate-600 text-sm">×</span>
                 <input type="number" placeholder="Height" value={maxH} onChange={(e) => setMaxH(e.target.value)}
-                  className="w-24 bg-slate-800 border border-slate-700 text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500 placeholder-slate-600" />
-                <span className="text-slate-600 text-xs">px (optional)</span>
+                  className="w-24 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500 placeholder-slate-400 dark:placeholder-slate-600" />
+                <span className="text-slate-400 dark:text-slate-600 text-xs">px (optional)</span>
               </div>
             </div>
           </div>
 
           {/* Drop zone */}
           <div
-            className="bg-slate-900/60 border-2 border-dashed border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
+            className="bg-slate-50 dark:bg-slate-900/60 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
             onClick={() => fileRef.current?.click()}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => { e.preventDefault(); const fs = Array.from(e.dataTransfer.files).filter((f) => f.type.startsWith("image/")); if (fs.length) processFiles(fs); }}>
             {processing ? (
               <div className="space-y-2">
                 <div className="w-7 h-7 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-slate-400 text-sm">Compressing…</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Compressing…</p>
               </div>
             ) : (
               <>
-                <svg className="w-8 h-8 text-slate-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
-                <p className="text-slate-400 text-sm">Drop images or <span className="text-blue-400">browse</span></p>
-                <p className="text-slate-600 text-xs mt-1">JPEG · PNG · WEBP · GIF · multiple files OK</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Drop images or <span className="text-blue-600 dark:text-blue-400">browse</span></p>
+                <p className="text-slate-400 dark:text-slate-600 text-xs mt-1">JPEG · PNG · WEBP · GIF · multiple files OK</p>
               </>
             )}
             <input ref={fileRef} type="file" accept="image/*" multiple className="hidden"
@@ -205,11 +205,11 @@ export default function ImageCompressorPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-white text-sm font-medium">{results.length} image{results.length !== 1 ? "s" : ""}</p>
-                  {totalSaved > 0 && <p className="text-green-400 text-xs">Saved {fmtSize(totalSaved)} total</p>}
+                  <p className="text-slate-900 dark:text-white text-sm font-medium">{results.length} image{results.length !== 1 ? "s" : ""}</p>
+                  {totalSaved > 0 && <p className="text-green-600 dark:text-green-400 text-xs">Saved {fmtSize(totalSaved)} total</p>}
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => { setResults([]); setComparePosMap({}); if (fileRef.current) fileRef.current.value = ""; }} className="text-slate-500 hover:text-red-400 text-xs transition-colors">Clear</button>
+                  <button onClick={() => { setResults([]); setComparePosMap({}); if (fileRef.current) fileRef.current.value = ""; }} className="text-slate-500 hover:text-red-600 dark:hover:text-red-400 text-xs transition-colors">Clear</button>
                   <button onClick={downloadAll} className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded-lg transition-colors">
                     {results.length === 1 ? "Download" : "Download ZIP"}
                   </button>
@@ -221,25 +221,25 @@ export default function ImageCompressorPage() {
                 const comparePos = comparePosMap[r.id] ?? 50;
                 const setComparePos = (pos: number) => setComparePosMap(m => ({ ...m, [r.id]: pos }));
                 return (
-                  <div key={r.id} className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+                  <div key={r.id} className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
                     <div className="flex items-center gap-4">
                       {/* Thumbnail */}
                       <button onClick={() => setPreview(r.url)} className="shrink-0 hover:opacity-80 transition-opacity" title="Click to preview">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={r.url} alt="" className="w-14 h-14 object-cover rounded-lg border border-slate-700" />
+                        <img src={r.url} alt="" className="w-14 h-14 object-cover rounded-lg border border-slate-300 dark:border-slate-700" />
                       </button>
                       <div className="flex-1 min-w-0">
-                        <p className="text-white text-sm truncate">{r.name}</p>
+                        <p className="text-slate-900 dark:text-white text-sm truncate">{r.name}</p>
                         <p className="text-slate-500 text-xs mt-0.5">
                           {r.width}×{r.height}px &nbsp;·&nbsp;
                           {fmtSize(r.originalSize)} → {fmtSize(r.compressedSize)}
-                          {saved > 0 && <span className="text-green-400 ml-1.5 font-medium">−{saved}%</span>}
-                          {saved < 0 && <span className="text-yellow-400 ml-1.5">+{Math.abs(saved)}%</span>}
+                          {saved > 0 && <span className="text-green-600 dark:text-green-400 ml-1.5 font-medium">−{saved}%</span>}
+                          {saved < 0 && <span className="text-yellow-600 dark:text-yellow-400 ml-1.5">+{Math.abs(saved)}%</span>}
                         </p>
                         {/* Per-image quality slider (jpeg/webp only) */}
                         {r.format !== "png" && (
                           <div className="flex items-center gap-2 mt-2">
-                            <span className="text-slate-600 text-[11px]">Q</span>
+                            <span className="text-slate-400 dark:text-slate-600 text-[11px]">Q</span>
                             <input type="range" min={1} max={100} defaultValue={r.quality}
                               onMouseUp={(e) => recompress(r, +(e.target as HTMLInputElement).value)}
                               onTouchEnd={(e) => recompress(r, +(e.target as HTMLInputElement).value)}
@@ -249,7 +249,7 @@ export default function ImageCompressorPage() {
                         )}
                       </div>
                       <button onClick={() => download(r)}
-                        className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors shrink-0">
+                        className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors shrink-0">
                         ↓
                       </button>
                     </div>
@@ -272,7 +272,7 @@ export default function ImageCompressorPage() {
                           style={{ left: `${comparePos}%`, transform: "translateX(-50%)" }}>
                           <div className="w-0.5 h-full bg-white/80" />
                           <div className="absolute w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center">
-                            <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <svg className="w-4 h-4 text-slate-300 dark:text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l-3 3 3 3M16 9l3 3-3 3" />
                             </svg>
                           </div>
@@ -283,7 +283,7 @@ export default function ImageCompressorPage() {
                           onTouchMove={(e) => { const rect = e.currentTarget.getBoundingClientRect(); const t = e.touches[0]; setComparePos(Math.max(2, Math.min(98, ((t.clientX - rect.left) / rect.width) * 100))); }}
                         />
                       </div>
-                      <div className="flex justify-between text-[10px] text-slate-600 px-1">
+                      <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-600 px-1">
                         <span>← Original</span>
                         <span>Compressed →</span>
                       </div>

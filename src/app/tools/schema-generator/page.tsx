@@ -54,10 +54,10 @@ interface WebPageFields {
 }
 
 function inputCls() {
-  return "w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors";
+  return "w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors";
 }
 
-function labelCls() { return "text-slate-400 text-xs mb-1 block"; }
+function labelCls() { return "text-slate-500 dark:text-slate-400 text-xs mb-1 block"; }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -258,14 +258,14 @@ function DynList<T>({
             next[idx] = val;
             setItems(next);
           })}</div>
-          <button onClick={() => setItems(items.filter((_, i) => i !== idx))} className="mt-1 p-1.5 text-slate-600 hover:text-red-400 transition-colors flex-shrink-0">
+          <button onClick={() => setItems(items.filter((_, i) => i !== idx))} className="mt-1 p-1.5 text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors flex-shrink-0">
             <Trash2 className="w-4 h-4" />
           </button>
         </div>
       ))}
       <button
         onClick={() => setItems([...items, emptyItem])}
-        className="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 text-sm transition-colors"
+        className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm transition-colors"
       >
         <Plus className="w-4 h-4" />
         {addLabel}
@@ -354,7 +354,7 @@ export default function SchemaGeneratorPage() {
             emptyItem={{ question: "", answer: "" }}
             addLabel="Add question"
             renderItem={(item, _idx, update) => (
-              <div className="space-y-1.5 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
+              <div className="space-y-1.5 bg-slate-100 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700/40 rounded-lg p-3">
                 <input className={ic} value={item.question} onChange={e => update({ ...item, question: e.target.value })} placeholder="Question" />
                 <textarea className={ic + " resize-none"} rows={2} value={item.answer} onChange={e => update({ ...item, answer: e.target.value })} placeholder="Answer" />
               </div>
@@ -440,7 +440,7 @@ export default function SchemaGeneratorPage() {
                 emptyItem={{ name: "", text: "" }}
                 addLabel="Add step"
                 renderItem={(item, _idx, update) => (
-                  <div className="space-y-1.5 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
+                  <div className="space-y-1.5 bg-slate-100 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700/40 rounded-lg p-3">
                     <input className={ic} value={item.name} onChange={e => update({ ...item, name: e.target.value })} placeholder="Step name" />
                     <textarea className={ic + " resize-none"} rows={2} value={item.text} onChange={e => update({ ...item, text: e.target.value })} placeholder="Step instructions" />
                   </div>
@@ -516,15 +516,15 @@ export default function SchemaGeneratorPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group">
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-1">Schema Markup Generator</h1>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Schema Markup Generator</h1>
           <p className="text-slate-500 text-sm">Generate valid JSON-LD structured data for your pages.</p>
         </div>
 
@@ -533,7 +533,7 @@ export default function SchemaGeneratorPage() {
             <button
               key={t}
               onClick={() => setSchemaType(t)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${schemaType === t ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-700"}`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${schemaType === t ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700"}`}
             >
               {t}
             </button>
@@ -541,18 +541,18 @@ export default function SchemaGeneratorPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-            <h2 className="text-white text-sm font-semibold mb-4">{schemaType} Fields</h2>
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+            <h2 className="text-slate-900 dark:text-white text-sm font-semibold mb-4">{schemaType} Fields</h2>
             {renderForm()}
           </div>
 
           <div className="space-y-4">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-white text-sm font-semibold">Generated JSON-LD</h2>
+                <h2 className="text-slate-900 dark:text-white text-sm font-semibold">Generated JSON-LD</h2>
                 <button
                   onClick={copy}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${copied ? "bg-green-600/20 border border-green-500/40 text-green-400" : "bg-blue-600 hover:bg-blue-500 text-white"}`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${copied ? "bg-green-600/20 border border-green-500/40 text-green-600 dark:text-green-400" : "bg-blue-600 hover:bg-blue-500 text-white"}`}
                 >
                   {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                   {copied ? "Copied!" : "Copy"}
@@ -562,20 +562,20 @@ export default function SchemaGeneratorPage() {
                 readOnly
                 value={json}
                 rows={16}
-                className="w-full bg-slate-950/80 border border-slate-800/60 rounded-lg px-3 py-2.5 text-xs text-slate-300 font-mono focus:outline-none resize-none"
+                className="w-full bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/60 rounded-lg px-3 py-2.5 text-xs text-slate-700 dark:text-slate-300 font-mono focus:outline-none resize-none"
               />
             </div>
 
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-              <h3 className="text-white text-sm font-semibold mb-2">How to use</h3>
-              <p className="text-slate-400 text-xs leading-relaxed">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+              <h3 className="text-slate-900 dark:text-white text-sm font-semibold mb-2">How to use</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">
                 Paste the generated JSON-LD inside a{" "}
-                <code className="bg-slate-800 px-1 rounded text-blue-300">{`<script>`}</code>{" "}
+                <code className="bg-slate-100 dark:bg-slate-800 px-1 rounded text-blue-700 dark:text-blue-300">{`<script>`}</code>{" "}
                 tag in the{" "}
-                <code className="bg-slate-800 px-1 rounded text-blue-300">{`<head>`}</code>{" "}
+                <code className="bg-slate-100 dark:bg-slate-800 px-1 rounded text-blue-700 dark:text-blue-300">{`<head>`}</code>{" "}
                 of your page:
               </p>
-              <pre className="mt-2 text-xs text-slate-400 font-mono bg-slate-950/60 border border-slate-800/40 rounded-lg p-3 overflow-x-auto">{`<script type="application/ld+json">\n${json.slice(0, 60)}…\n</script>`}</pre>
+              <pre className="mt-2 text-xs text-slate-500 dark:text-slate-400 font-mono bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/40 rounded-lg p-3 overflow-x-auto">{`<script type="application/ld+json">\n${json.slice(0, 60)}…\n</script>`}</pre>
             </div>
           </div>
         </div>

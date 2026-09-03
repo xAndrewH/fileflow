@@ -40,9 +40,9 @@ const BENCHMARKS = [
 
 function StatCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="bg-slate-800/50 border border-slate-700/40 rounded-xl px-4 py-4 text-center">
-      <p className="text-blue-400 text-xs font-medium uppercase tracking-wide mb-1">{label}</p>
-      <p className="text-white text-xl font-bold tabular-nums">{value}</p>
+    <div className="bg-slate-100 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700/40 rounded-xl px-4 py-4 text-center">
+      <p className="text-blue-600 dark:text-blue-400 text-xs font-medium uppercase tracking-wide mb-1">{label}</p>
+      <p className="text-slate-900 dark:text-white text-xl font-bold tabular-nums">{value}</p>
       {sub && <p className="text-slate-500 text-xs mt-0.5">{sub}</p>}
     </div>
   );
@@ -54,17 +54,17 @@ function NumInput({ label, value, onChange, placeholder, prefix, suffix }: {
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-medium text-slate-400 uppercase tracking-wide">{label}</label>
+      <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">{label}</label>
       <div className="relative">
-        {prefix && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">{prefix}</span>}
+        {prefix && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-sm">{prefix}</span>}
         <input
           type="number"
           value={value}
           onChange={e => onChange(e.target.value)}
           placeholder={placeholder ?? "0"}
-          className={`w-full bg-slate-800/60 border border-slate-700/50 rounded-lg py-2 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 focus:ring-1 focus:ring-blue-500/30 transition-colors ${prefix ? "pl-7 pr-3" : suffix ? "pl-3 pr-7" : "px-3"}`}
+          className={`w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg py-2 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 focus:ring-1 focus:ring-blue-500/30 transition-colors ${prefix ? "pl-7 pr-3" : suffix ? "pl-3 pr-7" : "px-3"}`}
         />
-        {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">{suffix}</span>}
+        {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 text-sm">{suffix}</span>}
       </div>
     </div>
   );
@@ -123,23 +123,23 @@ export default function ConversionRatePage() {
     : { z: 0, pValue: 1, significant: false };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">Conversion Rate Calculator</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Conversion Rate Calculator</h1>
         <p className="text-slate-500 text-sm mb-8">Calculate conversion rates, revenue impact, and A/B test significance.</p>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-6 bg-slate-900/60 border border-slate-800/60 p-1 rounded-xl">
+        <div className="flex gap-1 mb-6 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 p-1 rounded-xl">
           {tabs.map(t => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-colors ${tab === t.id ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}
+              className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-colors ${tab === t.id ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
             >
               {t.label}
             </button>
@@ -149,7 +149,7 @@ export default function ConversionRatePage() {
         {/* Tab 1: Conversion Rate */}
         {tab === "conversion" && (
           <div className="space-y-5">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5">
               <div className="grid grid-cols-2 gap-4">
                 <NumInput label="Visitors" value={visitors} onChange={setVisitors} placeholder="1000" />
                 <NumInput label="Conversions" value={conversions} onChange={setConversions} placeholder="35" />
@@ -158,14 +158,14 @@ export default function ConversionRatePage() {
 
             {v > 0 && (
               <>
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 text-center">
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 text-center">
                   <p className="text-slate-500 text-xs mb-1">Conversion Rate</p>
-                  <p className="text-5xl font-bold text-white tabular-nums">{fmt(cvr)}<span className="text-2xl text-slate-400">%</span></p>
+                  <p className="text-5xl font-bold text-slate-900 dark:text-white tabular-nums">{fmt(cvr)}<span className="text-2xl text-slate-500 dark:text-slate-400">%</span></p>
                   <p className="text-slate-500 text-xs mt-1">{c.toLocaleString()} out of {v.toLocaleString()} visitors</p>
                 </div>
 
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5">
-                  <p className="text-white text-sm font-medium mb-3">Industry Benchmarks</p>
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5">
+                  <p className="text-slate-900 dark:text-white text-sm font-medium mb-3">Industry Benchmarks</p>
                   <div className="space-y-3">
                     {BENCHMARKS.map(b => {
                       const isInRange = cvr >= b.min && cvr <= b.max;
@@ -173,16 +173,16 @@ export default function ConversionRatePage() {
                       return (
                         <div key={b.label} className="flex items-center gap-3">
                           <div className="w-32 shrink-0">
-                            <p className="text-slate-300 text-xs font-medium">{b.label}</p>
+                            <p className="text-slate-700 dark:text-slate-300 text-xs font-medium">{b.label}</p>
                             <p className="text-slate-500 text-xs">{b.range}</p>
                           </div>
-                          <div className="flex-1 bg-slate-800 rounded-full h-2 overflow-hidden">
+                          <div className="flex-1 bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
                             <div
                               className={`h-full rounded-full transition-all ${isAbove ? "bg-green-500" : isInRange ? "bg-blue-500" : "bg-slate-600"}`}
                               style={{ width: `${Math.min((cvr / b.max) * 100, 100)}%` }}
                             />
                           </div>
-                          <span className={`text-xs font-semibold w-16 text-right ${isAbove ? "text-green-400" : isInRange ? "text-blue-400" : "text-slate-500"}`}>
+                          <span className={`text-xs font-semibold w-16 text-right ${isAbove ? "text-green-600 dark:text-green-400" : isInRange ? "text-blue-600 dark:text-blue-400" : "text-slate-500"}`}>
                             {isAbove ? "Above" : isInRange ? "In range" : "Below"}
                           </span>
                         </div>
@@ -198,7 +198,7 @@ export default function ConversionRatePage() {
         {/* Tab 2: Revenue Impact */}
         {tab === "revenue" && (
           <div className="space-y-5">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5">
               <div className="grid grid-cols-2 gap-4">
                 <NumInput label="Monthly Visitors" value={revVisitors} onChange={setRevVisitors} />
                 <NumInput label="Avg. Order Value" value={aov} onChange={setAov} prefix="$" />
@@ -230,13 +230,13 @@ export default function ConversionRatePage() {
         {tab === "abtest" && (
           <div className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-4">
-                <p className="text-white text-sm font-semibold">Control</p>
+              <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-4">
+                <p className="text-slate-900 dark:text-white text-sm font-semibold">Control</p>
                 <NumInput label="Visitors" value={ctrlVisitors} onChange={setCtrlVisitors} />
                 <NumInput label="Conversions" value={ctrlConv} onChange={setCtrlConv} />
               </div>
-              <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-4">
-                <p className="text-white text-sm font-semibold">Variant</p>
+              <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-4">
+                <p className="text-slate-900 dark:text-white text-sm font-semibold">Variant</p>
                 <NumInput label="Visitors" value={varVisitors} onChange={setVarVisitors} />
                 <NumInput label="Conversions" value={varConv} onChange={setVarConv} />
               </div>
@@ -254,17 +254,17 @@ export default function ConversionRatePage() {
                   <StatCard label="p-value" value={fmt(pValue, 4)} sub={significant ? "significant (p < 0.05)" : "not significant"} />
                 </div>
 
-                <div className={`bg-slate-900/60 border rounded-2xl p-5 ${significant ? "border-green-500/40" : "border-slate-800/60"}`}>
+                <div className={`bg-slate-50 dark:bg-slate-900/60 border rounded-2xl p-5 ${significant ? "border-green-500/40" : "border-slate-200 dark:border-slate-800/60"}`}>
                   <div className="flex items-start gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${significant ? "bg-green-500/20" : "bg-slate-800"}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${significant ? "bg-green-500/20" : "bg-slate-100 dark:bg-slate-800"}`}>
                       {significant ? (
-                        <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                        <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                       ) : (
                         <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" /></svg>
                       )}
                     </div>
                     <div>
-                      <p className={`text-sm font-semibold ${significant ? "text-green-400" : "text-slate-300"}`}>
+                      <p className={`text-sm font-semibold ${significant ? "text-green-600 dark:text-green-400" : "text-slate-700 dark:text-slate-300"}`}>
                         {significant ? "Statistically Significant" : "Not Yet Significant"}
                       </p>
                       <p className="text-slate-500 text-xs mt-0.5">

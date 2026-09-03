@@ -221,29 +221,29 @@ export default function InvoiceGeneratorPage() {
     setTimeout(() => setHtmlCopied(false), 1500);
   };
 
-  const ic = "w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors";
-  const lc = "text-slate-400 text-xs mb-1 block";
+  const ic = "w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors";
+  const lc = "text-slate-500 dark:text-slate-400 text-xs mb-1 block";
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group">
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
 
         <div className="mb-8 flex items-center gap-3">
-          <FileText className="w-7 h-7 text-blue-400" />
+          <FileText className="w-7 h-7 text-blue-600 dark:text-blue-400" />
           <div>
-            <h1 className="text-3xl font-bold text-white">Invoice Generator</h1>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Invoice Generator</h1>
             <p className="text-slate-500 text-sm">Create and print professional invoices instantly.</p>
           </div>
         </div>
 
         <div className="space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-3">
-              <h2 className="text-white text-sm font-semibold">Your Business</h2>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-3">
+              <h2 className="text-slate-900 dark:text-white text-sm font-semibold">Your Business</h2>
               <div>
                 <label className={lc}>Company Name</label>
                 <input className={ic} value={form.companyName} onChange={set("companyName")} placeholder="Acme Inc" />
@@ -261,13 +261,13 @@ export default function InvoiceGeneratorPage() {
                 <input className={ic} value={form.companyPhone} onChange={set("companyPhone")} placeholder="+1 555 0100" />
               </div>
               <div>
-                <label className={lc}>Logo URL <span className="text-slate-600">(optional)</span></label>
+                <label className={lc}>Logo URL <span className="text-slate-400 dark:text-slate-600">(optional)</span></label>
                 <input className={ic} value={form.logoUrl} onChange={set("logoUrl")} placeholder="https://acme.com/logo.png" />
               </div>
             </div>
 
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-3">
-              <h2 className="text-white text-sm font-semibold">Bill To</h2>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-3">
+              <h2 className="text-slate-900 dark:text-white text-sm font-semibold">Bill To</h2>
               <div>
                 <label className={lc}>Client Name</label>
                 <input className={ic} value={form.clientName} onChange={set("clientName")} placeholder="Jane Smith" />
@@ -287,8 +287,8 @@ export default function InvoiceGeneratorPage() {
             </div>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-            <h2 className="text-white text-sm font-semibold mb-3">Invoice Details</h2>
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+            <h2 className="text-slate-900 dark:text-white text-sm font-semibold mb-3">Invoice Details</h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div>
                 <label className={lc}>Invoice #</label>
@@ -311,8 +311,8 @@ export default function InvoiceGeneratorPage() {
             </div>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-            <h2 className="text-white text-sm font-semibold mb-3">Line Items</h2>
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+            <h2 className="text-slate-900 dark:text-white text-sm font-semibold mb-3">Line Items</h2>
             <div className="space-y-2">
               <div className="grid grid-cols-12 gap-2 text-xs text-slate-500 font-medium px-1">
                 <div className="col-span-5">Description</div>
@@ -351,13 +351,13 @@ export default function InvoiceGeneratorPage() {
                       step="0.01"
                     />
                   </div>
-                  <div className="col-span-1 text-right text-sm text-slate-300 font-mono">
+                  <div className="col-span-1 text-right text-sm text-slate-700 dark:text-slate-300 font-mono">
                     {sym}{calcLine(item).toFixed(2)}
                   </div>
                   <div className="col-span-1 flex justify-end">
                     <button
                       onClick={() => removeItem(idx)}
-                      className="p-1 text-slate-600 hover:text-red-400 transition-colors"
+                      className="p-1 text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                       disabled={items.length <= 1}
                     >
                       <Trash2 className="w-4 h-4" />
@@ -367,14 +367,14 @@ export default function InvoiceGeneratorPage() {
               ))}
               <button
                 onClick={addItem}
-                className="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 text-sm transition-colors mt-1"
+                className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm transition-colors mt-1"
               >
                 <Plus className="w-4 h-4" />
                 Add line item
               </button>
             </div>
 
-            <div className="mt-5 pt-4 border-t border-slate-800/60 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="mt-5 pt-4 border-t border-slate-200 dark:border-slate-800/60 grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div>
                 <label className={lc}>Tax Rate (%)</label>
                 <input type="number" className={ic} value={form.taxRate} onChange={set("taxRate")} placeholder="0" min="0" max="100" step="0.1" />
@@ -384,30 +384,30 @@ export default function InvoiceGeneratorPage() {
                 <input type="number" className={ic} value={form.discount} onChange={set("discount")} placeholder="0" min="0" step="0.01" />
               </div>
               <div className="col-span-2 flex flex-col justify-end items-end gap-1 text-sm">
-                <div className="flex justify-between w-full text-slate-400">
+                <div className="flex justify-between w-full text-slate-500 dark:text-slate-400">
                   <span>Subtotal</span><span className="font-mono">{fmt(subtotal, sym)}</span>
                 </div>
                 {taxRate > 0 && (
-                  <div className="flex justify-between w-full text-slate-400">
+                  <div className="flex justify-between w-full text-slate-500 dark:text-slate-400">
                     <span>Tax ({taxRate}%)</span><span className="font-mono">{fmt(taxAmt, sym)}</span>
                   </div>
                 )}
                 {discount > 0 && (
-                  <div className="flex justify-between w-full text-slate-400">
+                  <div className="flex justify-between w-full text-slate-500 dark:text-slate-400">
                     <span>Discount</span><span className="font-mono">-{fmt(discount, sym)}</span>
                   </div>
                 )}
-                <div className="flex justify-between w-full text-white font-semibold text-base border-t border-slate-700 pt-1 mt-0.5">
+                <div className="flex justify-between w-full text-slate-900 dark:text-white font-semibold text-base border-t border-slate-300 dark:border-slate-700 pt-1 mt-0.5">
                   <span>Total</span><span className="font-mono">{fmt(total, sym)}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-3">
-            <h2 className="text-white text-sm font-semibold">Additional Info</h2>
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-3">
+            <h2 className="text-slate-900 dark:text-white text-sm font-semibold">Additional Info</h2>
             <div>
-              <label className={lc}>Notes <span className="text-slate-600">(optional)</span></label>
+              <label className={lc}>Notes <span className="text-slate-400 dark:text-slate-600">(optional)</span></label>
               <textarea className={ic + " resize-none"} rows={3} value={form.notes} onChange={set("notes")} placeholder="Thank you for your business!" />
             </div>
             <div>
@@ -426,7 +426,7 @@ export default function InvoiceGeneratorPage() {
             </button>
             <button
               onClick={copyHtml}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${htmlCopied ? "bg-green-600/20 border border-green-500/40 text-green-400" : "bg-slate-800 hover:bg-slate-700 text-slate-300"}`}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${htmlCopied ? "bg-green-600/20 border border-green-500/40 text-green-600 dark:text-green-400" : "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300"}`}
             >
               {htmlCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
               {htmlCopied ? "Copied!" : "Copy as HTML"}

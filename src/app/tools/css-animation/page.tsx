@@ -220,22 +220,22 @@ export default function CssAnimationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">CSS Animation Builder</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">CSS Animation Builder</h1>
         <p className="text-slate-500 text-sm mb-8">Build keyframe animations visually and export the CSS.</p>
 
         {/* Presets */}
         <div className="mb-6">
-          <p className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-2">Presets</p>
+          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Presets</p>
           <div className="flex flex-wrap gap-2">
             {PRESETS.map(p => (
-              <button key={p.name} onClick={() => loadPreset(p)} className="px-3 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700/60 rounded-lg text-slate-300 transition-colors">
+              <button key={p.name} onClick={() => loadPreset(p)} className="px-3 py-1.5 text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 rounded-lg text-slate-700 dark:text-slate-300 transition-colors">
                 {p.name}
               </button>
             ))}
@@ -246,34 +246,34 @@ export default function CssAnimationPage() {
           {/* Controls */}
           <div className="space-y-5">
             {/* Settings */}
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-4">
-              <p className="text-sm font-medium text-slate-300">Animation Settings</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-4">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Animation Settings</p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5 col-span-2">
                   <label className="text-xs text-slate-500">Name</label>
-                  <input value={animName} onChange={e => setAnimName(e.target.value)} className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={animName} onChange={e => setAnimName(e.target.value)} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Duration</label>
-                  <input value={duration} onChange={e => setDuration(e.target.value)} placeholder="1s" className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={duration} onChange={e => setDuration(e.target.value)} placeholder="1s" className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Delay</label>
-                  <input value={delay} onChange={e => setDelay(e.target.value)} placeholder="0s" className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={delay} onChange={e => setDelay(e.target.value)} placeholder="0s" className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Iterations</label>
-                  <input value={iterCount} onChange={e => setIterCount(e.target.value)} placeholder="1" className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={iterCount} onChange={e => setIterCount(e.target.value)} placeholder="1" className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Fill Mode</label>
-                  <select value={fillMode} onChange={e => setFillMode(e.target.value)} className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors">
+                  <select value={fillMode} onChange={e => setFillMode(e.target.value)} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors">
                     {["none", "forwards", "backwards", "both"].map(v => <option key={v} value={v}>{v}</option>)}
                   </select>
                 </div>
                 <div className="space-y-1.5 col-span-2">
                   <label className="text-xs text-slate-500">Timing Function</label>
-                  <select value={timing} onChange={e => setTiming(e.target.value)} className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors">
+                  <select value={timing} onChange={e => setTiming(e.target.value)} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors">
                     {EASING_OPTIONS.map(v => <option key={v} value={v}>{v}</option>)}
                   </select>
                 </div>
@@ -281,18 +281,18 @@ export default function CssAnimationPage() {
             </div>
 
             {/* Keyframes */}
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-4">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-4">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-slate-300">Keyframes</p>
-                <button onClick={addKeyframe} className="text-xs text-blue-400 hover:text-blue-300 transition-colors">+ Add keyframe</button>
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Keyframes</p>
+                <button onClick={addKeyframe} className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">+ Add keyframe</button>
               </div>
 
               {/* Add property row */}
               <div className="flex gap-2 items-center">
-                <select value={newPropKey} onChange={e => setNewPropKey(e.target.value)} className="flex-1 bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-300 text-xs focus:outline-none focus:border-blue-500/60 transition-colors">
+                <select value={newPropKey} onChange={e => setNewPropKey(e.target.value)} className="flex-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-700 dark:text-slate-300 text-xs focus:outline-none focus:border-blue-500/60 transition-colors">
                   {ANIMATABLE_PROPS.map(p => <option key={p} value={p}>{p}</option>)}
                 </select>
-                <button onClick={addPropToAll} className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-xs text-slate-200 transition-colors whitespace-nowrap">Add to all</button>
+                <button onClick={addPropToAll} className="px-3 py-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg text-xs text-slate-800 dark:text-slate-200 transition-colors whitespace-nowrap">Add to all</button>
               </div>
 
               {/* Keyframe table */}
@@ -306,7 +306,7 @@ export default function CssAnimationPage() {
                           <th key={k} className="text-left text-slate-500 font-normal pb-2 min-w-[100px]">
                             <span className="flex items-center gap-1">
                               {k}
-                              <button onClick={() => removeProp(k)} className="text-slate-600 hover:text-red-400 transition-colors">×</button>
+                              <button onClick={() => removeProp(k)} className="text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors">×</button>
                             </span>
                           </th>
                         ))}
@@ -323,7 +323,7 @@ export default function CssAnimationPage() {
                               max={100}
                               value={kf.offset}
                               onChange={e => updateOffset(i, Number(e.target.value))}
-                              className="w-14 bg-slate-800/60 border border-slate-700/50 rounded px-2 py-1 text-slate-200 text-xs focus:outline-none focus:border-blue-500/60"
+                              className="w-14 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded px-2 py-1 text-slate-800 dark:text-slate-200 text-xs focus:outline-none focus:border-blue-500/60"
                             />
                           </td>
                           {allPropKeys.map(k => (
@@ -332,12 +332,12 @@ export default function CssAnimationPage() {
                                 value={kf.properties[k] ?? ""}
                                 onChange={e => updateProp(i, k, e.target.value)}
                                 placeholder="|"
-                                className="w-full bg-slate-800/60 border border-slate-700/50 rounded px-2 py-1 text-slate-200 text-xs focus:outline-none focus:border-blue-500/60"
+                                className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded px-2 py-1 text-slate-800 dark:text-slate-200 text-xs focus:outline-none focus:border-blue-500/60"
                               />
                             </td>
                           ))}
                           <td className="pb-2">
-                            <button onClick={() => removeKeyframe(i)} disabled={keyframes.length <= 2} className="text-slate-600 hover:text-red-400 disabled:opacity-30 transition-colors">×</button>
+                            <button onClick={() => removeKeyframe(i)} disabled={keyframes.length <= 2} className="text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-30 transition-colors">×</button>
                           </td>
                         </tr>
                       ))}
@@ -346,7 +346,7 @@ export default function CssAnimationPage() {
                 </div>
               )}
               {allPropKeys.length === 0 && (
-                <p className="text-slate-600 text-xs">Add a property above to get started.</p>
+                <p className="text-slate-400 dark:text-slate-600 text-xs">Add a property above to get started.</p>
               )}
             </div>
           </div>
@@ -354,29 +354,29 @@ export default function CssAnimationPage() {
           {/* Preview + Output */}
           <div className="space-y-4">
             {/* Preview */}
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-4">
-              <p className="text-sm font-medium text-slate-300">Preview</p>
-              <div className="h-32 flex items-center justify-center bg-slate-800/40 rounded-xl">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-4">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Preview</p>
+              <div className="h-32 flex items-center justify-center bg-slate-100 dark:bg-slate-800/40 rounded-xl">
                 <style>{playing ? `${css.replace(".animated {", "#preview-box {").replace("}", "}")}` : ""}</style>
                 <div
                   id="preview-box"
                   className="w-16 h-16 rounded-xl bg-blue-500"
                 />
               </div>
-              <button onClick={triggerPlay} className="w-full py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700/60 rounded-lg text-sm text-slate-200 transition-colors">
+              <button onClick={triggerPlay} className="w-full py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 rounded-lg text-sm text-slate-800 dark:text-slate-200 transition-colors">
                 ▶ Play Preview
               </button>
             </div>
 
             {/* CSS Output */}
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-3">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-3">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-slate-300">CSS Output</p>
-                <button onClick={copy} className="text-xs text-blue-400 hover:text-blue-300 transition-colors">
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">CSS Output</p>
+                <button onClick={copy} className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                   {copied ? "Copied!" : "Copy"}
                 </button>
               </div>
-              <pre className="text-xs text-slate-300 font-mono bg-slate-800/40 rounded-xl p-4 overflow-auto max-h-64 whitespace-pre-wrap leading-relaxed">
+              <pre className="text-xs text-slate-700 dark:text-slate-300 font-mono bg-slate-100 dark:bg-slate-800/40 rounded-xl p-4 overflow-auto max-h-64 whitespace-pre-wrap leading-relaxed">
                 {css}
               </pre>
             </div>

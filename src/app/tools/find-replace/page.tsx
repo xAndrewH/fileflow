@@ -100,18 +100,18 @@ export default function FindReplacePage() {
   const buttonsDisabled = !findStr || !!error;
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group">
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">Find & Replace</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Find & Replace</h1>
         <p className="text-slate-500 text-sm mb-8">Search and replace text with string or regex patterns.</p>
 
         <div className="space-y-5">
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
             <div>
               <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Input Text</p>
               <textarea
@@ -119,7 +119,7 @@ export default function FindReplacePage() {
                 onChange={e => handleInputText(e.target.value)}
                 placeholder="Paste your text here…"
                 rows={10}
-                className="w-full bg-slate-900 border border-slate-700/60 rounded-xl p-4 font-mono text-xs text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors resize-none"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-xl p-4 font-mono text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors resize-none"
               />
             </div>
 
@@ -131,7 +131,7 @@ export default function FindReplacePage() {
                   value={findStr}
                   onChange={e => handleFindStr(e.target.value)}
                   placeholder={regexMode ? "^hello.*" : "search term"}
-                  className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                 />
               </div>
               <div>
@@ -141,7 +141,7 @@ export default function FindReplacePage() {
                   value={replaceStr}
                   onChange={e => setReplaceStr(e.target.value)}
                   placeholder="replacement"
-                  className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                 />
               </div>
             </div>
@@ -154,7 +154,7 @@ export default function FindReplacePage() {
                   onChange={e => handleCaseSensitive(e.target.checked)}
                   className="accent-blue-500"
                 />
-                <span className="text-sm text-slate-400">Case sensitive</span>
+                <span className="text-sm text-slate-500 dark:text-slate-400">Case sensitive</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <input
@@ -163,12 +163,12 @@ export default function FindReplacePage() {
                   onChange={e => handleRegexMode(e.target.checked)}
                   className="accent-blue-500"
                 />
-                <span className="text-sm text-slate-400">Regex mode</span>
+                <span className="text-sm text-slate-500 dark:text-slate-400">Regex mode</span>
               </label>
             </div>
 
             {error && (
-              <p className="text-amber-400 text-sm bg-amber-400/5 border border-amber-400/20 rounded-lg px-3 py-2">{error}</p>
+              <p className="text-amber-600 dark:text-amber-400 text-sm bg-amber-400/5 border border-amber-400/20 rounded-lg px-3 py-2">{error}</p>
             )}
 
             <div className="flex items-center gap-3">
@@ -182,7 +182,7 @@ export default function FindReplacePage() {
               <button
                 onClick={replaceNext}
                 disabled={buttonsDisabled}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-700/60 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-300 dark:border-slate-700/60 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Replace Next
               </button>
@@ -194,11 +194,11 @@ export default function FindReplacePage() {
             </div>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Output</p>
               {outputText && (
-                <button onClick={copy} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg transition-colors border border-slate-700/60">
+                <button onClick={copy} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-lg transition-colors border border-slate-300 dark:border-slate-700/60">
                   {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                   {copied ? "Copied!" : "Copy"}
                 </button>
@@ -209,7 +209,7 @@ export default function FindReplacePage() {
               value={outputText}
               placeholder="Result will appear here after replacing…"
               rows={10}
-              className="w-full bg-slate-900 border border-slate-700/60 rounded-xl p-4 font-mono text-xs text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors resize-none"
+              className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-xl p-4 font-mono text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors resize-none"
             />
           </div>
         </div>

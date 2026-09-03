@@ -164,31 +164,31 @@ function UtmBuilderInner() {
   };
 
   const inputClass =
-    "w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600";
-  const labelClass = "text-slate-400 text-xs mb-1.5 block";
+    "w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600";
+  const labelClass = "text-slate-500 dark:text-slate-400 text-xs mb-1.5 block";
   const chipClass =
-    "px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700/50 text-slate-400 hover:text-white hover:border-slate-500 text-xs transition-colors";
+    "px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700/50 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-slate-500 text-xs transition-colors";
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
 
         <div className="flex items-start justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">UTM Builder</h1>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">UTM Builder</h1>
             <p className="text-slate-500 text-sm">Build UTM-tagged URLs for campaign tracking.</p>
           </div>
           <div className="flex items-center gap-2 mt-1">
             <button onClick={copyShareLink}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${sharedCopied ? "bg-green-600/20 border-green-500/40 text-green-400" : "bg-slate-800 border-slate-700/50 text-slate-400 hover:text-white"}`}>
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${sharedCopied ? "bg-green-600/20 border-green-500/40 text-green-600 dark:text-green-400" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700/50 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
               {sharedCopied ? "Link copied!" : "Share link"}
             </button>
             <button onClick={clearAll}
-              className="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700/50 text-slate-400 hover:text-white text-xs transition-colors">
+              className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700/50 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs transition-colors">
               Clear all
             </button>
           </div>
@@ -201,13 +201,13 @@ function UtmBuilderInner() {
               <label className={labelClass}>Saved Templates</label>
               <div className="flex flex-wrap gap-1.5">
                 {templates.map(tpl => (
-                  <div key={tpl.id} className="flex items-center gap-0 bg-slate-800 border border-slate-700/50 rounded-md overflow-hidden">
+                  <div key={tpl.id} className="flex items-center gap-0 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700/50 rounded-md overflow-hidden">
                     <button onClick={() => loadTemplate(tpl)}
-                      className="px-2.5 py-1 text-slate-300 hover:text-white text-xs transition-colors">
+                      className="px-2.5 py-1 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs transition-colors">
                       {tpl.name}
                     </button>
                     <button onClick={() => deleteTemplate(tpl.id)}
-                      className="px-1.5 py-1 text-slate-600 hover:text-red-400 text-xs transition-colors border-l border-slate-700/50">
+                      className="px-1.5 py-1 text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 text-xs transition-colors border-l border-slate-300 dark:border-slate-700/50">
                       ×
                     </button>
                   </div>
@@ -218,7 +218,7 @@ function UtmBuilderInner() {
 
           {/* Website URL */}
           <div>
-            <label className={labelClass}>Website URL <span className="text-red-400">*</span></label>
+            <label className={labelClass}>Website URL <span className="text-red-600 dark:text-red-400">*</span></label>
             <input type="url" value={fields.url} onChange={e => set("url")(e.target.value)}
               placeholder="https://example.com/page" className={inputClass} />
           </div>
@@ -226,8 +226,8 @@ function UtmBuilderInner() {
           {/* Campaign Source */}
           <div>
             <label className={labelClass}>
-              Campaign Source <span className="text-red-400">*</span>
-              <span className="text-slate-600 ml-1">utm_source</span>
+              Campaign Source <span className="text-red-600 dark:text-red-400">*</span>
+              <span className="text-slate-400 dark:text-slate-600 ml-1">utm_source</span>
             </label>
             <input type="text" value={fields.source} onChange={e => set("source")(e.target.value)}
               placeholder="google" className={inputClass} />
@@ -241,8 +241,8 @@ function UtmBuilderInner() {
           {/* Campaign Medium */}
           <div>
             <label className={labelClass}>
-              Campaign Medium <span className="text-red-400">*</span>
-              <span className="text-slate-600 ml-1">utm_medium</span>
+              Campaign Medium <span className="text-red-600 dark:text-red-400">*</span>
+              <span className="text-slate-400 dark:text-slate-600 ml-1">utm_medium</span>
             </label>
             <input type="text" value={fields.medium} onChange={e => set("medium")(e.target.value)}
               placeholder="cpc" className={inputClass} />
@@ -256,8 +256,8 @@ function UtmBuilderInner() {
           {/* Campaign Name */}
           <div>
             <label className={labelClass}>
-              Campaign Name <span className="text-red-400">*</span>
-              <span className="text-slate-600 ml-1">utm_campaign</span>
+              Campaign Name <span className="text-red-600 dark:text-red-400">*</span>
+              <span className="text-slate-400 dark:text-slate-600 ml-1">utm_campaign</span>
             </label>
             <input type="text" value={fields.campaign} onChange={e => set("campaign")(e.target.value)}
               placeholder="spring_sale_2025" className={inputClass} />
@@ -267,7 +267,7 @@ function UtmBuilderInner() {
           <div>
             <label className={labelClass}>
               Campaign Term
-              <span className="text-slate-600 ml-1">utm_term · optional · paid search keywords</span>
+              <span className="text-slate-400 dark:text-slate-600 ml-1">utm_term · optional · paid search keywords</span>
             </label>
             <input type="text" value={fields.term} onChange={e => set("term")(e.target.value)}
               placeholder="running+shoes" className={inputClass} />
@@ -277,7 +277,7 @@ function UtmBuilderInner() {
           <div>
             <label className={labelClass}>
               Campaign Content
-              <span className="text-slate-600 ml-1">utm_content · optional · differentiate ads</span>
+              <span className="text-slate-400 dark:text-slate-600 ml-1">utm_content · optional · differentiate ads</span>
             </label>
             <input type="text" value={fields.content} onChange={e => set("content")(e.target.value)}
               placeholder="hero-banner" className={inputClass} />
@@ -302,13 +302,13 @@ function UtmBuilderInner() {
                     Save
                   </button>
                   <button onClick={() => setShowSaveInput(false)}
-                    className="px-3 py-2 bg-slate-800 text-slate-400 hover:text-white text-sm rounded-lg transition-colors">
+                    className="px-3 py-2 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm rounded-lg transition-colors">
                     Cancel
                   </button>
                 </div>
               ) : (
                 <button onClick={() => setShowSaveInput(true)}
-                  className="text-slate-500 hover:text-slate-300 text-xs transition-colors underline underline-offset-2">
+                  className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-xs transition-colors underline underline-offset-2">
                   + Save source/medium as template
                 </button>
               )}
@@ -323,9 +323,9 @@ function UtmBuilderInner() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                   generatedUrl
                     ? copied
-                      ? "bg-green-600/20 border border-green-500/40 text-green-400"
+                      ? "bg-green-600/20 border border-green-500/40 text-green-600 dark:text-green-400"
                       : "bg-blue-600 hover:bg-blue-500 text-white"
-                    : "bg-slate-800 border border-slate-700/50 text-slate-600 cursor-not-allowed"
+                    : "bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700/50 text-slate-400 dark:text-slate-600 cursor-not-allowed"
                 }`}>
                 {copied ? "Copied!" : "Copy URL"}
               </button>
@@ -341,7 +341,7 @@ function UtmBuilderInner() {
               <div className="flex flex-wrap gap-2">
                 {breakdown.map(pill => (
                   <span key={pill.key}
-                    className={`bg-slate-800 rounded-lg px-3 py-1.5 text-xs font-mono ${pill.value ? "text-slate-300" : "text-slate-600"}`}>
+                    className={`bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-1.5 text-xs font-mono ${pill.value ? "text-slate-700 dark:text-slate-300" : "text-slate-400 dark:text-slate-600"}`}>
                     {pill.value ? `${pill.key}=${encodeParam(pill.value)}` : pill.key}
                   </span>
                 ))}

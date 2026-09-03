@@ -144,9 +144,9 @@ export default function ImageToPdfPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
@@ -154,7 +154,7 @@ export default function ImageToPdfPage() {
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-1">Image to PDF</h1>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Image to PDF</h1>
           <p className="text-slate-500 text-sm">Combine JPG, PNG, WEBP, or GIF images into a single PDF. Drag to reorder pages.</p>
         </div>
 
@@ -166,8 +166,8 @@ export default function ImageToPdfPage() {
           onClick={() => inputRef.current?.click()}
           className={`flex flex-col items-center justify-center gap-3 py-10 rounded-2xl border border-dashed cursor-pointer transition-all mb-5 ${
             isDragging
-              ? "border-blue-500/70 bg-blue-500/8 text-blue-400"
-              : "border-slate-700/60 text-slate-500 hover:border-slate-600 hover:text-slate-300"
+              ? "border-blue-500/70 bg-blue-500/8 text-blue-600 dark:text-blue-400"
+              : "border-slate-300 dark:border-slate-700/60 text-slate-500 hover:border-slate-400 dark:hover:border-slate-600 hover:text-slate-800 dark:hover:text-slate-300"
           }`}
         >
           <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -192,30 +192,30 @@ export default function ImageToPdfPage() {
         {images.length > 0 && (
           <div className="space-y-2 mb-6">
             {images.map((img, idx) => (
-              <div key={img.id} className="flex items-center gap-3 bg-slate-900/60 border border-slate-800/60 rounded-xl px-3 py-3">
-                <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-400 text-xs flex items-center justify-center font-bold shrink-0">
+              <div key={img.id} className="flex items-center gap-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-3 py-3">
+                <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs flex items-center justify-center font-bold shrink-0">
                   {idx + 1}
                 </span>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.url} alt={img.file.name} className="w-10 h-10 object-cover rounded-lg border border-slate-700 shrink-0" />
+                <img src={img.url} alt={img.file.name} className="w-10 h-10 object-cover rounded-lg border border-slate-300 dark:border-slate-700 shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm truncate">{img.file.name}</p>
+                  <p className="text-slate-900 dark:text-white text-sm truncate">{img.file.name}</p>
                   <p className="text-slate-500 text-xs">{formatBytes(img.file.size)}</p>
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
                   <button onClick={() => moveUp(idx)} disabled={idx === 0}
-                    className="p-1 text-slate-600 hover:text-slate-300 disabled:opacity-30 transition-colors">
+                    className="p-1 text-slate-400 dark:text-slate-600 hover:text-slate-800 dark:hover:text-slate-300 disabled:opacity-30 transition-colors">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
                     </svg>
                   </button>
                   <button onClick={() => moveDown(idx)} disabled={idx === images.length - 1}
-                    className="p-1 text-slate-600 hover:text-slate-300 disabled:opacity-30 transition-colors">
+                    className="p-1 text-slate-400 dark:text-slate-600 hover:text-slate-800 dark:hover:text-slate-300 disabled:opacity-30 transition-colors">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
-                  <button onClick={() => remove(img.id)} className="p-1 text-slate-600 hover:text-red-400 transition-colors ml-1">
+                  <button onClick={() => remove(img.id)} className="p-1 text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors ml-1">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                       <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                     </svg>
@@ -227,13 +227,13 @@ export default function ImageToPdfPage() {
         )}
 
         {/* Options */}
-        <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-4 mb-5">
+        <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4 mb-5">
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-slate-400 text-sm w-24 shrink-0">Page size</span>
+            <span className="text-slate-500 dark:text-slate-400 text-sm w-24 shrink-0">Page size</span>
             <div className="flex gap-2">
               {(Object.entries(PAGE_SIZES) as [PageSizeKey, typeof PAGE_SIZES[PageSizeKey]][]).map(([key, { label }]) => (
                 <button key={key} onClick={() => setPageSize(key)}
-                  className={`px-3 py-1 rounded-lg text-xs transition-colors ${pageSize === key ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                  className={`px-3 py-1 rounded-lg text-xs transition-colors ${pageSize === key ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                   {label}
                 </button>
               ))}
@@ -242,11 +242,11 @@ export default function ImageToPdfPage() {
 
           {pageSize !== "fit" && (
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="text-slate-400 text-sm w-24 shrink-0">Orientation</span>
+              <span className="text-slate-500 dark:text-slate-400 text-sm w-24 shrink-0">Orientation</span>
               <div className="flex gap-2">
                 {([["auto", "Auto"], ["portrait", "Portrait"], ["landscape", "Landscape"]] as const).map(([key, label]) => (
                   <button key={key} onClick={() => setOrientation(key)}
-                    className={`px-3 py-1 rounded-lg text-xs transition-colors ${orientation === key ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`px-3 py-1 rounded-lg text-xs transition-colors ${orientation === key ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {label}
                   </button>
                 ))}
@@ -255,11 +255,11 @@ export default function ImageToPdfPage() {
           )}
 
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-slate-400 text-sm w-24 shrink-0">Margin</span>
+            <span className="text-slate-500 dark:text-slate-400 text-sm w-24 shrink-0">Margin</span>
             <div className="flex gap-2">
               {(Object.keys(MARGINS) as MarginKey[]).map((key) => (
                 <button key={key} onClick={() => setMargin(key)}
-                  className={`px-3 py-1 rounded-lg text-xs capitalize transition-colors ${margin === key ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                  className={`px-3 py-1 rounded-lg text-xs capitalize transition-colors ${margin === key ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                   {key}
                 </button>
               ))}

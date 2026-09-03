@@ -163,22 +163,22 @@ export default function ImageToBase64Page() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group">
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">Image to Base64 / Data URI</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Image to Base64 / Data URI</h1>
         <p className="text-slate-500 text-sm mb-8">Convert images to Base64 Data URIs, or decode a Data URI back to a downloadable image. Everything runs in your browser.</p>
 
-        <div className="flex gap-1 bg-slate-900/60 border border-slate-800/60 rounded-xl p-1 mb-6 w-fit">
+        <div className="flex gap-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-1 mb-6 w-fit">
           {([["encode", "Image → Base64"], ["decode", "Base64 → Image"]] as const).map(([m, label]) => (
             <button
               key={m}
               onClick={() => setMode(m)}
-              className={`px-5 py-1.5 rounded-lg text-sm font-medium transition-colors ${mode === m ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}
+              className={`px-5 py-1.5 rounded-lg text-sm font-medium transition-colors ${mode === m ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
             >
               {label}
             </button>
@@ -192,41 +192,41 @@ export default function ImageToBase64Page() {
               onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
               onDragLeave={() => setDragging(false)}
               onDrop={handleDrop}
-              className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${dragging ? "border-blue-500/60 bg-blue-500/5" : "border-slate-700/60 hover:border-slate-600"}`}
+              className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${dragging ? "border-blue-500/60 bg-blue-500/5" : "border-slate-300 dark:border-slate-700/60 hover:border-slate-400 dark:hover:border-slate-600"}`}
             >
               <Upload className="w-7 h-7 text-slate-500 mx-auto mb-3" />
-              <p className="text-slate-300 text-sm font-medium">Drop an image here or click to browse</p>
-              <p className="text-slate-600 text-xs mt-1">PNG, JPEG, GIF, WebP, SVG and more</p>
+              <p className="text-slate-700 dark:text-slate-300 text-sm font-medium">Drop an image here or click to browse</p>
+              <p className="text-slate-400 dark:text-slate-600 text-xs mt-1">PNG, JPEG, GIF, WebP, SVG and more</p>
               <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileInput} />
             </div>
 
             {dataUri && (
               <>
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
                   <div className="flex items-start gap-5">
-                    <img src={dataUri} alt={fileName} className="max-h-48 rounded-lg border border-slate-800/60" />
+                    <img src={dataUri} alt={fileName} className="max-h-48 rounded-lg border border-slate-200 dark:border-slate-800/60" />
                     <div className="flex-1 min-w-0 space-y-2 text-sm">
                       <div className="flex justify-between gap-4">
                         <span className="text-slate-500">Filename</span>
-                        <span className="text-slate-200 truncate">{fileName}</span>
+                        <span className="text-slate-800 dark:text-slate-200 truncate">{fileName}</span>
                       </div>
                       <div className="flex justify-between gap-4">
                         <span className="text-slate-500">MIME type</span>
-                        <span className="text-slate-200">{mimeType || "unknown"}</span>
+                        <span className="text-slate-800 dark:text-slate-200">{mimeType || "unknown"}</span>
                       </div>
                       <div className="flex justify-between gap-4">
                         <span className="text-slate-500">Original size</span>
-                        <span className="text-slate-200">{formatKB(originalSize)}</span>
+                        <span className="text-slate-800 dark:text-slate-200">{formatKB(originalSize)}</span>
                       </div>
                       <div className="flex justify-between gap-4">
                         <span className="text-slate-500">Base64 size</span>
-                        <span className="text-slate-200">{formatKB(base64Size)}</span>
+                        <span className="text-slate-800 dark:text-slate-200">{formatKB(base64Size)}</span>
                       </div>
                       <div className="flex justify-between gap-4">
                         <span className="text-slate-500">Size increase</span>
-                        <span className="text-amber-400">+{increasePct.toFixed(1)}%</span>
+                        <span className="text-amber-600 dark:text-amber-400">+{increasePct.toFixed(1)}%</span>
                       </div>
-                      <button onClick={reset} className="text-slate-600 hover:text-slate-400 text-xs transition-colors pt-1">
+                      <button onClick={reset} className="text-slate-400 dark:text-slate-600 hover:text-slate-700 dark:hover:text-slate-400 text-xs transition-colors pt-1">
                         Clear / upload another
                       </button>
                     </div>
@@ -235,21 +235,21 @@ export default function ImageToBase64Page() {
 
                 {large && (
                   <div className="flex gap-3 bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
-                    <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                    <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                     <p className="text-amber-200/90 text-sm">
                       This image is over 1 MB. Base64-embedding large images bloats your HTML/CSS, can&apos;t be cached separately, and is usually not recommended over linking a real image URL.
                     </p>
                   </div>
                 )}
 
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex gap-1 bg-slate-950/60 border border-slate-800/60 rounded-lg p-1">
+                    <div className="flex gap-1 bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/60 rounded-lg p-1">
                       {([["raw", "Raw Data URI"], ["css", "CSS"], ["html", "HTML"], ["markdown", "Markdown"]] as const).map(([v, label]) => (
                         <button
                           key={v}
                           onClick={() => setVariant(v)}
-                          className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${variant === v ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}
+                          className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${variant === v ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
                         >
                           {label}
                         </button>
@@ -266,7 +266,7 @@ export default function ImageToBase64Page() {
                   <textarea
                     readOnly
                     value={wrapped}
-                    className="w-full h-40 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors font-mono text-xs resize-none"
+                    className="w-full h-40 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors font-mono text-xs resize-none"
                   />
                 </div>
               </>
@@ -276,23 +276,23 @@ export default function ImageToBase64Page() {
 
         {mode === "decode" && (
           <div className="space-y-5">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
               <div>
-                <label className="block text-slate-400 text-xs mb-1.5">Data URI or raw Base64</label>
+                <label className="block text-slate-500 dark:text-slate-400 text-xs mb-1.5">Data URI or raw Base64</label>
                 <textarea
                   value={decodeInput}
                   onChange={(e) => handleDecodeInput(e.target.value)}
                   placeholder="data:image/png;base64,iVBORw0KGgo... or raw Base64"
-                  className="w-full h-40 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors font-mono text-xs resize-none"
+                  className="w-full h-40 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors font-mono text-xs resize-none"
                 />
               </div>
               {decodeInput.trim() && !decodeInput.trim().startsWith("data:") && (
                 <div className="flex items-center gap-3">
-                  <label className="text-slate-400 text-xs">MIME type</label>
+                  <label className="text-slate-500 dark:text-slate-400 text-xs">MIME type</label>
                   <select
                     value={decodeMime}
                     onChange={(e) => handleDecodeMime(e.target.value)}
-                    className="bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                    className="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                   >
                     <option value="image/png">image/png</option>
                     <option value="image/jpeg">image/jpeg</option>
@@ -306,14 +306,14 @@ export default function ImageToBase64Page() {
 
             {decodeError && (
               <div className="flex gap-3 bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
-                <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                 <p className="text-amber-200/90 text-sm">{decodeError}</p>
               </div>
             )}
 
             {decodedUri && !decodeError && (
-              <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
-                <div className="flex items-center justify-center bg-slate-950/60 border border-slate-800/60 rounded-lg p-4">
+              <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
+                <div className="flex items-center justify-center bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/60 rounded-lg p-4">
                   <img
                     src={decodedUri}
                     alt="Decoded"
@@ -322,9 +322,9 @@ export default function ImageToBase64Page() {
                   />
                 </div>
                 <div className="flex items-center justify-between gap-4">
-                  <div className="inline-flex items-center gap-1.5 text-slate-400 text-sm">
+                  <div className="inline-flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm">
                     <ImageIcon className="w-4 h-4 text-slate-500" />
-                    Decoded size: <span className="text-slate-200">{formatKB(decodedSize)}</span>
+                    Decoded size: <span className="text-slate-800 dark:text-slate-200">{formatKB(decodedSize)}</span>
                   </div>
                   <button
                     onClick={download}

@@ -216,26 +216,26 @@ export default function YoutubeThumbnailPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group">
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">YouTube Thumbnail Generator</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">YouTube Thumbnail Generator</h1>
         <p className="text-slate-500 text-sm mb-8">Design custom 1280×720 YouTube thumbnails in your browser.</p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="space-y-4">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
-              <p className="text-slate-300 text-sm font-medium">Background</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
+              <p className="text-slate-700 dark:text-slate-300 text-sm font-medium">Background</p>
 
               <div className="flex gap-2">
                 {(["solid", "gradient"] as const).map((m) => (
                   <button
                     key={m}
                     onClick={() => setBgMode(m)}
-                    className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition-colors capitalize ${bgMode === m ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700/60 text-slate-400 hover:text-white"}`}
+                    className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition-colors capitalize ${bgMode === m ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
                   >
                     {m}
                   </button>
@@ -244,27 +244,27 @@ export default function YoutubeThumbnailPage() {
 
               <div className="flex gap-3 items-center">
                 <div className="space-y-1 flex-1">
-                  <label className="text-slate-400 text-xs block">{bgMode === "gradient" ? "Color 1" : "Color"}</label>
+                  <label className="text-slate-500 dark:text-slate-400 text-xs block">{bgMode === "gradient" ? "Color 1" : "Color"}</label>
                   <div className="flex items-center gap-2">
                     <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="w-8 h-8 rounded cursor-pointer bg-transparent border-0 p-0" />
-                    <input value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="flex-1 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                    <input value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                   </div>
                 </div>
                 {bgMode === "gradient" && (
                   <div className="space-y-1 flex-1">
-                    <label className="text-slate-400 text-xs block">Color 2</label>
+                    <label className="text-slate-500 dark:text-slate-400 text-xs block">Color 2</label>
                     <div className="flex items-center gap-2">
                       <input type="color" value={bgColor2} onChange={(e) => setBgColor2(e.target.value)} className="w-8 h-8 rounded cursor-pointer bg-transparent border-0 p-0" />
-                      <input value={bgColor2} onChange={(e) => setBgColor2(e.target.value)} className="flex-1 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                      <input value={bgColor2} onChange={(e) => setBgColor2(e.target.value)} className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                     </div>
                   </div>
                 )}
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Background image (optional)</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Background image (optional)</label>
                 <div
-                  className="border border-dashed border-slate-700 rounded-lg p-3 flex items-center gap-3 cursor-pointer hover:border-blue-500/40 transition-colors"
+                  className="border border-dashed border-slate-300 dark:border-slate-700 rounded-lg p-3 flex items-center gap-3 cursor-pointer hover:border-blue-500/40 transition-colors"
                   onClick={() => fileRef.current?.click()}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f && f.type.startsWith("image/")) handleBgImage(f); }}
@@ -274,7 +274,7 @@ export default function YoutubeThumbnailPage() {
                   {bgImageUrl && (
                     <button
                       onClick={(e) => { e.stopPropagation(); setBgImageUrl(null); }}
-                      className="ml-auto text-red-400 hover:text-red-300 text-xs"
+                      className="ml-auto text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 text-xs"
                     >
                       Remove
                     </button>
@@ -285,56 +285,56 @@ export default function YoutubeThumbnailPage() {
 
               {bgImageUrl && (
                 <div className="space-y-1.5">
-                  <label className="text-slate-400 text-xs block">Overlay opacity: {overlayOpacity}%</label>
+                  <label className="text-slate-500 dark:text-slate-400 text-xs block">Overlay opacity: {overlayOpacity}%</label>
                   <input type="range" min={0} max={80} value={overlayOpacity} onChange={(e) => setOverlayOpacity(Number(e.target.value))} className="w-full accent-blue-500" />
                 </div>
               )}
             </div>
 
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
-              <p className="text-slate-300 text-sm font-medium">Text</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
+              <p className="text-slate-700 dark:text-slate-300 text-sm font-medium">Text</p>
 
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Title</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Title</label>
                 <input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Your title here"
-                  className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Subtitle</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Subtitle</label>
                 <input
                   value={subtitle}
                   onChange={(e) => setSubtitle(e.target.value)}
                   placeholder="Optional subtitle"
-                  className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Title font size: {titleSize}px</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Title font size: {titleSize}px</label>
                 <input type="range" min={24} max={120} value={titleSize} onChange={(e) => setTitleSize(Number(e.target.value))} className="w-full accent-blue-500" />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Title color</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Title color</label>
                 <div className="flex items-center gap-2">
                   <input type="color" value={titleColor} onChange={(e) => setTitleColor(e.target.value)} className="w-8 h-8 rounded cursor-pointer bg-transparent border-0 p-0" />
-                  <input value={titleColor} onChange={(e) => setTitleColor(e.target.value)} className="flex-1 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={titleColor} onChange={(e) => setTitleColor(e.target.value)} className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Text position</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Text position</label>
                 <div className="flex gap-2">
                   {TEXT_POSITIONS.map((p) => (
                     <button
                       key={p.id}
                       onClick={() => setTextPosition(p.id)}
-                      className={`flex-1 py-1.5 text-xs rounded-lg border transition-colors ${textPosition === p.id ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700/60 text-slate-400 hover:text-white"}`}
+                      className={`flex-1 py-1.5 text-xs rounded-lg border transition-colors ${textPosition === p.id ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
                     >
                       {p.label}
                     </button>
@@ -344,31 +344,31 @@ export default function YoutubeThumbnailPage() {
 
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={textShadow} onChange={(e) => setTextShadow(e.target.checked)} className="accent-blue-500" />
-                <span className="text-slate-400 text-xs">Text shadow</span>
+                <span className="text-slate-500 dark:text-slate-400 text-xs">Text shadow</span>
               </label>
             </div>
 
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-3">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-3">
               <div className="flex items-center justify-between">
-                <p className="text-slate-300 text-sm font-medium">Accent bar</p>
+                <p className="text-slate-700 dark:text-slate-300 text-sm font-medium">Accent bar</p>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={accentBar} onChange={(e) => setAccentBar(e.target.checked)} className="accent-blue-500" />
-                  <span className="text-slate-400 text-xs">Enable</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-xs">Enable</span>
                 </label>
               </div>
               {accentBar && (
                 <div className="flex items-center gap-2">
                   <input type="color" value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="w-8 h-8 rounded cursor-pointer bg-transparent border-0 p-0" />
-                  <input value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="flex-1 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
               )}
             </div>
           </div>
 
           <div className="space-y-4">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-              <p className="text-slate-400 text-xs mb-3">Preview (1280×720)</p>
-              <div style={{ aspectRatio: "16/9" }} className="relative w-full overflow-hidden rounded-lg bg-slate-800">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+              <p className="text-slate-500 dark:text-slate-400 text-xs mb-3">Preview (1280×720)</p>
+              <div style={{ aspectRatio: "16/9" }} className="relative w-full overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
                 <canvas
                   ref={canvasRef}
                   style={{ width: "100%", height: "100%", display: "block" }}

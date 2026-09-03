@@ -226,9 +226,9 @@ async function renderQR(p: {
 }
 
 /* ── Tiny UI helpers ───────────────────────────────────────────────────── */
-const ic = "w-full bg-slate-800 border border-slate-700/60 text-white text-sm rounded-lg px-3 py-2 placeholder-slate-600 focus:outline-none focus:border-blue-500/60";
+const ic = "w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 text-slate-900 dark:text-white text-sm rounded-lg px-3 py-2 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-blue-500/60";
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return <div className="space-y-1"><label className="text-slate-400 text-xs block">{label}</label>{children}</div>;
+  return <div className="space-y-1"><label className="text-slate-500 dark:text-slate-400 text-xs block">{label}</label>{children}</div>;
 }
 
 /* ── Frame style thumbnails ─────────────────────────────────────────────── */
@@ -238,7 +238,7 @@ const FRAME_OPTIONS: { id: FrameStyle; label: string }[] = [
 ];
 
 function FrameThumb({ style, active }: { style: FrameStyle; active: boolean }) {
-  const base = `w-14 h-14 border-2 rounded-lg transition-all ${active ? "border-blue-400 bg-blue-500/10" : "border-slate-700 hover:border-slate-500"}`;
+  const base = `w-14 h-14 border-2 rounded-lg transition-all ${active ? "border-blue-400 bg-blue-500/10" : "border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500"}`;
   if (style === "none") return (
     <div className={`${base} flex items-center justify-center`}>
       <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -251,13 +251,13 @@ function FrameThumb({ style, active }: { style: FrameStyle; active: boolean }) {
   const scanTop = style === "scan-top";
   return (
     <div className={`${base} flex flex-col overflow-hidden p-0.5`}>
-      {scanTop && <div className="bg-slate-500 text-[5px] font-bold text-center text-white" style={{ borderRadius: isRounded ? "3px 3px 0 0" : 0 }}>SCAN</div>}
-      <div className="flex-1 m-0.5 bg-slate-700/30 rounded-sm flex items-center justify-center">
+      {scanTop && <div className="bg-slate-500 text-[5px] font-bold text-center text-slate-900 dark:text-white" style={{ borderRadius: isRounded ? "3px 3px 0 0" : 0 }}>SCAN</div>}
+      <div className="flex-1 m-0.5 bg-slate-200 dark:bg-slate-700/30 rounded-sm flex items-center justify-center">
         <div className="grid grid-cols-3 gap-px">
           {Array.from({length:9}).map((_,i) => <div key={i} className="w-1.5 h-1.5 bg-slate-400 rounded-[1px]" />)}
         </div>
       </div>
-      {!scanTop && hasScan && <div className="bg-slate-500 text-[5px] font-bold text-center text-white" style={{ borderRadius: isRounded ? "0 0 3px 3px" : 0 }}>SCAN</div>}
+      {!scanTop && hasScan && <div className="bg-slate-500 text-[5px] font-bold text-center text-slate-900 dark:text-white" style={{ borderRadius: isRounded ? "0 0 3px 3px" : 0 }}>SCAN</div>}
     </div>
   );
 }
@@ -383,21 +383,21 @@ export default function QrPage() {
   const LOGO_EMOJIS: LogoEmoji[] = ["none","🔗","📍","✉️","📞","📶","👤","💬","⭐","❤️"];
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
         <div className="flex items-start justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">QR Code Generator</h1>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">QR Code Generator</h1>
             <p className="text-slate-500 text-sm">Generate QR codes for URLs, contacts, Wi-Fi, and more. Customize shape, frame, and logo.</p>
           </div>
-          <div className="flex gap-1 bg-slate-900/60 border border-slate-800/60 rounded-xl p-1 mt-1">
+          <div className="flex gap-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-1 mt-1">
             {(["Single", "Bulk"] as const).map(m => (
               <button key={m} onClick={() => setBulkMode(m === "Bulk")}
-                className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-colors ${(m === "Bulk") === bulkMode ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}>
+                className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-colors ${(m === "Bulk") === bulkMode ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                 {m}
               </button>
             ))}
@@ -407,17 +407,17 @@ export default function QrPage() {
         {/* Bulk mode */}
         {bulkMode && (
           <div className="space-y-5">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-              <label className="text-slate-400 text-xs mb-2 block">URLs | one per line (max 20). Uses your current design settings.</label>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+              <label className="text-slate-500 dark:text-slate-400 text-xs mb-2 block">URLs | one per line (max 20). Uses your current design settings.</label>
               <textarea
                 value={bulkUrls}
                 onChange={e => setBulkUrls(e.target.value)}
                 rows={8}
                 placeholder={"https://example.com\nhttps://example.com/page2\nhttps://example.com/page3"}
-                className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2.5 text-white text-sm font-mono focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600 resize-none"
+                className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2.5 text-slate-900 dark:text-white text-sm font-mono focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600 resize-none"
               />
               <div className="flex items-center justify-between mt-3">
-                <span className="text-slate-600 text-xs">{bulkUrls.split("\n").map(u => u.trim()).filter(Boolean).length} / 20 URLs</span>
+                <span className="text-slate-400 dark:text-slate-600 text-xs">{bulkUrls.split("\n").map(u => u.trim()).filter(Boolean).length} / 20 URLs</span>
                 <button onClick={generateBulk} disabled={bulkLoading || !bulkUrls.trim()}
                   className="px-5 py-2 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white text-sm font-semibold rounded-lg transition-colors">
                   {bulkLoading ? "Generating…" : "Generate all"}
@@ -428,7 +428,7 @@ export default function QrPage() {
             {bulkResults.length > 0 && (
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <p className="text-slate-400 text-sm font-medium">{bulkResults.length} QR codes generated</p>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{bulkResults.length} QR codes generated</p>
                   <button onClick={downloadBulkZip}
                     className="flex items-center gap-2 px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white text-sm font-semibold rounded-lg transition-colors">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
@@ -437,11 +437,11 @@ export default function QrPage() {
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                   {bulkResults.map(({ url, dataUrl: du }, i) => (
-                    <div key={i} className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-3 flex flex-col items-center gap-2">
+                    <div key={i} className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-3 flex flex-col items-center gap-2">
                       <img src={du} alt={`QR ${i + 1}`} className="w-full rounded-lg" />
                       <p className="text-slate-500 text-[10px] truncate w-full text-center">{url}</p>
                       <a href={du} download={`qr_${i + 1}.png`}
-                        className="text-xs text-blue-400 hover:text-blue-300 transition-colors">↓ PNG</a>
+                        className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">↓ PNG</a>
                     </div>
                   ))}
                 </div>
@@ -456,18 +456,18 @@ export default function QrPage() {
           <div className="space-y-5">
             {/* Step 1: Content */}
             <div>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">1 | Content type</p>
+              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">1 | Content type</p>
               <div className="flex flex-wrap gap-1.5">
                 {CONTENT_TYPES.map(t => (
                   <button key={t.id} onClick={() => setContentType(t.id)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${contentType === t.id ? "bg-blue-600 text-white" : "bg-slate-900/60 border border-slate-800/60 text-slate-400 hover:text-white"}`}>
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${contentType === t.id ? "bg-blue-600 text-white" : "bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {t.label}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-3">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-3">
               {contentType === "url" && (
                 <Field label="Website URL">
                   <input value={form.url.url} onChange={e => setField("url", { url: e.target.value })} placeholder="https://example.com" className={ic} />
@@ -495,11 +495,11 @@ export default function QrPage() {
                 <Field label="Password"><input value={form.wifi.password} onChange={e => setField("wifi", { password: e.target.value })} placeholder="••••••••" type="password" className={ic} /></Field>
                 <div className="flex items-center gap-4 flex-wrap">
                   <div>
-                    <p className="text-slate-400 text-xs mb-1">Security</p>
+                    <p className="text-slate-500 dark:text-slate-400 text-xs mb-1">Security</p>
                     <div className="flex gap-1">
                       {(["WPA","WEP","nopass"] as const).map(s => (
                         <button key={s} onClick={() => setField("wifi", { security: s })}
-                          className={`px-2.5 py-1 rounded-lg text-xs transition-colors ${form.wifi.security === s ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                          className={`px-2.5 py-1 rounded-lg text-xs transition-colors ${form.wifi.security === s ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                           {s === "nopass" ? "None" : s}
                         </button>
                       ))}
@@ -507,7 +507,7 @@ export default function QrPage() {
                   </div>
                   <label className="flex items-center gap-2 cursor-pointer mt-4">
                     <input type="checkbox" checked={form.wifi.hidden} onChange={e => setField("wifi", { hidden: e.target.checked })} className="accent-blue-500" />
-                    <span className="text-slate-400 text-xs">Hidden network</span>
+                    <span className="text-slate-500 dark:text-slate-400 text-xs">Hidden network</span>
                   </label>
                 </div>
               </>}
@@ -531,13 +531,13 @@ export default function QrPage() {
 
             {/* Step 2: Design */}
             <div>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">2 | Design</p>
-              <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl overflow-hidden">
+              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">2 | Design</p>
+              <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl overflow-hidden">
                 {/* Design tabs */}
-                <div className="flex border-b border-slate-800/60">
+                <div className="flex border-b border-slate-200 dark:border-slate-800/60">
                   {(["frame","shape","logo"] as DesignTab[]).map(tab => (
                     <button key={tab} onClick={() => setDesignTab(tab)}
-                      className={`flex-1 py-2.5 text-xs font-semibold capitalize transition-colors ${designTab === tab ? "bg-blue-600/20 text-blue-300 border-b-2 border-blue-500" : "text-slate-400 hover:text-white"}`}>
+                      className={`flex-1 py-2.5 text-xs font-semibold capitalize transition-colors ${designTab === tab ? "bg-blue-600/20 text-blue-700 dark:text-blue-300 border-b-2 border-blue-500" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                       {tab}
                     </button>
                   ))}
@@ -547,7 +547,7 @@ export default function QrPage() {
                   {/* Frame tab */}
                   {designTab === "frame" && <>
                     <div>
-                      <p className="text-slate-400 text-xs mb-2">Frame style</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-xs mb-2">Frame style</p>
                       <div className="flex flex-wrap gap-2">
                         {FRAME_OPTIONS.map(f => (
                           <button key={f.id} onClick={() => setFrameStyle(f.id)} title={f.label}>
@@ -558,12 +558,12 @@ export default function QrPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <Field label="Frame color">
-                        <div className="flex items-center gap-2 bg-slate-800 border border-slate-700/60 rounded-lg px-3 py-2">
+                        <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2">
                           <div className="relative w-6 h-6 rounded shrink-0">
                             <div className="w-full h-full rounded border border-white/10" style={{ background: frameColor }} />
                             <input type="color" value={frameColor} onChange={e => setFrameColor(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full rounded" />
                           </div>
-                          <span className="text-white text-xs font-mono">{frameColor}</span>
+                          <span className="text-slate-900 dark:text-white text-xs font-mono">{frameColor}</span>
                         </div>
                       </Field>
                       {hasScanText && (
@@ -578,30 +578,30 @@ export default function QrPage() {
                   {designTab === "shape" && <>
                     <div className="grid grid-cols-2 gap-3">
                       <Field label="Module color">
-                        <div className="flex items-center gap-2 bg-slate-800 border border-slate-700/60 rounded-lg px-3 py-2">
+                        <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2">
                           <div className="relative w-6 h-6 rounded shrink-0">
                             <div className="w-full h-full rounded border border-white/10" style={{ background: fgColor }} />
                             <input type="color" value={fgColor} onChange={e => setFgColor(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full rounded" />
                           </div>
-                          <span className="text-white text-xs font-mono">{fgColor}</span>
+                          <span className="text-slate-900 dark:text-white text-xs font-mono">{fgColor}</span>
                         </div>
                       </Field>
                       <Field label="Background color">
-                        <div className="flex items-center gap-2 bg-slate-800 border border-slate-700/60 rounded-lg px-3 py-2">
+                        <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2">
                           <div className="relative w-6 h-6 rounded shrink-0">
                             <div className="w-full h-full rounded border border-white/10" style={{ background: bgColor }} />
                             <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full rounded" />
                           </div>
-                          <span className="text-white text-xs font-mono">{bgColor}</span>
+                          <span className="text-slate-900 dark:text-white text-xs font-mono">{bgColor}</span>
                         </div>
                       </Field>
                     </div>
                     <div>
-                      <p className="text-slate-400 text-xs mb-2">Dot style</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-xs mb-2">Dot style</p>
                       <div className="grid grid-cols-4 gap-1.5">
                         {DOT_OPTIONS.map(d => (
                           <button key={d.id} onClick={() => setDotStyle(d.id)}
-                            className={`py-2 rounded-lg text-xs border transition-colors ${dotStyle === d.id ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"}`}>
+                            className={`py-2 rounded-lg text-xs border transition-colors ${dotStyle === d.id ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                             {d.label}
                           </button>
                         ))}
@@ -609,22 +609,22 @@ export default function QrPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <p className="text-slate-400 text-xs mb-2">Finder outer</p>
+                        <p className="text-slate-500 dark:text-slate-400 text-xs mb-2">Finder outer</p>
                         <div className="flex flex-col gap-1">
                           {EYE_OUTER_OPTS.map(e => (
                             <button key={e.id} onClick={() => setEyeOuter(e.id)}
-                              className={`py-1.5 rounded-lg text-xs border transition-colors ${eyeOuter === e.id ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"}`}>
+                              className={`py-1.5 rounded-lg text-xs border transition-colors ${eyeOuter === e.id ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                               {e.label}
                             </button>
                           ))}
                         </div>
                       </div>
                       <div>
-                        <p className="text-slate-400 text-xs mb-2">Finder center</p>
+                        <p className="text-slate-500 dark:text-slate-400 text-xs mb-2">Finder center</p>
                         <div className="flex flex-col gap-1">
                           {EYE_INNER_OPTS.map(e => (
                             <button key={e.id} onClick={() => setEyeInner(e.id)}
-                              className={`py-1.5 rounded-lg text-xs border transition-colors ${eyeInner === e.id ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"}`}>
+                              className={`py-1.5 rounded-lg text-xs border transition-colors ${eyeInner === e.id ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                               {e.label}
                             </button>
                           ))}
@@ -632,16 +632,16 @@ export default function QrPage() {
                       </div>
                     </div>
                     <div>
-                      <p className="text-slate-400 text-xs mb-2">Error correction (higher = logo-friendly)</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-xs mb-2">Error correction (higher = logo-friendly)</p>
                       <div className="grid grid-cols-4 gap-1.5">
                         {ERROR_LEVELS.map(lvl => (
                           <button key={lvl} onClick={() => setErrorLevel(lvl)}
-                            className={`py-1.5 rounded-lg text-xs font-bold border transition-colors ${errorLevel === lvl ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"}`}>
+                            className={`py-1.5 rounded-lg text-xs font-bold border transition-colors ${errorLevel === lvl ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                             {lvl}
                           </button>
                         ))}
                       </div>
-                      <p className="text-slate-600 text-xs mt-1">L=7% · M=15% · Q=25% · H=30% recovery</p>
+                      <p className="text-slate-400 dark:text-slate-600 text-xs mt-1">L=7% · M=15% · Q=25% · H=30% recovery</p>
                     </div>
                     <Field label={`Output size: ${outputSize}×${outputSize}px`}>
                       <input type="range" min={256} max={1024} step={64} value={outputSize} onChange={e => setOutputSize(Number(e.target.value))} className="w-full accent-blue-500" />
@@ -652,15 +652,15 @@ export default function QrPage() {
                   {designTab === "logo" && <>
                     <p className="text-slate-500 text-xs">Use H or Q error correction when adding a logo.</p>
                     <div>
-                      <p className="text-slate-400 text-xs mb-2">Upload logo</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-xs mb-2">Upload logo</p>
                       <div className="flex items-center gap-2">
                         <button onClick={() => logoFileRef.current?.click()}
-                          className="flex-1 py-2 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-lg transition-colors">
+                          className="flex-1 py-2 text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg transition-colors">
                           {logoDataUrl ? "Change image" : "Choose file…"}
                         </button>
                         {logoDataUrl && (
                           <button onClick={() => setLogoDataUrl(null)}
-                            className="px-3 py-2 text-xs bg-red-900/30 hover:bg-red-900/50 border border-red-800/50 text-red-400 rounded-lg transition-colors">
+                            className="px-3 py-2 text-xs bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/50 text-red-600 dark:text-red-400 rounded-lg transition-colors">
                             Remove
                           </button>
                         )}
@@ -668,11 +668,11 @@ export default function QrPage() {
                       </div>
                     </div>
                     <div>
-                      <p className="text-slate-400 text-xs mb-2">Or choose an icon</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-xs mb-2">Or choose an icon</p>
                       <div className="flex flex-wrap gap-2">
                         {LOGO_EMOJIS.map(e => (
                           <button key={e} onClick={() => { setLogoEmoji(e); if (e !== "none") setLogoDataUrl(null); }}
-                            className={`w-10 h-10 rounded-lg border text-lg transition-colors flex items-center justify-center ${(logoDataUrl ? e === "none" && false : logoEmoji === e) ? "border-blue-500 bg-blue-500/10" : "border-slate-700 bg-slate-800 hover:border-slate-500"}`}>
+                            className={`w-10 h-10 rounded-lg border text-lg transition-colors flex items-center justify-center ${(logoDataUrl ? e === "none" && false : logoEmoji === e) ? "border-blue-500 bg-blue-500/10" : "border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-500"}`}>
                             {e === "none" ? (
                               <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="9" /><line x1="4.22" y1="4.22" x2="19.78" y2="19.78" /></svg>
                             ) : e}
@@ -681,9 +681,9 @@ export default function QrPage() {
                       </div>
                     </div>
                     {logoDataUrl && (
-                      <div className="flex items-center gap-3 p-3 bg-slate-800/60 rounded-lg">
+                      <div className="flex items-center gap-3 p-3 bg-slate-100 dark:bg-slate-800/60 rounded-lg">
                         <img src={logoDataUrl} className="w-10 h-10 rounded object-contain bg-white" alt="logo" />
-                        <span className="text-slate-400 text-xs">Custom logo uploaded</span>
+                        <span className="text-slate-500 dark:text-slate-400 text-xs">Custom logo uploaded</span>
                       </div>
                     )}
                   </>}
@@ -695,13 +695,13 @@ export default function QrPage() {
           {/* Right: preview + download */}
           <div className="flex flex-col gap-4">
             <div className="sticky top-6 space-y-4">
-              <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 p-6 flex items-center justify-center min-h-[300px]">
+              <div className="rounded-2xl border border-slate-200 dark:border-slate-800/60 bg-slate-50 dark:bg-slate-900/40 p-6 flex items-center justify-center min-h-[300px]">
                 {error ? (
-                  <p className="text-red-400 text-sm text-center">{error}</p>
+                  <p className="text-red-600 dark:text-red-400 text-sm text-center">{error}</p>
                 ) : dataUrl ? (
                   <img src={dataUrl} alt="QR Code" className="max-w-full rounded-xl shadow-xl" />
                 ) : (
-                  <p className="text-slate-600 text-sm text-center">Fill in the content above to generate your QR code</p>
+                  <p className="text-slate-400 dark:text-slate-600 text-sm text-center">Fill in the content above to generate your QR code</p>
                 )}
               </div>
               {dataUrl && (
@@ -712,7 +712,7 @@ export default function QrPage() {
                     Download PNG
                   </button>
                   <button onClick={copyImage}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-sm font-semibold rounded-xl transition-colors">
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-xl transition-colors">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     {copied ? "Copied!" : "Copy image"}
                   </button>

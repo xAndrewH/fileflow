@@ -57,12 +57,12 @@ function InlineConversionPill() {
 
   const ex = EXAMPLES[idx];
   return (
-    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/60 text-xs font-semibold transition-opacity duration-200 ${visible ? "opacity-100" : "opacity-0"}`}>
-      <span className="text-slate-300">{ex.from}</span>
-      <svg className="w-3 h-3 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700/60 text-xs font-semibold transition-opacity duration-200 ${visible ? "opacity-100" : "opacity-0"}`}>
+      <span className="text-slate-700 dark:text-slate-300">{ex.from}</span>
+      <svg className="w-3 h-3 text-slate-400 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
       </svg>
-      <span className="text-blue-400">{ex.to}</span>
+      <span className="text-blue-600 dark:text-blue-400">{ex.to}</span>
     </span>
   );
 }
@@ -130,7 +130,7 @@ function UrlInput({ onFiles }: { onFiles: (files: File[]) => void }) {
           onChange={(e) => { setUrl(e.target.value); setError(""); }}
           onKeyDown={(e) => e.key === "Enter" && fetch_()}
           placeholder="https://example.com/file.mp4"
-          className="flex-1 bg-slate-900/60 border border-slate-700/60 text-white text-sm rounded-xl px-4 py-3 placeholder-slate-600 focus:outline-none focus:border-blue-500/60 transition-colors"
+          className="flex-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-300 dark:border-slate-700/60 text-slate-900 dark:text-white text-sm rounded-xl px-4 py-3 placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-blue-500/60 transition-colors"
         />
         <button
           onClick={fetch_}
@@ -145,7 +145,7 @@ function UrlInput({ onFiles }: { onFiles: (files: File[]) => void }) {
           ) : "Fetch"}
         </button>
       </div>
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {error && <p className="text-red-600 dark:text-red-400 text-xs">{error}</p>}
       <p className="text-slate-500 text-xs">Paste a direct URL to a file. Works with most public file links.</p>
     </div>
   );
@@ -481,7 +481,7 @@ export default function HomePage() {
   }, [files]);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -510,28 +510,28 @@ export default function HomePage() {
       <div className="fixed inset-x-0 top-0 h-[800px] pointer-events-none z-0">
         <div className="absolute inset-0 hero-glow" />
         <div className="absolute inset-0 dot-pattern opacity-30" />
-        <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-b from-transparent to-slate-950" />
+        <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-b from-transparent to-white dark:to-slate-950" />
       </div>
 
       <main className="relative z-10">
 
         {/* ── HERO ─────────────────────────────────────────────── */}
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-8 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-6 tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold mb-6 tracking-wide">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
             No account · No file size limits · Free to start
           </div>
 
-          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white leading-[1.02] mb-5">
+          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.02] mb-5">
             Convert files.<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-pink-400">
               Use tools.
             </span>
           </h1>
 
-          <p className="text-slate-400 text-xl leading-relaxed mb-5 max-w-2xl mx-auto">
-            Convert and compress <span className="text-white font-semibold">80+ file formats</span> and access{" "}
-            <span className="text-white font-semibold">85+ free browser tools</span>. No upload, no account, nothing stored.
+          <p className="text-slate-500 dark:text-slate-400 text-xl leading-relaxed mb-5 max-w-2xl mx-auto">
+            Convert and compress <span className="text-slate-900 dark:text-white font-semibold">80+ file formats</span> and access{" "}
+            <span className="text-slate-900 dark:text-white font-semibold">85+ free browser tools</span>. No upload, no account, nothing stored.
           </p>
 
           <div className="flex items-center justify-center gap-2 text-slate-500 text-sm mb-2">
@@ -542,13 +542,13 @@ export default function HomePage() {
 
         {/* ── MODE TABS ────────────────────────────────────────── */}
         <div className="max-w-5xl mx-auto px-4 pb-5">
-          <div className="flex gap-1 p-1 bg-slate-900/60 border border-slate-800/60 rounded-xl w-fit mx-auto">
+          <div className="flex gap-1 p-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl w-fit mx-auto">
             <button
               onClick={() => switchPageMode("convert")}
               className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
                 pageMode === "convert"
                   ? "bg-blue-600 text-white shadow-sm shadow-blue-500/30"
-                  : "text-slate-400 hover:text-slate-200"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
               }`}
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -561,7 +561,7 @@ export default function HomePage() {
               className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${
                 pageMode === "compress"
                   ? "bg-violet-600 text-white shadow-sm shadow-violet-500/30"
-                  : "text-slate-400 hover:text-slate-200"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
               }`}
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -593,8 +593,8 @@ export default function HomePage() {
                   }}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-150 border ${
                     isActive
-                      ? "bg-blue-600/20 border-blue-500/50 text-blue-300"
-                      : "bg-slate-800/70 border-slate-700/60 text-slate-400 hover:border-slate-600 hover:text-slate-200"
+                      ? "bg-blue-600/20 border-blue-500/50 text-blue-700 dark:text-blue-300"
+                      : "bg-slate-100 dark:bg-slate-800/70 border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:border-slate-400 dark:hover:border-slate-600 hover:text-slate-900 dark:hover:text-slate-200"
                   }`}
                 >
                   <span className="font-semibold">{from}</span>
@@ -616,7 +616,7 @@ export default function HomePage() {
               {activePair && (() => {
                 const pair = FORMAT_PAIRS.find(p => `${p.from}-${p.to}` === activePair);
                 return pair ? (
-                  <p className="text-blue-400 text-xs font-medium mb-3 flex items-center gap-1.5">
+                  <p className="text-blue-600 dark:text-blue-400 text-xs font-medium mb-3 flex items-center gap-1.5">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
@@ -628,7 +628,7 @@ export default function HomePage() {
                 {(["file", "url"] as const).map((tab) => (
                   <button key={tab} onClick={() => setInputTab(tab)}
                     className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                      inputTab === tab ? "bg-slate-800 text-white border border-slate-700" : "text-slate-500 hover:text-slate-300"
+                      inputTab === tab ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-300"
                     }`}>
                     {tab === "file" ? "Upload File" : "From URL"}
                   </button>
@@ -637,7 +637,7 @@ export default function HomePage() {
               {inputTab === "file" ? (
                 <FileDropzone onFiles={addFiles} variant="hero" />
               ) : (
-                <div className="rounded-2xl border border-slate-700/50 bg-slate-900/40 p-8">
+                <div className="rounded-2xl border border-slate-300 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-900/40 p-8">
                   <UrlInput onFiles={addFiles} />
                 </div>
               )}
@@ -647,7 +647,7 @@ export default function HomePage() {
               {/* Header row */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <h2 className="text-white font-semibold text-base">
+                  <h2 className="text-slate-900 dark:text-white font-semibold text-base">
                     Files <span className="text-slate-500 font-normal text-sm">({files.length})</span>
                   </h2>
                   <input
@@ -664,7 +664,7 @@ export default function HomePage() {
                   />
                   <button
                     onClick={() => addInputRef.current?.click()}
-                    className="flex items-center gap-1 px-2.5 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white text-xs font-medium rounded-lg transition-colors"
+                    className="flex items-center gap-1 px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-medium rounded-lg transition-colors"
                   >
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -676,7 +676,7 @@ export default function HomePage() {
                   {hasIdle && !isConverting && (
                     <button
                       onClick={convertAll}
-                      className={`flex items-center gap-1.5 px-4 py-1.5 text-white text-sm font-semibold rounded-lg transition-colors shadow-sm ${
+                      className={`flex items-center gap-1.5 px-4 py-1.5 text-slate-900 dark:text-white text-sm font-semibold rounded-lg transition-colors shadow-sm ${
                         pageMode === "compress"
                           ? "bg-violet-600 hover:bg-violet-500 shadow-violet-500/20"
                           : "bg-blue-600 hover:bg-blue-500 shadow-blue-500/20"
@@ -703,14 +703,14 @@ export default function HomePage() {
                     </button>
                   )}
                   {hasDone && (
-                    <button onClick={clearDone} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-sm rounded-lg transition-colors">Clear Done</button>
+                    <button onClick={clearDone} className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-lg transition-colors">Clear Done</button>
                   )}
                   <button
                     onClick={handleClearAll}
                     className={`px-3 py-1.5 text-sm rounded-lg transition-colors border ${
                       confirmClearAll
                         ? "bg-red-600 hover:bg-red-500 border-red-500 text-white font-semibold"
-                        : "bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-300"
+                        : "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300"
                     }`}
                   >
                     {confirmClearAll
@@ -729,7 +729,7 @@ export default function HomePage() {
                     </span>
                     <span className="text-xs font-mono text-slate-500">{Math.round((doneCount / totalCount) * 100)}%</span>
                   </div>
-                  <div className="h-1 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-blue-500 to-violet-500 rounded-full transition-all duration-500"
                       style={{ width: `${Math.round((doneCount / totalCount) * 100)}%` }}
@@ -740,11 +740,11 @@ export default function HomePage() {
 
               {/* Global quality bar | compress mode with 2+ idle files */}
               {pageMode === "compress" && idleCount >= 2 && !isConverting && (
-                <div className="mb-3 flex items-center gap-2.5 px-3 py-2.5 bg-slate-900/70 border border-violet-500/20 rounded-xl">
-                  <svg className="w-3.5 h-3.5 text-violet-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <div className="mb-3 flex items-center gap-2.5 px-3 py-2.5 bg-slate-50 dark:bg-slate-900/70 border border-violet-500/20 rounded-xl">
+                  <svg className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707" />
                   </svg>
-                  <span className="text-slate-400 text-xs shrink-0">All {idleCount} files</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-xs shrink-0">All {idleCount} files</span>
                   <input
                     type="range"
                     min={1}
@@ -753,8 +753,8 @@ export default function HomePage() {
                     onChange={e => batchSetQuality(Number(e.target.value))}
                     className="flex-1 accent-violet-500"
                   />
-                  <span className="text-white text-xs font-mono w-8 text-right shrink-0">{globalQuality}%</span>
-                  <span className="text-violet-400 text-xs shrink-0 w-24 text-right">
+                  <span className="text-slate-900 dark:text-white text-xs font-mono w-8 text-right shrink-0">{globalQuality}%</span>
+                  <span className="text-violet-600 dark:text-violet-400 text-xs shrink-0 w-24 text-right">
                     ≈{Math.round((1 - globalQuality / 100) * 100)}% smaller
                   </span>
                 </div>
@@ -773,17 +773,17 @@ export default function HomePage() {
                       gif: "GIFs", font: "fonts", archive: "archives",
                     };
                     return (
-                      <div key={category} className="flex items-center gap-2.5 px-3 py-2 bg-slate-900/70 border border-slate-800/60 rounded-xl">
+                      <div key={category} className="flex items-center gap-2.5 px-3 py-2 bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800/60 rounded-xl">
                         <svg className="w-3.5 h-3.5 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
                         </svg>
-                        <span className="text-slate-400 text-xs shrink-0">
+                        <span className="text-slate-500 dark:text-slate-400 text-xs shrink-0">
                           Set all {items.length} {CATEGORY_LABEL[category] ?? category + " files"} to
                         </span>
                         <select
                           value={currentFmt}
                           onChange={e => batchSetFormat(category, e.target.value)}
-                          className="bg-slate-800 border border-slate-700 text-white rounded-md px-2 py-0.5 text-xs uppercase font-mono focus:outline-none focus:border-blue-500/60 cursor-pointer"
+                          className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white rounded-md px-2 py-0.5 text-xs uppercase font-mono focus:outline-none focus:border-blue-500/60 cursor-pointer"
                         >
                           {formats.map(f => (
                             <option key={f} value={f}>{f.toUpperCase()}</option>
@@ -819,31 +819,31 @@ export default function HomePage() {
             {([
               {
                 num: "1",
-                icon: <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.338-2.32 5.75 5.75 0 011.503 11.096" /></svg>,
+                icon: <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.338-2.32 5.75 5.75 0 011.503 11.096" /></svg>,
                 title: "Drop your file",
                 desc: "Drag & drop or click to browse | any file type works",
               },
               {
                 num: "2",
-                icon: <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" /></svg>,
+                icon: <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" /></svg>,
                 title: "Convert or compress",
                 desc: "Pick from 80+ output formats | or switch to Compress to shrink file size while keeping the same format",
               },
               {
                 num: "3",
-                icon: <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>,
+                icon: <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>,
                 title: "Download instantly",
                 desc: "Converted in your browser | nothing stored, no waiting",
               },
             ] as { num: string; icon: React.ReactNode; title: string; desc: string }[]).map(({ num, icon, title, desc }) => (
-              <div key={num} className="flex items-start gap-3.5 p-4 rounded-xl bg-slate-900/50 border border-slate-800/60">
-                <div className="shrink-0 w-7 h-7 rounded-full bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-400 font-bold text-xs">
+              <div key={num} className="flex items-start gap-3.5 p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/60">
+                <div className="shrink-0 w-7 h-7 rounded-full bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-xs">
                   {num}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     {icon}
-                    <p className="text-white font-semibold text-sm">{title}</p>
+                    <p className="text-slate-900 dark:text-white font-semibold text-sm">{title}</p>
                   </div>
                   <p className="text-slate-500 text-xs leading-relaxed">{desc}</p>
                 </div>
@@ -853,21 +853,21 @@ export default function HomePage() {
         </div>
 
         {/* ── TOOLS SECTION ────────────────────────────────────── */}
-        <div className="border-t border-slate-800/60 bg-gradient-to-b from-slate-900/60 to-slate-950">
+        <div className="border-t border-slate-200 dark:border-slate-800/60 bg-gradient-to-b from-slate-50 dark:from-slate-900/60 to-white dark:to-slate-950">
           <div className="max-w-5xl mx-auto px-4 py-16">
 
             {/* Section header */}
             <div className="flex items-end justify-between mb-12">
               <div>
-                <p className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-2">Browser Tools</p>
-                <h2 className="text-4xl font-black text-white leading-tight">
+                <p className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">Browser Tools</p>
+                <h2 className="text-4xl font-black text-slate-900 dark:text-white leading-tight">
                   85+ tools.<br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-pink-400">Zero installs.</span>
                 </h2>
                 <p className="text-slate-500 text-sm mt-3 max-w-sm">Every tool runs entirely in your browser. No sign-up, no uploads, no waiting.</p>
               </div>
               <Link href="/tools"
-                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 text-slate-300 hover:text-white text-sm transition-colors shrink-0">
+                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-sm transition-colors shrink-0">
                 All tools
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </Link>
@@ -963,19 +963,19 @@ export default function HomePage() {
           <div>
             <FormatsSection />
           </div>
-          <div className="rounded-2xl border border-green-500/20 bg-slate-900/40 overflow-hidden flex flex-col">
+          <div className="rounded-2xl border border-green-500/20 bg-slate-50 dark:bg-slate-900/40 overflow-hidden flex flex-col">
               {/* Top accent bar */}
               <div className="h-1 w-full bg-gradient-to-r from-green-500 via-emerald-400 to-teal-500" />
               <div className="p-6 flex flex-col flex-1">
                 {/* Badge */}
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-green-500/30 bg-green-500/10 w-fit mb-5">
-                  <svg className="w-3 h-3 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-3 h-3 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-green-400 text-[10px] font-bold uppercase tracking-widest">Privacy First</span>
+                  <span className="text-green-600 dark:text-green-400 text-[10px] font-bold uppercase tracking-widest">Privacy First</span>
                 </div>
                 {/* Headline */}
-                <h2 className="text-2xl font-black text-white leading-tight mb-2">
+                <h2 className="text-2xl font-black text-slate-900 dark:text-white leading-tight mb-2">
                   Private by design.<br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400">Open by design.</span>
                 </h2>
@@ -991,7 +991,7 @@ export default function HomePage() {
                     <div key={label} className="flex items-center gap-3 p-3 rounded-xl bg-green-500/5 border border-green-500/10">
                       <span className="text-xl shrink-0">{icon}</span>
                       <div>
-                        <div className="text-white text-xs font-semibold leading-tight">{label}</div>
+                        <div className="text-slate-900 dark:text-white text-xs font-semibold leading-tight">{label}</div>
                         <div className="text-slate-500 text-xs leading-snug mt-0.5">{desc}</div>
                       </div>
                     </div>
@@ -1003,7 +1003,7 @@ export default function HomePage() {
 
         {/* ── SUPPORT / DONATE ───────────────────────────────────── */}
         <div className="max-w-5xl mx-auto px-4 pb-20">
-          <div className="relative rounded-2xl overflow-hidden border border-yellow-500/20 bg-gradient-to-br from-yellow-500/5 via-slate-900/60 to-slate-900/40">
+          <div className="relative rounded-2xl overflow-hidden border border-yellow-500/20 bg-gradient-to-br from-yellow-500/5 via-slate-50 dark:via-slate-900/60 to-slate-50 dark:to-slate-900/40">
             {/* Top accent */}
             <div className="h-1 w-full bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400" />
             <div className="px-8 py-10 flex flex-col sm:flex-row items-center gap-8">
@@ -1013,16 +1013,16 @@ export default function HomePage() {
               </div>
               {/* Center: text */}
               <div className="flex-1 text-center sm:text-left">
-                <p className="text-xs font-bold text-yellow-400 uppercase tracking-widest mb-2">Support FileSpark</p>
-                <h2 className="text-2xl font-black text-white mb-2">
+                <p className="text-xs font-bold text-yellow-600 dark:text-yellow-400 uppercase tracking-widest mb-2">Support FileSpark</p>
+                <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">
                   Like what you see?
                 </h2>
-                <p className="text-slate-400 text-sm leading-relaxed max-w-md">
+                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-md">
                   FileSpark is free to start with no account required. If it's saved you time, consider buying me a coffee | it helps keep the lights on and new tools coming.
                 </p>
                 <div className="flex flex-wrap gap-3 mt-5 justify-center sm:justify-start">
                   {["No account required", "No data harvesting", "New tools regularly"].map(t => (
-                    <span key={t} className="flex items-center gap-1.5 text-xs text-slate-400">
+                    <span key={t} className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
                       <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 shrink-0" />
                       {t}
                     </span>
@@ -1040,7 +1040,7 @@ export default function HomePage() {
                   <span className="text-xl">☕</span>
                   Buy me a coffee
                 </a>
-                <p className="text-slate-600 text-xs">Even $1 makes a difference</p>
+                <p className="text-slate-400 dark:text-slate-600 text-xs">Even $1 makes a difference</p>
               </div>
             </div>
           </div>
@@ -1060,21 +1060,21 @@ function ToolCategory({ label, icon: Icon, href, tools }: {
     <div className="mb-10">
       <div className="flex items-center gap-3 mb-4">
         <Link href={href} className="flex items-center gap-2 group">
-          <Icon className="w-4 h-4 text-slate-400" />
-          <span className="text-white text-sm font-semibold group-hover:text-blue-300 transition-colors">{label}</span>
+          <Icon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+          <span className="text-slate-900 dark:text-white text-sm font-semibold group-hover:text-blue-300 transition-colors">{label}</span>
         </Link>
-        <div className="h-px flex-1 bg-slate-800/60" />
-        <span className="text-slate-600 text-xs">{tools.length}</span>
+        <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800/60" />
+        <span className="text-slate-400 dark:text-slate-600 text-xs">{tools.length}</span>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
         {tools.map(({ href: toolHref, icon: ToolIcon, title, desc }) => (
           <Link key={toolHref} href={toolHref}
-            className="group flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/50 border border-slate-800/60 hover:border-slate-700 hover:bg-slate-900 transition-all duration-150">
-            <div className="shrink-0 w-8 h-8 rounded-lg bg-slate-800 border border-slate-700/60 flex items-center justify-center mt-0.5">
-              <ToolIcon className="w-4 h-4 text-slate-400" />
+            className="group flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/60 hover:border-slate-400 dark:hover:border-slate-700 hover:bg-slate-900 transition-all duration-150">
+            <div className="shrink-0 w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 flex items-center justify-center mt-0.5">
+              <ToolIcon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
             </div>
             <div className="min-w-0">
-              <p className="text-white text-xs font-medium group-hover:text-blue-300 transition-colors leading-snug">{title}</p>
+              <p className="text-slate-900 dark:text-white text-xs font-medium group-hover:text-blue-300 transition-colors leading-snug">{title}</p>
               <p className="text-slate-500 text-[11px] leading-relaxed mt-0.5 line-clamp-2">{desc}</p>
             </div>
           </Link>
