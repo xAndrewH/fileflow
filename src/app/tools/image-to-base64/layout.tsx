@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Image → Base64 | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Image → Base64"
+        description="Convert images to Base64 data URIs, or decode them back to files."
+        path="/tools/image-to-base64"
+      />
+      {children}
+    </>
+  );
 }

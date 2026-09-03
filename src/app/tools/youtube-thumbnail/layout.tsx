@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "YouTube Thumbnail Generator | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="YouTube Thumbnail Generator"
+        description="Design custom 1280×720 thumbnails with text, gradients, and images."
+        path="/tools/youtube-thumbnail"
+      />
+      {children}
+    </>
+  );
 }

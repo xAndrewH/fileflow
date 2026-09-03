@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Sitemap Generator | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Sitemap Generator"
+        description="Paste a list of URLs and generate a valid sitemap.xml with per-URL overrides."
+        path="/tools/sitemap-generator"
+      />
+      {children}
+    </>
+  );
 }

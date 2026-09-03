@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Box Shadow Builder | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Box Shadow Builder"
+        description="Build CSS box shadows with multiple layers and live preview."
+        path="/tools/box-shadow"
+      />
+      {children}
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Placeholder Image Generator | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Placeholder Image Generator"
+        description="Generate placeholder images at any size with custom colors and text."
+        path="/tools/placeholder-image"
+      />
+      {children}
+    </>
+  );
 }

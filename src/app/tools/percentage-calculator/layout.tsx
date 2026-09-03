@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Percentage Calculator | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Percentage Calculator"
+        description="Calculate percentages, increases, decreases, and differences."
+        path="/tools/percentage-calculator"
+      />
+      {children}
+    </>
+  );
 }

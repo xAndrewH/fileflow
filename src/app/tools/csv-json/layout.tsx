@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "CSV ↔ JSON | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="CSV ↔ JSON"
+        description="Convert between CSV and JSON with a live table preview."
+        path="/tools/csv-json"
+      />
+      {children}
+    </>
+  );
 }

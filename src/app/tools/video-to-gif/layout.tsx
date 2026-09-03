@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Video to GIF | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Video to GIF"
+        description="Turn a clip of any video into an optimized GIF, right in your browser."
+        path="/tools/video-to-gif"
+      />
+      {children}
+    </>
+  );
 }

@@ -51,6 +51,10 @@ const TOOL_INFO: Record<string, { title: string; description: string }> = {
   "/tools/images-to-gif":       { title: "Images to GIF",             description: "Combine a sequence of images into an animated GIF." },
   "/tools/video-to-gif":        { title: "Video to GIF",              description: "Turn a clip of any video into an optimized GIF." },
   "/tools/qr":                  { title: "QR Code Generator",         description: "Generate QR codes from any URL or text. Download as PNG." },
+  "/tools/font-converter":      { title: "Font Converter",            description: "Convert fonts between TTF, OTF, and WOFF in bulk." },
+  "/tools/xlsx-converter":      { title: "XLSX Converter",            description: "Convert spreadsheets between XLSX, CSV, and JSON in bulk." },
+  "/tools/docx-converter":      { title: "DOCX Converter",            description: "Convert Word documents to HTML or plain text in bulk." },
+  "/tools/epub-converter":      { title: "EPUB Converter",            description: "Convert EPUB ebooks to HTML or plain text in bulk." },
 };
 
 const RELATED: Record<string, string[]> = {
@@ -104,6 +108,10 @@ const RELATED: Record<string, string[]> = {
   "/tools/js-beautifier":       ["/tools/html-beautifier", "/tools/css-beautifier", "/tools/regex"],
   "/tools/css-beautifier":      ["/tools/html-beautifier", "/tools/gradient", "/tools/glassmorphism"],
   "/tools/python-beautifier":   ["/tools/js-beautifier", "/tools/regex", "/tools/hash"],
+  "/tools/font-converter":      ["/tools/favicon", "/tools/css-beautifier", "/tools/framework-reference"],
+  "/tools/xlsx-converter":      ["/tools/csv-json", "/tools/json", "/tools/mock-data"],
+  "/tools/docx-converter":      ["/tools/html-to-markdown", "/tools/html-beautifier", "/tools/word-counter"],
+  "/tools/epub-converter":      ["/tools/docx-converter", "/tools/html-to-markdown", "/tools/word-counter"],
 };
 
 export function RelatedTools({ current }: { current: string }) {

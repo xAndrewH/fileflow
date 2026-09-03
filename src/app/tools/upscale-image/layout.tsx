@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Upscale Image | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Upscale Image"
+        description="Upscale images up to 4× resolution using bilinear or nearest-neighbor."
+        path="/tools/upscale-image"
+      />
+      {children}
+    </>
+  );
 }

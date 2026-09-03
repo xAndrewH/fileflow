@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Border Radius Builder | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Border Radius Builder"
+        description="Shape rounded corners per-side visually and copy the CSS."
+        path="/tools/border-radius"
+      />
+      {children}
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 const title = "Responsive Design Viewer | FileSpark";
 const description = "Capture real screenshots of any page at multiple device sizes, side by side: phone, tablet, laptop, and desktop.";
@@ -21,5 +22,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Responsive Design Viewer"
+        description={description}
+        path="/tools/responsive-viewer"
+      />
+      {children}
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Email Subject Previewer | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Email Subject Previewer"
+        description="Preview how your subject line looks in Gmail and Apple Mail."
+        path="/tools/email-preview"
+      />
+      {children}
+    </>
+  );
 }

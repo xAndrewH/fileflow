@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Hash Generator | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Hash Generator"
+        description="Generate SHA-1, SHA-256, SHA-384, and SHA-512 hashes."
+        path="/tools/hash"
+      />
+      {children}
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "HTML → Markdown | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="HTML → Markdown"
+        description="Convert pasted HTML into clean Markdown."
+        path="/tools/html-to-markdown"
+      />
+      {children}
+    </>
+  );
 }

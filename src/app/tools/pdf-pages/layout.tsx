@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Reorder / Delete PDF Pages | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Reorder / Delete PDF Pages"
+        description="Drag to reorder or remove pages from a PDF before saving."
+        path="/tools/pdf-pages"
+      />
+      {children}
+    </>
+  );
 }

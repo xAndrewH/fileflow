@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Social Card Preview | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Social Card Preview"
+        description="Enter a URL and see how it renders on Facebook, X, and LinkedIn."
+        path="/tools/og-preview"
+      />
+      {children}
+    </>
+  );
 }

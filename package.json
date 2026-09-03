@@ -30,6 +30,7 @@
     "js-md5": "^0.8.3",
     "jszip": "^3.10.1",
     "lucide-react": "^1.16.0",
+    "mammoth": "^1.12.2",
     "marked": "^18.0.3",
     "next": "16.2.6",
     "pdf-lib": "^1.17.1",
@@ -42,7 +43,8 @@
     "tar": "^7.5.15",
     "ttf2woff": "^3.0.0",
     "unzipper": "^0.12.3",
-    "wawoff2": "^2.0.1"
+    "wawoff2": "^2.0.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

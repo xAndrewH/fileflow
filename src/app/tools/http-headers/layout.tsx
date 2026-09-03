@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "HTTP Header Analyzer | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="HTTP Header Analyzer"
+        description="Fetch a URL and inspect all response headers, categorized and scored."
+        path="/tools/http-headers"
+      />
+      {children}
+    </>
+  );
 }

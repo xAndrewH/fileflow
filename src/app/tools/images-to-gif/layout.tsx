@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "GIF Maker — Images to Animated GIF | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="GIF Maker — Images to Animated GIF"
+        description="Combine a sequence of images into an animated GIF. Control frame delay, size, and color quality, entirely in your browser."
+        path="/tools/images-to-gif"
+      />
+      {children}
+    </>
+  );
 }

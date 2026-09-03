@@ -1,4 +1,4 @@
-import { inflateSync } from "fflate";
+import { unzlibSync } from "fflate";
 
 const WOFF_MAGIC  = 0x774f4646;
 const WOFF2_MAGIC = 0x774f4632;
@@ -51,13 +51,29 @@ function stripWoff1(woff: Uint8Array): Uint8Array {
 
   for (const t of dir) {
     const comp = woff.subarray(t.compOffset, t.compOffset + t.compLength);
-    const data = t.compLength < t.origLength ? inflateSync(comp) : comp;
+    const data = t.compLength < t.origLength ? unzlibSync(comp) : comp;
     out.set(data, t.origOffset);
   }
   return out;
 }
 
 const MIME: Record<string,string> = { ttf:"font/ttf", otf:"font/otf", woff:"font/woff", woff2:"font/woff2" };
+
+// The browser `Buffer` polyfill Next.js auto-injects for client bundles doesn't implement
+// the lowercase readUint*/writeUint* methods that ttf2woff calls internally (only the
+// classic readUInt*/writeUInt* casing), so ttf2woff throws immediately in the browser.
+// Since every Buffer polyfill extends the native Uint8Array, patching Uint8Array.prototype
+// (rather than trying to reach whatever specific Buffer class ttf2woff's bundle resolves to)
+// reliably covers it regardless of which polyfill instance is in play.
+function patchUint8ArrayBigEndianAliases() {
+  const proto = Uint8Array.prototype as unknown as Record<string, unknown>;
+  if (proto.readUint16BE) return;
+  const view = (arr: Uint8Array) => new DataView(arr.buffer, arr.byteOffset, arr.byteLength);
+  proto.readUint16BE = function (this: Uint8Array, offset = 0) { return view(this).getUint16(offset, false); };
+  proto.readUint32BE = function (this: Uint8Array, offset = 0) { return view(this).getUint32(offset, false); };
+  proto.writeUint16BE = function (this: Uint8Array, value: number, offset = 0) { view(this).setUint16(offset, value, false); return offset + 2; };
+  proto.writeUint32BE = function (this: Uint8Array, value: number, offset = 0) { view(this).setUint32(offset, value, false); return offset + 4; };
+}
 
 export async function convertFontClient(file: File, targetFormat: string): Promise<Blob> {
   const fmt    = targetFormat.toLowerCase();
@@ -80,6 +96,7 @@ export async function convertFontClient(file: File, targetFormat: string): Promi
     result = new Uint8Array(await compress(sfnt));
   } else if (fmt === "woff") {
     const ttf2woff = (await import("ttf2woff")).default;
+    patchUint8ArrayBigEndianAliases();
     result = new Uint8Array(ttf2woff(sfnt));
   } else {
     result = sfnt;
