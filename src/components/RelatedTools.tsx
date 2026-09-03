@@ -118,15 +118,15 @@ export function RelatedTools({ current }: { current: string }) {
   const related = (RELATED[current] ?? []).filter(h => TOOL_INFO[h]).slice(0, 3);
   if (related.length === 0) return null;
   return (
-    <div className="border-t border-slate-800/60 mt-10 pt-8">
+    <div className="border-t border-slate-200 dark:border-slate-800/60 mt-10 pt-8">
       <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-4">Related tools</p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {related.map(href => {
           const tool = TOOL_INFO[href]!;
           return (
             <Link key={href} href={href}
-              className="group flex flex-col gap-1 p-4 rounded-xl bg-slate-900/40 border border-slate-800/60 hover:border-slate-700/80 hover:bg-slate-900/70 transition-all">
-              <p className="text-white text-sm font-medium group-hover:text-blue-300 transition-colors leading-snug">{tool.title}</p>
+              className="group flex flex-col gap-1 p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/60 hover:border-slate-400 dark:hover:border-slate-700/80 hover:bg-slate-50 dark:hover:bg-slate-900/70 transition-all">
+              <p className="text-slate-900 dark:text-white text-sm font-medium group-hover:text-blue-300 transition-colors leading-snug">{tool.title}</p>
               <p className="text-slate-500 text-xs leading-relaxed line-clamp-2">{tool.description}</p>
             </Link>
           );

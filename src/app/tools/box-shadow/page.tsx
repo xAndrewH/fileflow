@@ -65,34 +65,34 @@ export default function BoxShadowPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Box Shadow Builder</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Box Shadow Builder</h1>
         <p className="text-slate-500 text-sm mb-8">Build CSS box shadows visually with multiple layers.</p>
 
         <div className="space-y-5">
           {/* Preview */}
-          <div className="rounded-2xl border border-slate-800 h-52 flex items-center justify-center transition-all"
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 h-52 flex items-center justify-center transition-all"
             style={{ background: bgColor }}>
             <div className="w-36 h-36 rounded-2xl transition-all duration-200"
               style={{ background: boxColor, boxShadow: shadows.map(shadowToCss).join(", ") }} />
           </div>
 
           {/* CSS output */}
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl px-4 py-3 flex items-start gap-3">
-            <code className="flex-1 text-blue-300 text-xs font-mono break-all whitespace-pre">{css}</code>
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-3 flex items-start gap-3">
+            <code className="flex-1 text-blue-700 dark:text-blue-300 text-xs font-mono break-all whitespace-pre">{css}</code>
             <CopyButton text={css} label="Copy CSS" className="shrink-0" />
           </div>
 
           {/* Background / box colors */}
           <div className="flex gap-4">
             {[["Background", bgColor, setBgColor], ["Box color", boxColor, setBoxColor]].map(([label, val, set]) => (
-              <div key={label as string} className="flex items-center gap-2 bg-slate-900/60 border border-slate-800/60 rounded-xl px-4 py-2">
-                <span className="text-slate-400 text-sm">{label as string}</span>
+              <div key={label as string} className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-2">
+                <span className="text-slate-500 dark:text-slate-400 text-sm">{label as string}</span>
                 <div className="relative">
                   <div className="w-7 h-7 rounded-lg border border-white/10 cursor-pointer" style={{ background: val as string }} />
                   <input type="color" value={val as string} onChange={e => (set as (v: string) => void)(e.target.value)}
@@ -103,20 +103,20 @@ export default function BoxShadowPage() {
           </div>
 
           {/* Layers */}
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
             <div className="flex items-center justify-between">
-              <p className="text-white text-sm font-medium">Layers</p>
-              <button onClick={addLayer} className="px-3 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">+ Add layer</button>
+              <p className="text-slate-900 dark:text-white text-sm font-medium">Layers</p>
+              <button onClick={addLayer} className="px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors">+ Add layer</button>
             </div>
             <div className="flex gap-2 flex-wrap">
               {shadows.map((_, i) => (
                 <div key={i} className="flex items-center gap-1">
                   <button onClick={() => setActive(i)}
-                    className={`px-3 py-1 rounded-lg text-xs transition-colors ${active === i ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`px-3 py-1 rounded-lg text-xs transition-colors ${active === i ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     Layer {i + 1}
                   </button>
                   {shadows.length > 1 && (
-                    <button onClick={() => removeLayer(i)} className="text-slate-600 hover:text-red-400 transition-colors text-sm px-1">×</button>
+                    <button onClick={() => removeLayer(i)} className="text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors text-sm px-1">×</button>
                   )}
                 </div>
               ))}
@@ -124,12 +124,12 @@ export default function BoxShadowPage() {
           </div>
 
           {/* Controls */}
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-4">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4">
             {SLIDERS.map(({ key, label, min, max }) => (
               <div key={key}>
                 <div className="flex justify-between mb-1.5">
-                  <span className="text-slate-400 text-sm">{label}</span>
-                  <span className="text-blue-400 font-mono text-sm">{s[key] as number}{key === "opacity" ? "%" : "px"}</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-sm">{label}</span>
+                  <span className="text-blue-600 dark:text-blue-400 font-mono text-sm">{s[key] as number}{key === "opacity" ? "%" : "px"}</span>
                 </div>
                 <input type="range" min={min} max={max} value={s[key] as number}
                   onChange={e => update(key, +e.target.value)} className="w-full" />
@@ -137,7 +137,7 @@ export default function BoxShadowPage() {
             ))}
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <span className="text-slate-400 text-sm">Color</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm">Color</span>
                 <div className="relative">
                   <div className="w-8 h-8 rounded-lg border border-white/10" style={{ background: s.color }} />
                   <input type="color" value={s.color} onChange={e => update("color", e.target.value)}
@@ -146,21 +146,21 @@ export default function BoxShadowPage() {
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={s.inset} onChange={e => update("inset", e.target.checked)} className="accent-blue-500" />
-                <span className="text-slate-400 text-sm">Inset</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm">Inset</span>
               </label>
             </div>
           </div>
 
           {/* Presets */}
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
-            <p className="text-white text-sm font-medium mb-3">Presets</p>
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
+            <p className="text-slate-900 dark:text-white text-sm font-medium mb-3">Presets</p>
             <div className="grid grid-cols-3 gap-2">
               {PRESETS.map(p => (
                 <button key={p.label} onClick={() => { setShadows(p.shadows); setActive(0); }}
-                  className="flex flex-col items-center gap-2 p-3 bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 rounded-xl transition-colors">
+                  className="flex flex-col items-center gap-2 p-3 bg-slate-100 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700/50 rounded-xl transition-colors">
                   <div className="w-10 h-10 rounded-lg bg-white"
                     style={{ boxShadow: p.shadows.map(shadowToCss).join(", ") }} />
-                  <span className="text-slate-400 text-xs">{p.label}</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-xs">{p.label}</span>
                 </button>
               ))}
             </div>

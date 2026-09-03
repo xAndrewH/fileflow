@@ -360,25 +360,25 @@ export default function BackgroundRemoverPage() {
   const isProcessing = items.some((it) => it.status === "processing" || it.status === "queued");
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Background Remover</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Background Remover</h1>
         <p className="text-slate-500 text-sm mb-8">Remove image backgrounds and replace them | entirely in your browser, nothing uploaded.</p>
 
         <div className="space-y-4">
           {/* Settings */}
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
             <div className="flex flex-wrap gap-4">
               {/* Model */}
               <div className="flex items-center gap-2">
-                <span className="text-slate-400 text-xs">Model</span>
+                <span className="text-slate-500 dark:text-slate-400 text-xs">Model</span>
                 {([["isnet_quint8", "Fast"], ["isnet", "Quality"]] as [ModelSize, string][]).map(([m, label]) => (
                   <button key={m} onClick={() => setModel(m)}
-                    className={`px-2.5 py-1 rounded-lg text-xs capitalize transition-colors ${model === m ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`px-2.5 py-1 rounded-lg text-xs capitalize transition-colors ${model === m ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {label}
                   </button>
                 ))}
@@ -386,7 +386,7 @@ export default function BackgroundRemoverPage() {
             </div>
             {active && active.status === "done" && (
               <button onClick={() => reprocess(active.id)} disabled={isProcessing}
-                className="text-xs text-slate-500 hover:text-blue-400 transition-colors disabled:opacity-40">
+                className="text-xs text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors disabled:opacity-40">
                 ↺ Re-process with new settings
               </button>
             )}
@@ -394,22 +394,22 @@ export default function BackgroundRemoverPage() {
 
           {/* Drop zone */}
           <div
-            className="bg-slate-900/60 border-2 border-dashed border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
+            className="bg-slate-50 dark:bg-slate-900/60 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
             onClick={() => fileRef.current?.click()}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => { e.preventDefault(); handleFiles(e.dataTransfer.files); }}>
             {isProcessing ? (
               <div className="space-y-3">
                 <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-slate-400 text-sm">{progress || "Processing…"}</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">{progress || "Processing…"}</p>
                 <p className="text-slate-500 text-xs">First use downloads the model (~40 MB). Cached afterwards.</p>
               </div>
             ) : (
               <>
-                <svg className="w-8 h-8 text-slate-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
-                <p className="text-slate-400 text-sm">Drop one or more images or <span className="text-blue-400">browse</span></p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Drop one or more images or <span className="text-blue-600 dark:text-blue-400">browse</span></p>
                 <p className="text-slate-500 text-xs mt-1">Works best with clear subjects: people, products, objects</p>
               </>
             )}
@@ -424,17 +424,17 @@ export default function BackgroundRemoverPage() {
             <div className="flex gap-2 overflow-x-auto pb-1">
               {items.map((it) => (
                 <button key={it.id} onClick={() => selectActive(it.id)}
-                  className={`relative shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${it.id === activeId ? "border-blue-500" : "border-slate-800 hover:border-slate-600"}`}
+                  className={`relative shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${it.id === activeId ? "border-blue-500" : "border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600"}`}
                   style={{ background: "repeating-conic-gradient(#374151 0% 25%,#1e293b 0% 50%) 0 0/8px 8px" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={it.display ?? it.original} alt={it.fileName} className="w-full h-full object-cover" />
                   {(it.status === "queued" || it.status === "processing") && (
-                    <span className="absolute inset-0 flex items-center justify-center bg-slate-950/60">
+                    <span className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-950/60">
                       <span className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
                     </span>
                   )}
                   {it.status === "error" && (
-                    <span className="absolute inset-0 flex items-center justify-center bg-red-950/60 text-red-400 text-[10px]">Error</span>
+                    <span className="absolute inset-0 flex items-center justify-center bg-red-50 dark:bg-red-950/60 text-red-600 dark:text-red-400 text-[10px]">Error</span>
                   )}
                 </button>
               ))}
@@ -445,8 +445,8 @@ export default function BackgroundRemoverPage() {
 
           {/* Comparison slider */}
           {active && active.original && active.display && active.status === "done" && !editMode && (
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
-              <p className="text-slate-400 text-xs font-medium">Before / After | drag slider</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
+              <p className="text-slate-500 dark:text-slate-400 text-xs font-medium">Before / After | drag slider</p>
               <div className="relative overflow-hidden rounded-xl select-none"
                 style={{ background: "repeating-conic-gradient(#374151 0% 25%,#1e293b 0% 50%) 0 0/16px 16px" }}>
                 {/* After (result) | full width */}
@@ -461,7 +461,7 @@ export default function BackgroundRemoverPage() {
                 <div className="absolute inset-y-0 flex items-center justify-center" style={{ left: `${sliderPos}%`, transform: "translateX(-50%)" }}>
                   <div className="w-0.5 h-full bg-white/80" />
                   <div className="absolute w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center cursor-ew-resize">
-                    <svg className="w-4 h-4 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <svg className="w-4 h-4 text-slate-300 dark:text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l-3 3 3 3M16 9l3 3-3 3" />
                     </svg>
                   </div>
@@ -480,7 +480,7 @@ export default function BackgroundRemoverPage() {
                   }}
                 />
               </div>
-              <div className="flex gap-1 text-[10px] text-slate-600 justify-between px-1">
+              <div className="flex gap-1 text-[10px] text-slate-400 dark:text-slate-600 justify-between px-1">
                 <span>← Original</span>
                 <span>Result →</span>
               </div>
@@ -489,22 +489,22 @@ export default function BackgroundRemoverPage() {
 
           {/* Touch up: erase / restore */}
           {active && active.rawResult && !isProcessing && (
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-white text-sm font-medium">Touch up cutout</p>
+                  <p className="text-slate-900 dark:text-white text-sm font-medium">Touch up cutout</p>
                   <p className="text-slate-500 text-xs mt-0.5">Erase leftover background or restore parts the AI removed by mistake.</p>
                 </div>
                 {!editMode ? (
                   <button onClick={openEditor}
-                    className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white rounded-lg transition-colors">
+                    className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors">
                     <Eraser className="w-3.5 h-3.5" />
                     Erase / Restore
                   </button>
                 ) : (
                   <div className="shrink-0 flex gap-2">
                     <button onClick={cancelEdits}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-lg transition-colors">
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg transition-colors">
                       <X className="w-3.5 h-3.5" />
                       Cancel
                     </button>
@@ -520,30 +520,30 @@ export default function BackgroundRemoverPage() {
               {editMode && (
                 <>
                   <div className="flex flex-wrap items-center gap-3">
-                    <div className="flex gap-1 bg-slate-800/60 border border-slate-700/60 rounded-lg p-1">
+                    <div className="flex gap-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/60 rounded-lg p-1">
                       <button onClick={() => setEditTool("erase")}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs transition-colors ${editTool === "erase" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}>
+                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs transition-colors ${editTool === "erase" ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                         <Eraser className="w-3.5 h-3.5" />
                         Erase
                       </button>
                       <button onClick={() => setEditTool("restore")}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs transition-colors ${editTool === "restore" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}>
+                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs transition-colors ${editTool === "restore" ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                         <Brush className="w-3.5 h-3.5" />
                         Restore
                       </button>
                     </div>
                     <div className="flex items-center gap-2 flex-1 min-w-[140px]">
-                      <span className="text-slate-400 text-xs shrink-0">Brush size</span>
+                      <span className="text-slate-500 dark:text-slate-400 text-xs shrink-0">Brush size</span>
                       <input type="range" min={5} max={150} value={brushSize} onChange={(e) => setBrushSize(+e.target.value)} className="flex-1 accent-blue-500" />
                       <span className="text-slate-500 text-xs w-8 text-right font-mono">{brushSize}</span>
                     </div>
                     <button onClick={undo} disabled={!canUndo}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
                       <Undo2 className="w-3.5 h-3.5" />
                       Undo
                     </button>
                     <button onClick={resetEdits}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-lg transition-colors">
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg transition-colors">
                       <RotateCcw className="w-3.5 h-3.5" />
                       Reset
                     </button>
@@ -551,7 +551,7 @@ export default function BackgroundRemoverPage() {
                       onPointerDown={() => setShowOriginalEdit(true)}
                       onPointerUp={() => setShowOriginalEdit(false)}
                       onPointerLeave={() => setShowOriginalEdit(false)}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-lg transition-colors select-none">
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg transition-colors select-none">
                       <Eye className="w-3.5 h-3.5" />
                       Hold to compare
                     </button>
@@ -583,15 +583,15 @@ export default function BackgroundRemoverPage() {
 
           {/* Background options */}
           {active && active.rawResult && !editMode && (
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
-              <p className="text-white text-sm font-medium">Background</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-3">
+              <p className="text-slate-900 dark:text-white text-sm font-medium">Background</p>
               <p className="text-slate-500 text-xs -mt-2">Applies to every image in this batch.</p>
               <div className="flex flex-wrap gap-2">
                 {BG_OPTIONS.map(({ id, label, preview }) => (
                   <button key={id} onClick={() => setBg(id)}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs transition-colors ${bg === id ? "border-blue-500/60 bg-blue-500/10 text-blue-300" : "border-slate-700 bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs transition-colors ${bg === id ? "border-blue-500/60 bg-blue-500/10 text-blue-700 dark:text-blue-300" : "border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {id !== "custom" ? (
-                      <span className="w-4 h-4 rounded border border-slate-600 shrink-0" style={{ background: preview }} />
+                      <span className="w-4 h-4 rounded border border-slate-300 dark:border-slate-600 shrink-0" style={{ background: preview }} />
                     ) : (
                       <input type="color" value={customColor} onClick={(e) => e.stopPropagation()}
                         onChange={(e) => changeColor(e.target.value)}
@@ -614,7 +614,7 @@ export default function BackgroundRemoverPage() {
               )}
               {doneCount > 1 && (
                 <button onClick={downloadAll}
-                  className="flex-1 inline-flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700/60 text-slate-200 font-semibold rounded-xl transition-colors">
+                  className="flex-1 inline-flex items-center justify-center gap-2 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 text-slate-800 dark:text-slate-200 font-semibold rounded-xl transition-colors">
                   <Download className="w-4 h-4" />
                   Download all (ZIP)
                 </button>
@@ -624,7 +624,7 @@ export default function BackgroundRemoverPage() {
 
           {items.length > 0 && !isProcessing && (
             <button onClick={clearAll}
-              className="w-full py-2 text-slate-500 hover:text-slate-300 text-xs transition-colors">
+              className="w-full py-2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-xs transition-colors">
               Clear all
             </button>
           )}

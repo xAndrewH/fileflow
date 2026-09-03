@@ -99,36 +99,36 @@ export default function RobotsGeneratorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group">
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">Robots.txt Generator</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Robots.txt Generator</h1>
         <p className="text-slate-500 text-sm mb-8">Build a robots.txt file visually and download it for your site.</p>
 
         <div className="space-y-5">
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
             <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Sitemap URL</p>
             <input
               type="url"
               value={sitemapUrl}
               onChange={e => setSitemapUrl(e.target.value)}
               placeholder="https://example.com/sitemap.xml"
-              className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+              className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
             />
           </div>
 
           {groups.map((group, gi) => (
-            <div key={group.id} className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
+            <div key={group.id} className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">User-agent Block {gi + 1}</p>
                 {groups.length > 1 && (
                   <button
                     onClick={() => removeGroup(group.id)}
-                    className="text-slate-600 hover:text-red-400 transition-colors"
+                    className="text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -144,7 +144,7 @@ export default function RobotsGeneratorPage() {
                     value={group.userAgent}
                     onChange={e => updateGroup(group.id, { userAgent: e.target.value })}
                     placeholder="*"
-                    className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                   />
                   <datalist id={`ua-list-${group.id}`}>
                     {USER_AGENT_SUGGESTIONS.map(ua => (
@@ -160,7 +160,7 @@ export default function RobotsGeneratorPage() {
                     value={group.crawlDelay}
                     onChange={e => updateGroup(group.id, { crawlDelay: e.target.value })}
                     placeholder="10"
-                    className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                   />
                 </div>
               </div>
@@ -170,13 +170,13 @@ export default function RobotsGeneratorPage() {
                   <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Disallow</p>
                   <button
                     onClick={() => addPath(group.id, "disallows")}
-                    className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition-colors"
                   >
                     <Plus className="w-3.5 h-3.5" /> Add path
                   </button>
                 </div>
                 {group.disallows.length === 0 && (
-                  <p className="text-xs text-slate-600 italic">No disallow rules.</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-600 italic">No disallow rules.</p>
                 )}
                 <div className="space-y-2">
                   {group.disallows.map((path, i) => (
@@ -186,9 +186,9 @@ export default function RobotsGeneratorPage() {
                         value={path}
                         onChange={e => updatePath(group.id, "disallows", i, e.target.value)}
                         placeholder="/admin/"
-                        className="flex-1 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                        className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                       />
-                      <button onClick={() => removePath(group.id, "disallows", i)} className="text-slate-600 hover:text-red-400 transition-colors">
+                      <button onClick={() => removePath(group.id, "disallows", i)} className="text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -201,13 +201,13 @@ export default function RobotsGeneratorPage() {
                   <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Allow</p>
                   <button
                     onClick={() => addPath(group.id, "allows")}
-                    className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition-colors"
                   >
                     <Plus className="w-3.5 h-3.5" /> Add path
                   </button>
                 </div>
                 {group.allows.length === 0 && (
-                  <p className="text-xs text-slate-600 italic">No allow rules.</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-600 italic">No allow rules.</p>
                 )}
                 <div className="space-y-2">
                   {group.allows.map((path, i) => (
@@ -217,9 +217,9 @@ export default function RobotsGeneratorPage() {
                         value={path}
                         onChange={e => updatePath(group.id, "allows", i, e.target.value)}
                         placeholder="/"
-                        className="flex-1 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                        className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                       />
-                      <button onClick={() => removePath(group.id, "allows", i)} className="text-slate-600 hover:text-red-400 transition-colors">
+                      <button onClick={() => removePath(group.id, "allows", i)} className="text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -231,18 +231,18 @@ export default function RobotsGeneratorPage() {
 
           <button
             onClick={addGroup}
-            className="w-full px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-700/60 inline-flex items-center justify-center gap-2"
+            className="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-300 dark:border-slate-700/60 inline-flex items-center justify-center gap-2"
           >
             <Plus className="w-4 h-4" /> Add another user-agent block
           </button>
 
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Preview</p>
               <div className="flex items-center gap-2">
                 <button
                   onClick={copy}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg transition-colors border border-slate-700/60"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-lg transition-colors border border-slate-300 dark:border-slate-700/60"
                 >
                   {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                   {copied ? "Copied!" : "Copy"}
@@ -259,7 +259,7 @@ export default function RobotsGeneratorPage() {
               readOnly
               value={output}
               rows={12}
-              className="w-full bg-slate-900 border border-slate-700/60 rounded-xl p-4 font-mono text-xs text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors resize-none"
+              className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-xl p-4 font-mono text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors resize-none"
             />
           </div>
         </div>

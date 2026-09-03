@@ -153,21 +153,21 @@ export default function VideoToGifPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
         <Link
           href="/tools"
-          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group"
+          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group"
         >
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
 
         <div className="flex items-center gap-3 mb-2">
-          <Film className="w-6 h-6 text-blue-400" />
-          <h1 className="text-2xl font-semibold text-slate-100">Video to GIF</h1>
+          <Film className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+          <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Video to GIF</h1>
         </div>
-        <p className="text-slate-400 text-sm mb-8">
+        <p className="text-slate-500 dark:text-slate-400 text-sm mb-8">
           Trim a clip from any video and convert it to an animated GIF, right in
           your browser.
         </p>
@@ -184,11 +184,11 @@ export default function VideoToGifPage() {
             className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${
               dragging
                 ? "border-blue-500/60 bg-blue-500/5"
-                : "border-slate-700/60 hover:border-slate-600"
+                : "border-slate-300 dark:border-slate-700/60 hover:border-slate-400 dark:hover:border-slate-600"
             }`}
           >
             <Upload className="w-8 h-8 text-slate-500 mx-auto mb-3" />
-            <p className="text-slate-300 text-sm font-medium">
+            <p className="text-slate-700 dark:text-slate-300 text-sm font-medium">
               Drop a video here, or click to browse
             </p>
             <p className="text-slate-500 text-xs mt-1">
@@ -216,12 +216,12 @@ export default function VideoToGifPage() {
 
         {file && (
           <div className="space-y-5 mt-2">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
               <div className="flex items-center justify-between mb-3">
-                <p className="text-sm text-slate-300 truncate">{file.name}</p>
+                <p className="text-sm text-slate-700 dark:text-slate-300 truncate">{file.name}</p>
                 <button
                   onClick={reset}
-                  className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-xs transition-colors shrink-0"
+                  className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-xs transition-colors shrink-0"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   Start over
@@ -245,11 +245,11 @@ export default function VideoToGifPage() {
               </p>
             </div>
 
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-5">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-5">
               <div>
-                <label className="block text-sm text-slate-300 mb-2">
+                <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                   Start time:{" "}
-                  <span className="text-slate-400">{start.toFixed(1)}s</span>
+                  <span className="text-slate-500 dark:text-slate-400">{start.toFixed(1)}s</span>
                 </label>
                 <input
                   type="range"
@@ -263,8 +263,8 @@ export default function VideoToGifPage() {
               </div>
 
               <div>
-                <label className="block text-sm text-slate-300 mb-2">
-                  Clip length: <span className="text-slate-400">{clipLen}s</span>
+                <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                  Clip length: <span className="text-slate-500 dark:text-slate-400">{clipLen}s</span>
                 </label>
                 <input
                   type="range"
@@ -284,13 +284,13 @@ export default function VideoToGifPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm text-slate-300 mb-2">
+                  <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                     Frame rate (FPS)
                   </label>
                   <select
                     value={fps}
                     onChange={(e) => setFps(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                   >
                     {FPS_OPTIONS.map((f) => (
                       <option key={f} value={f}>
@@ -301,13 +301,13 @@ export default function VideoToGifPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm text-slate-300 mb-2">
+                  <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                     Width
                   </label>
                   <select
                     value={width}
                     onChange={(e) => setWidth(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                   >
                     {WIDTH_OPTIONS.map((w) => (
                       <option key={w} value={w}>
@@ -319,9 +319,9 @@ export default function VideoToGifPage() {
               </div>
 
               <div>
-                <label className="block text-sm text-slate-300 mb-2">
+                <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                   Quality (colors):{" "}
-                  <span className="text-slate-400">{colors}</span>
+                  <span className="text-slate-500 dark:text-slate-400">{colors}</span>
                 </label>
                 <input
                   type="range"
@@ -354,7 +354,7 @@ export default function VideoToGifPage() {
 
               {processing && (
                 <div>
-                  <div className="flex items-center justify-between text-xs text-slate-400 mb-1.5">
+                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <Loader2 className="w-3 h-3 animate-spin" />
                       {status === "loading"
@@ -363,7 +363,7 @@ export default function VideoToGifPage() {
                     </span>
                     {status === "converting" && <span>{progress}%</span>}
                   </div>
-                  <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-blue-500 transition-all"
                       style={{
@@ -376,8 +376,8 @@ export default function VideoToGifPage() {
             </div>
 
             {resultUrl && (
-              <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-                <p className="text-sm text-slate-300 mb-3">Your GIF is ready</p>
+              <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+                <p className="text-sm text-slate-700 dark:text-slate-300 mb-3">Your GIF is ready</p>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={resultUrl}
@@ -391,7 +391,7 @@ export default function VideoToGifPage() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={reset}
-                      className="inline-flex items-center gap-1.5 text-slate-400 hover:text-slate-200 text-sm px-3 py-2 transition-colors"
+                      className="inline-flex items-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm px-3 py-2 transition-colors"
                     >
                       <RotateCcw className="w-3.5 h-3.5" />
                       Start over
@@ -411,7 +411,7 @@ export default function VideoToGifPage() {
           </div>
         )}
 
-        <p className="text-slate-600 text-xs mt-8">
+        <p className="text-slate-400 dark:text-slate-600 text-xs mt-8">
           All processing happens in your browser | your video is never uploaded.
         </p>
       </div>

@@ -18,9 +18,9 @@ function scoreLabel(score: number): string {
 }
 
 function scoreLabelCls(score: number): string {
-  if (score >= 90) return "text-green-400";
-  if (score >= 50) return "text-orange-400";
-  return "text-red-400";
+  if (score >= 90) return "text-green-600 dark:text-green-400";
+  if (score >= 50) return "text-orange-600 dark:text-orange-400";
+  return "text-red-600 dark:text-red-400";
 }
 
 function ttfbLabel(ms: number): string {
@@ -31,9 +31,9 @@ function ttfbLabel(ms: number): string {
 }
 
 function ttfbCls(ms: number): string {
-  if (ms <= 200) return "text-green-400";
-  if (ms <= 600) return "text-orange-400";
-  return "text-red-400";
+  if (ms <= 200) return "text-green-600 dark:text-green-400";
+  if (ms <= 600) return "text-orange-600 dark:text-orange-400";
+  return "text-red-600 dark:text-red-400";
 }
 
 function fmtBytes(b: number): string {
@@ -43,8 +43,8 @@ function fmtBytes(b: number): string {
 }
 
 function impactCls(impact: AnalysisIssue["impact"]): string {
-  if (impact === "high") return "text-red-400";
-  if (impact === "medium") return "text-orange-400";
+  if (impact === "high") return "text-red-600 dark:text-red-400";
+  if (impact === "medium") return "text-orange-600 dark:text-orange-400";
   return "text-slate-500";
 }
 
@@ -73,11 +73,11 @@ function ScoreRing({ score, label, accent }: { score: number; label: string; acc
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-black text-white leading-none">{score}</span>
+          <span className="text-2xl font-black text-slate-900 dark:text-white leading-none">{score}</span>
         </div>
       </div>
       <div className="text-center">
-        <p className="text-slate-300 text-xs font-semibold">{label}</p>
+        <p className="text-slate-700 dark:text-slate-300 text-xs font-semibold">{label}</p>
         <p className={`text-xs mt-0.5 ${scoreLabelCls(score)}`}>{scoreLabel(score)}</p>
       </div>
     </div>
@@ -87,15 +87,15 @@ function ScoreRing({ score, label, accent }: { score: number; label: string; acc
 /* ── Check row ───────────────────────────────────────────────────── */
 function CheckRow({ label, pass, detail, snippet }: { label: string; pass: boolean; detail?: string; snippet?: string }) {
   return (
-    <div className="flex items-start gap-3 py-2.5 border-b border-slate-800/40 last:border-0">
+    <div className="flex items-start gap-3 py-2.5 border-b border-slate-200 dark:border-slate-800/40 last:border-0">
       <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${pass ? "bg-green-500/20" : "bg-red-500/20"}`}>
         {pass
-          ? <svg className="w-3 h-3 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-          : <svg className="w-3 h-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+          ? <svg className="w-3 h-3 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+          : <svg className="w-3 h-3 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
         }
       </div>
       <div className="flex-1 min-w-0">
-        <span className="text-sm text-slate-300">{label}</span>
+        <span className="text-sm text-slate-700 dark:text-slate-300">{label}</span>
         {snippet && (
           <p className={`text-xs mt-0.5 font-mono truncate ${pass ? "text-slate-500" : "text-red-400/70"}`}>
             {snippet}
@@ -110,12 +110,12 @@ function CheckRow({ label, pass, detail, snippet }: { label: string; pass: boole
 /* ── Issue row ───────────────────────────────────────────────────── */
 function IssueRow({ issue, expanded, onToggle }: { issue: AnalysisIssue; expanded: boolean; onToggle: () => void }) {
   return (
-    <div className="border border-slate-800/60 rounded-xl overflow-hidden">
-      <button onClick={onToggle} className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-slate-800/30 transition-colors">
+    <div className="border border-slate-200 dark:border-slate-800/60 rounded-xl overflow-hidden">
+      <button onClick={onToggle} className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-slate-100 dark:hover:bg-slate-800/30 transition-colors">
         <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: impactDot(issue.impact) }} />
-        <span className="flex-1 text-slate-200 text-sm">{issue.title}</span>
+        <span className="flex-1 text-slate-800 dark:text-slate-200 text-sm">{issue.title}</span>
         <span className={`text-xs font-medium shrink-0 capitalize ${impactCls(issue.impact)}`}>{issue.impact}</span>
-        <svg className={`w-3.5 h-3.5 text-slate-600 shrink-0 transition-transform ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg className={`w-3.5 h-3.5 text-slate-400 dark:text-slate-600 shrink-0 transition-transform ${expanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
@@ -123,11 +123,11 @@ function IssueRow({ issue, expanded, onToggle }: { issue: AnalysisIssue; expande
         <div className="px-4 pb-3 space-y-2">
           <p className="text-slate-500 text-xs leading-relaxed">{issue.description}</p>
           {issue.details && issue.details.length > 0 && (
-            <div className="max-h-64 overflow-y-auto scrollbar-thin rounded-lg bg-slate-950/60 border border-slate-800/40 px-3 py-2">
+            <div className="max-h-64 overflow-y-auto scrollbar-thin rounded-lg bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/40 px-3 py-2">
               <ul className="space-y-1">
                 {issue.details.map((d, i) => (
                   <li key={i} className="text-slate-500 text-xs font-mono break-all">
-                    <span className="text-slate-700 mr-1.5">{i + 1}.</span>{d}
+                    <span className="text-slate-300 dark:text-slate-700 mr-1.5">{i + 1}.</span>{d}
                   </li>
                 ))}
               </ul>
@@ -152,11 +152,11 @@ function CategorySection({
 }) {
   const hasIssues = result.issues.length > 0;
   return (
-    <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl overflow-hidden">
-      <div className="px-5 py-4 border-b border-slate-800/60 flex items-center justify-between">
+    <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl overflow-hidden">
+      <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800/60 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: accent }} />
-          <h3 className="text-white font-semibold text-sm">{title}</h3>
+          <h3 className="text-slate-900 dark:text-white font-semibold text-sm">{title}</h3>
         </div>
         <div className="flex items-center gap-3">
           <span className="text-slate-500 text-xs">{result.passed}/{result.total} passed</span>
@@ -165,14 +165,14 @@ function CategorySection({
       </div>
 
       {/* Checks */}
-      <div className="px-5 divide-y divide-slate-800/40">
+      <div className="px-5 divide-y divide-slate-200 dark:divide-slate-800/40">
         {checks.map(c => <CheckRow key={c.label} {...c} />)}
       </div>
 
       {/* Issues */}
       {hasIssues && (
         <div className="px-5 pb-4 pt-3 space-y-2">
-          <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-3">Issues</p>
+          <p className="text-xs font-semibold text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-3">Issues</p>
           {result.issues
             .sort((a, b) => ({ high: 0, medium: 1, low: 2 }[a.impact]) - ({ high: 0, medium: 1, low: 2 }[b.impact]))
             .map(issue => (
@@ -241,25 +241,25 @@ export default function PageSpeedPage() {
   const c = r?.categories;
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">Page Speed</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Page Speed</h1>
         <p className="text-slate-500 text-sm mb-8">Analyzes performance, accessibility, best practices, and SEO | similar to Lighthouse, no API key needed.</p>
 
         {/* Input */}
-        <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5">
+        <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5">
           <div className="flex gap-3">
             <input
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === "Enter" && analyze()}
               placeholder="https://example.com"
-              className="flex-1 bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 focus:ring-1 focus:ring-blue-500/30 transition-colors"
+              className="flex-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 focus:ring-1 focus:ring-blue-500/30 transition-colors"
             />
             <button
               onClick={analyze}
@@ -281,8 +281,8 @@ export default function PageSpeedPage() {
               </svg>
             </div>
             <div className="text-center">
-              <p className="text-slate-300 text-sm font-medium">Analyzing page…</p>
-              <p className="text-slate-600 text-xs mt-1">Fetching and auditing resources</p>
+              <p className="text-slate-700 dark:text-slate-300 text-sm font-medium">Analyzing page…</p>
+              <p className="text-slate-400 dark:text-slate-600 text-xs mt-1">Fetching and auditing resources</p>
             </div>
           </div>
         )}
@@ -290,10 +290,10 @@ export default function PageSpeedPage() {
         {/* Error */}
         {error && !loading && (
           <div className="mt-5 bg-red-500/10 border border-red-500/30 rounded-2xl p-5 flex items-start gap-3">
-            <svg className="w-5 h-5 text-red-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
             </svg>
-            <p className="text-red-400 text-sm">{error}</p>
+            <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
           </div>
         )}
 
@@ -302,18 +302,18 @@ export default function PageSpeedPage() {
           <div className="mt-6 space-y-5">
 
             {/* 4 score rings */}
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-6">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-6">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-5">
                 <ScoreRing score={c.performance.score}   label="Performance"    accent="#3b82f6" />
                 <ScoreRing score={c.accessibility.score} label="Accessibility"  accent="#10b981" />
                 <ScoreRing score={c.bestPractices.score} label="Best Practices" accent="#f59e0b" />
                 <ScoreRing score={c.seo.score}           label="SEO"            accent="#a855f7" />
               </div>
-              <div className="border-t border-slate-800/60 pt-4 space-y-2">
-                <p className="text-slate-400 text-xs">
-                  <span className="text-slate-300 font-medium">Analyzed:</span> {r.finalUrl}
+              <div className="border-t border-slate-200 dark:border-slate-800/60 pt-4 space-y-2">
+                <p className="text-slate-500 dark:text-slate-400 text-xs">
+                  <span className="text-slate-700 dark:text-slate-300 font-medium">Analyzed:</span> {r.finalUrl}
                 </p>
-                {r.hasTitle && <p className="text-slate-600 text-xs truncate">"{r.title}"</p>}
+                {r.hasTitle && <p className="text-slate-400 dark:text-slate-600 text-xs truncate">"{r.title}"</p>}
                 <ScoreLegend />
               </div>
             </div>
@@ -322,16 +322,16 @@ export default function PageSpeedPage() {
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
               {[
                 { label: "TTFB", value: r.ttfb >= 1000 ? `${(r.ttfb / 1000).toFixed(1)}s` : `${r.ttfb}ms`, cls: ttfbCls(r.ttfb), sub: ttfbLabel(r.ttfb) },
-                { label: "HTML", value: fmtBytes(r.htmlSize), cls: "text-white", sub: r.compressed ? "Compressed" : "No gzip" },
-                { label: "Scripts", value: String(r.scripts.length), cls: "text-white", sub: `${r.renderBlockingScripts.length} blocking` },
-                { label: "CSS files", value: String(r.stylesheets.length), cls: "text-white", sub: `${r.inlineStyles} inline` },
-                { label: "Images", value: String(r.images.length), cls: "text-white", sub: `${r.lazyImageCount} lazy` },
-                { label: "3rd parties", value: String(r.thirdPartyDomains.length), cls: "text-white", sub: "domains" },
+                { label: "HTML", value: fmtBytes(r.htmlSize), cls: "text-slate-900 dark:text-white", sub: r.compressed ? "Compressed" : "No gzip" },
+                { label: "Scripts", value: String(r.scripts.length), cls: "text-slate-900 dark:text-white", sub: `${r.renderBlockingScripts.length} blocking` },
+                { label: "CSS files", value: String(r.stylesheets.length), cls: "text-slate-900 dark:text-white", sub: `${r.inlineStyles} inline` },
+                { label: "Images", value: String(r.images.length), cls: "text-slate-900 dark:text-white", sub: `${r.lazyImageCount} lazy` },
+                { label: "3rd parties", value: String(r.thirdPartyDomains.length), cls: "text-slate-900 dark:text-white", sub: "domains" },
               ].map(s => (
-                <div key={s.label} className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-3 text-center">
+                <div key={s.label} className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-3 text-center">
                   <p className="text-slate-500 text-xs mb-1">{s.label}</p>
                   <p className={`text-lg font-bold leading-none ${s.cls}`}>{s.value}</p>
-                  <p className="text-slate-600 text-xs mt-1">{s.sub}</p>
+                  <p className="text-slate-400 dark:text-slate-600 text-xs mt-1">{s.sub}</p>
                 </div>
               ))}
             </div>
@@ -412,7 +412,7 @@ export default function PageSpeedPage() {
               ]}
             />
 
-            <p className="text-slate-700 text-xs text-center pb-4">
+            <p className="text-slate-300 dark:text-slate-700 text-xs text-center pb-4">
               Static HTML analysis · FileSpark · {new Date(r.fetchTime).toLocaleTimeString()}
             </p>
           </div>

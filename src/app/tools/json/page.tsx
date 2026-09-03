@@ -89,35 +89,35 @@ export default function JsonPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">JSON Formatter</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">JSON Formatter</h1>
         <p className="text-slate-500 text-sm mb-8">Validate, format, minify, and sort JSON instantly.</p>
 
         {/* Toolbar */}
         <div className="flex gap-2 mb-4 flex-wrap items-center">
-          <div className="flex items-center gap-1 bg-slate-900/60 border border-slate-800/60 rounded-xl px-3 py-1.5">
-            <span className="text-slate-400 text-xs mr-1">Indent</span>
+          <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-3 py-1.5">
+            <span className="text-slate-500 dark:text-slate-400 text-xs mr-1">Indent</span>
             {[2, 4].map((n) => (
               <button key={n} onClick={() => handleIndent(n)}
-                className={`px-2.5 py-1 rounded-lg text-xs transition-colors ${indent === n ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}>
+                className={`px-2.5 py-1 rounded-lg text-xs transition-colors ${indent === n ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                 {n}
               </button>
             ))}
           </div>
 
           <button onClick={minify}
-            className="px-3 py-1.5 bg-slate-900/60 border border-slate-800/60 rounded-xl text-slate-400 hover:text-white text-xs transition-colors">
+            className="px-3 py-1.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs transition-colors">
             Minify
           </button>
 
           <button onClick={() => handleSort(!sorted)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs transition-colors ${
-              sorted ? "bg-blue-500/15 border-blue-500/40 text-blue-300" : "bg-slate-900/60 border-slate-800/60 text-slate-400 hover:text-white"
+              sorted ? "bg-blue-500/15 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}>
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
@@ -126,13 +126,13 @@ export default function JsonPage() {
           </button>
 
           <button onClick={loadSample}
-            className="px-3 py-1.5 bg-slate-900/60 border border-slate-800/60 rounded-xl text-slate-400 hover:text-white text-xs transition-colors">
+            className="px-3 py-1.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs transition-colors">
             Sample
           </button>
 
           {input && (
             <button onClick={clear}
-              className="px-3 py-1.5 bg-slate-900/60 border border-slate-800/60 rounded-xl text-slate-400 hover:text-red-400 text-xs transition-colors">
+              className="px-3 py-1.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 text-xs transition-colors">
               Clear
             </button>
           )}
@@ -140,7 +140,7 @@ export default function JsonPage() {
           <div className="flex gap-2 ml-auto">
             {output && (
               <button onClick={loadOutput}
-                className="px-3 py-1.5 bg-slate-900/60 border border-slate-800/60 rounded-xl text-slate-400 hover:text-white text-xs transition-colors"
+                className="px-3 py-1.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs transition-colors"
                 title="Send formatted output back to input">
                 ← Use output
               </button>
@@ -157,9 +157,9 @@ export default function JsonPage() {
         {/* Stats bar */}
         {stats && (
           <div className="flex gap-4 mb-3 text-xs text-slate-500">
-            <span><span className="text-slate-400 font-mono">{stats.keys}</span> total keys</span>
-            <span><span className="text-slate-400 font-mono">{stats.depth}</span> max depth</span>
-            <span><span className="text-slate-400 font-mono">{output.length.toLocaleString()}</span> chars</span>
+            <span><span className="text-slate-500 dark:text-slate-400 font-mono">{stats.keys}</span> total keys</span>
+            <span><span className="text-slate-500 dark:text-slate-400 font-mono">{stats.depth}</span> max depth</span>
+            <span><span className="text-slate-500 dark:text-slate-400 font-mono">{output.length.toLocaleString()}</span> chars</span>
           </div>
         )}
 
@@ -171,16 +171,16 @@ export default function JsonPage() {
           onDragOver={(e) => e.preventDefault()}
         >
           <div>
-            <label className="text-slate-400 text-xs mb-1.5 block">Input JSON <span className="text-slate-600">(or drop a .json file)</span></label>
+            <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">Input JSON <span className="text-slate-400 dark:text-slate-600">(or drop a .json file)</span></label>
             <textarea
               value={input}
               onChange={(e) => handleInput(e.target.value)}
               placeholder={'{\n  "hello": "world"\n}'}
               spellCheck={false}
-              className="w-full h-[420px] bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-600"
+              className="w-full h-[420px] bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-400 dark:placeholder-slate-600"
             />
             {error && (
-              <div className="mt-2 flex items-start gap-2 text-red-400 text-xs">
+              <div className="mt-2 flex items-start gap-2 text-red-600 dark:text-red-400 text-xs">
                 <svg className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
@@ -189,13 +189,13 @@ export default function JsonPage() {
             )}
           </div>
           <div>
-            <label className="text-slate-400 text-xs mb-1.5 block">Formatted output</label>
+            <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">Formatted output</label>
             <textarea
               readOnly
               value={output}
               placeholder="Formatted JSON will appear here…"
               spellCheck={false}
-              className="w-full h-[420px] bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-green-300/90 text-sm font-mono resize-none focus:outline-none placeholder-slate-600"
+              className="w-full h-[420px] bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-green-300/90 text-sm font-mono resize-none focus:outline-none placeholder-slate-400 dark:placeholder-slate-600"
             />
           </div>
         </div>

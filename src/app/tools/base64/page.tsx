@@ -92,42 +92,42 @@ export default function Base64Page() {
   const inputBytes = mode === "encode" && input ? new TextEncoder().encode(input).length : null;
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Base64 Encoder / Decoder</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Base64 Encoder / Decoder</h1>
         <p className="text-slate-500 text-sm mb-8">Encode text or files to Base64, or decode Base64 back to text.</p>
 
         <div className="space-y-5">
           {/* Controls */}
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex gap-1 bg-slate-900/60 border border-slate-800/60 rounded-xl p-1">
+            <div className="flex gap-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-1">
               {(["encode", "decode"] as const).map(m => (
                 <button key={m} onClick={() => switchMode(m)}
-                  className={`px-5 py-1.5 rounded-lg text-sm font-medium transition-colors capitalize ${mode === m ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}>
+                  className={`px-5 py-1.5 rounded-lg text-sm font-medium transition-colors capitalize ${mode === m ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                   {m}
                 </button>
               ))}
             </div>
             <button onClick={() => toggle("urlSafe")}
               title="Replaces + with - and / with _ (no padding). Used in JWTs and URL-safe contexts."
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${urlSafe ? "bg-violet-600/20 border-violet-500/50 text-violet-300" : "bg-slate-900/60 border-slate-800/60 text-slate-400 hover:text-white"}`}>
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${urlSafe ? "bg-violet-600/20 border-violet-500/50 text-violet-700 dark:text-violet-300" : "bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
               URL-safe
             </button>
             {mode === "encode" && (
               <button onClick={() => toggle("wrap")}
                 title="Wraps output at 76 characters (MIME / PEM format)."
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${wrap ? "bg-violet-600/20 border-violet-500/50 text-violet-300" : "bg-slate-900/60 border-slate-800/60 text-slate-400 hover:text-white"}`}>
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${wrap ? "bg-violet-600/20 border-violet-500/50 text-violet-700 dark:text-violet-300" : "bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                 MIME wrap
               </button>
             )}
             {mode === "encode" && (
               <>
                 <button onClick={() => fileRef.current?.click()}
-                  className="px-3 py-1.5 rounded-lg text-xs font-medium border bg-slate-900/60 border-slate-800/60 text-slate-400 hover:text-white transition-colors">
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium border bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                   Encode file…
                 </button>
                 <input ref={fileRef} type="file" className="hidden" onChange={handleFile} />
@@ -138,30 +138,30 @@ export default function Base64Page() {
           {/* Input */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-slate-400 text-xs">
+              <label className="text-slate-500 dark:text-slate-400 text-xs">
                 {fileName ? `File: ${fileName}` : mode === "encode" ? "Plain text" : "Base64 string"}
               </label>
               <div className="flex items-center gap-3">
                 <button onClick={loadExample}
-                  className="bg-slate-800 hover:bg-slate-700 border border-slate-700/60 text-slate-300 text-xs rounded-lg px-3 py-1.5 transition-colors">
+                  className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-xs rounded-lg px-3 py-1.5 transition-colors">
                   Try an example
                 </button>
-                {inputBytes !== null && <span className="text-slate-600 text-xs">{inputBytes} bytes</span>}
+                {inputBytes !== null && <span className="text-slate-400 dark:text-slate-600 text-xs">{inputBytes} bytes</span>}
                 {(input || fileName) && (
                   <button onClick={() => { setInput(""); setOutput(""); setError(""); setFileName(null); }}
-                    className="text-slate-600 hover:text-slate-400 text-xs transition-colors">Clear</button>
+                    className="text-slate-400 dark:text-slate-600 hover:text-slate-700 dark:hover:text-slate-400 text-xs transition-colors">Clear</button>
                 )}
               </div>
             </div>
             {fileName ? (
-              <div className="w-full h-16 bg-slate-900/60 border border-slate-800/60 rounded-xl px-4 flex items-center gap-3">
+              <div className="w-full h-16 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 flex items-center gap-3">
                 <svg className="w-5 h-5 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                <span className="text-slate-300 text-sm truncate">{fileName}</span>
+                <span className="text-slate-700 dark:text-slate-300 text-sm truncate">{fileName}</span>
               </div>
             ) : (
               <textarea value={input} onChange={e => handleInput(e.target.value)}
                 placeholder={mode === "encode" ? "Enter text to encode…" : "Enter Base64 to decode…"}
-                className="w-full h-40 bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-600" />
+                className="w-full h-40 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none focus:border-blue-500/50 placeholder-slate-400 dark:placeholder-slate-600" />
             )}
           </div>
 
@@ -170,11 +170,11 @@ export default function Base64Page() {
           {/* Output */}
           <div className="relative">
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-slate-400 text-xs">{mode === "encode" ? "Base64 output" : "Decoded text"}</label>
-              {output && <span className="text-slate-600 text-xs">{output.replace(/\n/g, "").length} chars</span>}
+              <label className="text-slate-500 dark:text-slate-400 text-xs">{mode === "encode" ? "Base64 output" : "Decoded text"}</label>
+              {output && <span className="text-slate-400 dark:text-slate-600 text-xs">{output.replace(/\n/g, "").length} chars</span>}
             </div>
             <textarea readOnly value={output} placeholder="Output will appear here…"
-              className="w-full h-40 bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 text-white text-sm font-mono resize-none focus:outline-none placeholder-slate-600" />
+              className="w-full h-40 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 text-slate-900 dark:text-white text-sm font-mono resize-none focus:outline-none placeholder-slate-400 dark:placeholder-slate-600" />
             {output && (
               <CopyButton text={output} className="absolute bottom-3 right-3" />
             )}

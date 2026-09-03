@@ -28,11 +28,11 @@ function Mode1() {
   return (
     <Card title='What is X% of Y?'>
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-slate-400 text-sm">What is</span>
+        <span className="text-slate-500 dark:text-slate-400 text-sm">What is</span>
         <Input value={pct} onChange={setPct} placeholder="X" suffix="%" width="w-24" />
-        <span className="text-slate-400 text-sm">of</span>
+        <span className="text-slate-500 dark:text-slate-400 text-sm">of</span>
         <Input value={num} onChange={setNum} placeholder="Y" width="w-28" />
-        <span className="text-slate-400 text-sm">?</span>
+        <span className="text-slate-500 dark:text-slate-400 text-sm">?</span>
       </div>
       <Result value={result} />
     </Card>
@@ -52,9 +52,9 @@ function Mode2() {
     <Card title="X is what % of Y?">
       <div className="flex flex-wrap items-center gap-2">
         <Input value={val} onChange={setVal} placeholder="X" width="w-28" />
-        <span className="text-slate-400 text-sm">is what % of</span>
+        <span className="text-slate-500 dark:text-slate-400 text-sm">is what % of</span>
         <Input value={total} onChange={setTotal} placeholder="Y" width="w-28" />
-        <span className="text-slate-400 text-sm">?</span>
+        <span className="text-slate-500 dark:text-slate-400 text-sm">?</span>
       </div>
       <Result value={result} />
     </Card>
@@ -70,28 +70,28 @@ function Mode3() {
   const y = parseNum(to);
 
   let result = "|";
-  let colorClass = "text-white";
+  let colorClass = "text-slate-900 dark:text-white";
   if (x !== null && y !== null && x !== 0) {
     const change = ((y - x) / Math.abs(x)) * 100;
     const abs = fmt(Math.abs(change));
     if (change > 0) {
       result = `+${abs}% increase`;
-      colorClass = "text-green-400";
+      colorClass = "text-green-600 dark:text-green-400";
     } else if (change < 0) {
       result = `−${abs}% decrease`;
-      colorClass = "text-red-400";
+      colorClass = "text-red-600 dark:text-red-400";
     } else {
       result = "0% (no change)";
-      colorClass = "text-slate-400";
+      colorClass = "text-slate-500 dark:text-slate-400";
     }
   }
 
   return (
     <Card title="Percentage change from X to Y">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-slate-400 text-sm">From</span>
+        <span className="text-slate-500 dark:text-slate-400 text-sm">From</span>
         <Input value={from} onChange={setFrom} placeholder="X (original)" width="w-28" />
-        <span className="text-slate-400 text-sm">to</span>
+        <span className="text-slate-500 dark:text-slate-400 text-sm">to</span>
         <Input value={to} onChange={setTo} placeholder="Y (new)" width="w-28" />
       </div>
       <Result value={result} colorClass={colorClass} />
@@ -125,7 +125,7 @@ function Mode4() {
           value={dir}
           onChange={(v) => setDir(v as "increase" | "decrease")}
         />
-        <span className="text-slate-400 text-sm">by</span>
+        <span className="text-slate-500 dark:text-slate-400 text-sm">by</span>
         <Input value={pct} onChange={setPct} placeholder="Y" suffix="%" width="w-24" />
       </div>
       <Result value={result} />
@@ -159,7 +159,7 @@ function Mode5() {
           value={dir}
           onChange={(v) => setDir(v as "more" | "less")}
         />
-        <span className="text-slate-400 text-sm">than</span>
+        <span className="text-slate-500 dark:text-slate-400 text-sm">than</span>
         <Input value={base} onChange={setBase} placeholder="Y" width="w-28" />
       </div>
       <Result value={result} />
@@ -171,8 +171,8 @@ function Mode5() {
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-      <p className="text-white text-sm font-semibold mb-3">{title}</p>
+    <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+      <p className="text-slate-900 dark:text-white text-sm font-semibold mb-3">{title}</p>
       {children}
     </div>
   );
@@ -198,10 +198,10 @@ function Input({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`${width} bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+        className={`${width} bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
       />
       {suffix && (
-        <span className="absolute right-3 text-slate-400 text-sm pointer-events-none">
+        <span className="absolute right-3 text-slate-500 dark:text-slate-400 text-sm pointer-events-none">
           {suffix}
         </span>
       )}
@@ -211,14 +211,14 @@ function Input({
 
 function Result({
   value,
-  colorClass = "text-white",
+  colorClass = "text-slate-900 dark:text-white",
 }: {
   value: string;
   colorClass?: string;
 }) {
   return (
-    <div className="bg-slate-800/40 rounded-lg p-4 mt-3 text-center">
-      <span className={`text-2xl font-bold ${value === "|" ? "text-slate-600" : colorClass}`}>
+    <div className="bg-slate-100 dark:bg-slate-800/40 rounded-lg p-4 mt-3 text-center">
+      <span className={`text-2xl font-bold ${value === "|" ? "text-slate-400 dark:text-slate-600" : colorClass}`}>
         {value}
       </span>
     </div>
@@ -235,7 +235,7 @@ function Toggle<T extends string>({
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="inline-flex rounded-lg border border-slate-700/50 overflow-hidden">
+    <div className="inline-flex rounded-lg border border-slate-300 dark:border-slate-700/50 overflow-hidden">
       {options.map((opt) => (
         <button
           key={opt.value}
@@ -243,7 +243,7 @@ function Toggle<T extends string>({
           className={`px-3 py-2 text-sm transition-colors ${
             value === opt.value
               ? "bg-blue-600 text-white font-medium"
-              : "bg-slate-800/60 text-slate-400 hover:text-white hover:bg-slate-800"
+              : "bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
           }`}
         >
           {opt.label}
@@ -257,11 +257,11 @@ function Toggle<T extends string>({
 
 export default function PercentageCalculatorPage() {
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
         <Link
           href="/tools"
-          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors"
+          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors"
         >
           <svg
             className="w-3.5 h-3.5"
@@ -275,7 +275,7 @@ export default function PercentageCalculatorPage() {
           Tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">Percentage Calculator</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Percentage Calculator</h1>
         <p className="text-slate-500 text-sm mb-8">
           Five ways to work with percentages. Results update as you type.
         </p>

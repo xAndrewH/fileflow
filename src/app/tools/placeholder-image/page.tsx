@@ -112,28 +112,28 @@ export default function PlaceholderImagePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">Placeholder Image Generator</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Placeholder Image Generator</h1>
         <p className="text-slate-500 text-sm mb-8">Generate placeholder images at any size with custom colors and text.</p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Controls */}
           <div className="space-y-4">
             {/* Presets */}
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-3">
-              <p className="text-sm font-medium text-slate-300">Quick Sizes</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-3">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Quick Sizes</p>
               <div className="flex flex-wrap gap-2">
                 {PRESETS.map(p => (
                   <button
                     key={p.label}
                     onClick={() => { setWidth(p.width); setHeight(p.height); }}
-                    className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${width === p.width && height === p.height ? "bg-blue-600 border-blue-500 text-white" : "bg-slate-800 border-slate-700/60 text-slate-300 hover:bg-slate-700"}`}
+                    className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${width === p.width && height === p.height ? "bg-blue-600 border-blue-500 text-white" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"}`}
                   >
                     {p.label}
                   </button>
@@ -142,69 +142,69 @@ export default function PlaceholderImagePage() {
             </div>
 
             {/* Dimensions */}
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-3">
-              <p className="text-sm font-medium text-slate-300">Dimensions</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-3">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Dimensions</p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Width (px)</label>
-                  <input type="number" min={1} max={4096} value={width} onChange={e => setWidth(Math.max(1, Math.min(4096, Number(e.target.value))))} className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input type="number" min={1} max={4096} value={width} onChange={e => setWidth(Math.max(1, Math.min(4096, Number(e.target.value))))} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Height (px)</label>
-                  <input type="number" min={1} max={4096} value={height} onChange={e => setHeight(Math.max(1, Math.min(4096, Number(e.target.value))))} className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input type="number" min={1} max={4096} value={height} onChange={e => setHeight(Math.max(1, Math.min(4096, Number(e.target.value))))} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
               </div>
             </div>
 
             {/* Colors */}
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-3">
-              <p className="text-sm font-medium text-slate-300">Colors</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-3">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Colors</p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Background</label>
                   <div className="flex gap-2 items-center">
                     <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="w-9 h-9 rounded cursor-pointer bg-transparent border-0 p-0" />
-                    <input value={bgColor} onChange={e => setBgColor(e.target.value)} className="flex-1 bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                    <input value={bgColor} onChange={e => setBgColor(e.target.value)} className="flex-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Text</label>
                   <div className="flex gap-2 items-center">
                     <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} className="w-9 h-9 rounded cursor-pointer bg-transparent border-0 p-0" />
-                    <input value={textColor} onChange={e => setTextColor(e.target.value)} className="flex-1 bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                    <input value={textColor} onChange={e => setTextColor(e.target.value)} className="flex-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                   </div>
                 </div>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {BG_PRESETS.map(c => (
                   <button key={c} onClick={() => setBgColor(c)} title={c}
-                    className={`w-6 h-6 rounded border transition-all ${bgColor === c ? "border-white scale-110" : "border-slate-700"}`}
+                    className={`w-6 h-6 rounded border transition-all ${bgColor === c ? "border-white scale-110" : "border-slate-300 dark:border-slate-700"}`}
                     style={{ background: c }} />
                 ))}
               </div>
             </div>
 
             {/* Text & Format */}
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-3">
-              <p className="text-sm font-medium text-slate-300">Text & Export</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-3">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Text & Export</p>
               <div className="space-y-1.5">
                 <label className="text-xs text-slate-500">Custom label (leave blank for dimensions)</label>
-                <input value={customText} onChange={e => setCustomText(e.target.value)} placeholder={`${width} × ${height}`} className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                <input value={customText} onChange={e => setCustomText(e.target.value)} placeholder={`${width} × ${height}`} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
               </div>
               <div className="flex gap-4 items-center">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={showDimensions} onChange={e => setShowDimensions(e.target.checked)} className="w-4 h-4 rounded" />
-                  <span className="text-xs text-slate-400">Show dimensions</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">Show dimensions</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={fontStyle === "bold"} onChange={e => setFontStyle(e.target.checked ? "bold" : "normal")} className="w-4 h-4 rounded" />
-                  <span className="text-xs text-slate-400">Bold text</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">Bold text</span>
                 </label>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Format</label>
-                  <select value={format} onChange={e => setFormat(e.target.value as "png" | "jpeg" | "webp")} className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors">
+                  <select value={format} onChange={e => setFormat(e.target.value as "png" | "jpeg" | "webp")} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors">
                     <option value="png">PNG</option>
                     <option value="jpeg">JPEG</option>
                     <option value="webp">WebP</option>
@@ -222,9 +222,9 @@ export default function PlaceholderImagePage() {
 
           {/* Preview */}
           <div className="space-y-4">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-4">
-              <p className="text-sm font-medium text-slate-300">Preview</p>
-              <div className="flex items-center justify-center bg-slate-800/40 rounded-xl p-4 min-h-[200px]">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-4">
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Preview</p>
+              <div className="flex items-center justify-center bg-slate-100 dark:bg-slate-800/40 rounded-xl p-4 min-h-[200px]">
                 <canvas ref={canvasRef} className="max-w-full rounded shadow-lg" />
               </div>
               <div className="flex items-center justify-between text-xs text-slate-500">

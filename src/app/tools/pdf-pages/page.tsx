@@ -53,28 +53,28 @@ function SortablePage({ item, onToggleDelete }: { item: PageItem; onToggleDelete
       className={`relative group rounded-xl border overflow-hidden transition-all ${
         item.deleted
           ? "border-red-500/40 opacity-40"
-          : "border-slate-700/60 hover:border-slate-600"
+          : "border-slate-300 dark:border-slate-700/60 hover:border-slate-400 dark:hover:border-slate-600"
       }`}
     >
       {/* Drag handle + thumbnail */}
       <div
         {...attributes}
         {...listeners}
-        className={`bg-slate-800/60 cursor-grab active:cursor-grabbing ${item.deleted ? "pointer-events-none" : ""}`}
+        className={`bg-slate-100 dark:bg-slate-800/60 cursor-grab active:cursor-grabbing ${item.deleted ? "pointer-events-none" : ""}`}
       >
         {item.thumbnail ? (
           <img src={item.thumbnail} alt={`Page ${item.originalIndex + 1}`} className="w-full" />
         ) : (
-          <div className="aspect-[3/4] flex items-center justify-center bg-slate-800">
-            <span className="text-slate-600 text-xs">Page {item.originalIndex + 1}</span>
+          <div className="aspect-[3/4] flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+            <span className="text-slate-400 dark:text-slate-600 text-xs">Page {item.originalIndex + 1}</span>
           </div>
         )}
       </div>
 
       {/* Page number */}
-      <div className="py-1.5 text-center text-xs text-slate-500 bg-slate-900/80">
+      <div className="py-1.5 text-center text-xs text-slate-500 bg-slate-50 dark:bg-slate-900/80">
         {item.deleted ? (
-          <span className="text-red-400">Deleted</span>
+          <span className="text-red-600 dark:text-red-400">Deleted</span>
         ) : (
           `Page ${item.originalIndex + 1}`
         )}
@@ -85,8 +85,8 @@ function SortablePage({ item, onToggleDelete }: { item: PageItem; onToggleDelete
         onClick={() => onToggleDelete(item.id)}
         className={`absolute top-1.5 right-1.5 w-6 h-6 rounded-full flex items-center justify-center text-xs transition-colors ${
           item.deleted
-            ? "bg-green-500/80 text-white opacity-100"
-            : "bg-red-500/80 text-white opacity-0 group-hover:opacity-100"
+            ? "bg-green-500/80 text-slate-900 dark:text-white opacity-100"
+            : "bg-red-500/80 text-slate-900 dark:text-white opacity-0 group-hover:opacity-100"
         }`}
         title={item.deleted ? "Restore page" : "Remove page"}
       >
@@ -206,14 +206,14 @@ export default function PdfPagesPage() {
   const ids = pages.map(p => p.id);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">Reorder / Delete PDF Pages</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Reorder / Delete PDF Pages</h1>
         <p className="text-slate-500 text-sm mb-8">Drag to reorder pages or remove unwanted ones, then download the edited PDF.</p>
 
         <ErrorAlert message={error} className="mb-5" />
@@ -223,20 +223,20 @@ export default function PdfPagesPage() {
             onDrop={handleDrop}
             onDragOver={e => e.preventDefault()}
             onClick={() => inputRef.current?.click()}
-            className="border-2 border-dashed border-slate-700 hover:border-blue-500/50 rounded-2xl p-16 text-center cursor-pointer transition-colors"
+            className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500/50 rounded-2xl p-16 text-center cursor-pointer transition-colors"
           >
             <input ref={inputRef} type="file" accept="application/pdf" className="hidden" onChange={handleFile} />
             {loading ? (
               <div className="space-y-3">
                 <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-slate-400 text-sm">Loading PDF pages…</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Loading PDF pages…</p>
               </div>
             ) : (
               <div className="space-y-3">
-                <svg className="w-12 h-12 text-slate-600 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                <svg className="w-12 h-12 text-slate-400 dark:text-slate-600 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                <p className="text-slate-300 text-sm font-medium">Drop a PDF here</p>
+                <p className="text-slate-700 dark:text-slate-300 text-sm font-medium">Drop a PDF here</p>
                 <p className="text-slate-500 text-xs">or click to browse</p>
               </div>
             )}
@@ -245,15 +245,15 @@ export default function PdfPagesPage() {
           <>
             <div className="flex items-center justify-between mb-5 gap-4 flex-wrap">
               <div className="flex items-center gap-3">
-                <span className="text-slate-400 text-sm">
-                  <span className="text-white font-medium">{fileName}</span> | {activeCount} page{activeCount !== 1 ? "s" : ""}
-                  {deletedCount > 0 && <span className="text-red-400 ml-1">({deletedCount} removed)</span>}
+                <span className="text-slate-500 dark:text-slate-400 text-sm">
+                  <span className="text-slate-900 dark:text-white font-medium">{fileName}</span> | {activeCount} page{activeCount !== 1 ? "s" : ""}
+                  {deletedCount > 0 && <span className="text-red-600 dark:text-red-400 ml-1">({deletedCount} removed)</span>}
                 </span>
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => { setPages([]); setOriginalPdf(null); }}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700/60 rounded-lg text-xs text-slate-400 transition-colors"
+                  className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 rounded-lg text-xs text-slate-500 dark:text-slate-400 transition-colors"
                 >
                   Load Different PDF
                 </button>

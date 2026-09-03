@@ -311,25 +311,25 @@ export default function MockDataPage() {
   const rowLines = format === "json" ? Math.min(1000, Math.max(1, rowCount || 1)) : output ? output.split("\n").length : 0;
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group">
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
 
         <div className="flex items-center gap-3 mb-2">
           <Database className="w-6 h-6 text-blue-500" />
-          <h1 className="text-2xl font-semibold text-slate-100">Mock Data Generator</h1>
+          <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Mock Data Generator</h1>
         </div>
-        <p className="text-slate-400 text-sm mb-8">Build a schema and generate fake records as JSON, CSV, or SQL.</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mb-8">Build a schema and generate fake records as JSON, CSV, or SQL.</p>
 
         <div className="grid lg:grid-cols-2 gap-6">
           <div className="space-y-4">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-sm font-medium text-slate-200">Schema</h2>
-                <button onClick={addField} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg transition-colors border border-slate-700/60">
+                <h2 className="text-sm font-medium text-slate-800 dark:text-slate-200">Schema</h2>
+                <button onClick={addField} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-lg transition-colors border border-slate-300 dark:border-slate-700/60">
                   <Plus className="w-3.5 h-3.5" />
                   Add Field
                 </button>
@@ -337,18 +337,18 @@ export default function MockDataPage() {
 
               <div className="space-y-3">
                 {fields.map((field) => (
-                  <div key={field.id} className="space-y-2 pb-3 border-b border-slate-800/60 last:border-0 last:pb-0">
+                  <div key={field.id} className="space-y-2 pb-3 border-b border-slate-200 dark:border-slate-800/60 last:border-0 last:pb-0">
                     <div className="flex items-center gap-2">
                       <input
                         value={field.name}
                         onChange={(e) => updateField(field.id, { name: e.target.value })}
                         placeholder="field name"
-                        className="flex-1 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                        className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                       />
                       <select
                         value={field.type}
                         onChange={(e) => updateField(field.id, { type: e.target.value as FieldType })}
-                        className="flex-1 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                        className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                       >
                         {TYPE_OPTIONS.map((opt) => (
                           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -356,7 +356,7 @@ export default function MockDataPage() {
                       </select>
                       <button
                         onClick={() => removeField(field.id)}
-                        className="p-2 text-slate-500 hover:text-red-400 transition-colors"
+                        className="p-2 text-slate-500 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                         aria-label="Remove field"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -370,7 +370,7 @@ export default function MockDataPage() {
                           value={field.min}
                           onChange={(e) => updateField(field.id, { min: Number(e.target.value) })}
                           placeholder="min"
-                          className="w-24 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                          className="w-24 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                         />
                         <span className="text-slate-500 text-xs">to</span>
                         <input
@@ -378,7 +378,7 @@ export default function MockDataPage() {
                           value={field.max}
                           onChange={(e) => updateField(field.id, { max: Number(e.target.value) })}
                           placeholder="max"
-                          className="w-24 bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                          className="w-24 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                         />
                       </div>
                     )}
@@ -388,7 +388,7 @@ export default function MockDataPage() {
                         value={field.enumValues}
                         onChange={(e) => updateField(field.id, { enumValues: e.target.value })}
                         placeholder="comma,separated,values"
-                        className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                       />
                     )}
                   </div>
@@ -397,27 +397,27 @@ export default function MockDataPage() {
               </div>
             </div>
 
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
               <div>
-                <label className="block text-xs font-medium text-slate-400 mb-1.5">Rows</label>
+                <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">Rows</label>
                 <input
                   type="number"
                   min={1}
                   max={1000}
                   value={rowCount}
                   onChange={(e) => setRowCount(Math.max(1, Math.min(1000, Number(e.target.value) || 1)))}
-                  className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-400 mb-1.5">Format</label>
-                <div className="inline-flex rounded-lg border border-slate-700/60 overflow-hidden">
+                <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">Format</label>
+                <div className="inline-flex rounded-lg border border-slate-300 dark:border-slate-700/60 overflow-hidden">
                   {(["json", "csv", "sql"] as Format[]).map((f) => (
                     <button
                       key={f}
                       onClick={() => setFormat(f)}
-                      className={`px-4 py-2 text-sm font-medium transition-colors ${format === f ? "bg-blue-600 text-white" : "bg-slate-900 text-slate-400 hover:text-slate-200"}`}
+                      className={`px-4 py-2 text-sm font-medium transition-colors ${format === f ? "bg-blue-600 text-white" : "bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"}`}
                     >
                       {f.toUpperCase()}
                     </button>
@@ -427,12 +427,12 @@ export default function MockDataPage() {
 
               {format === "sql" && (
                 <div>
-                  <label className="block text-xs font-medium text-slate-400 mb-1.5">Table name</label>
+                  <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">Table name</label>
                   <input
                     value={tableName}
                     onChange={(e) => setTableName(e.target.value)}
                     placeholder="users"
-                    className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                   />
                 </div>
               )}
@@ -444,15 +444,15 @@ export default function MockDataPage() {
             </div>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-medium text-slate-200">Output</h2>
+              <h2 className="text-sm font-medium text-slate-800 dark:text-slate-200">Output</h2>
               <div className="flex items-center gap-2">
-                <button onClick={copy} className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-700/60">
-                  {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+                <button onClick={copy} className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-300 dark:border-slate-700/60">
+                  {copied ? <Check className="w-3.5 h-3.5 text-green-600 dark:text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
                   {copied ? "Copied" : "Copy"}
                 </button>
-                <button onClick={download} className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-700/60">
+                <button onClick={download} className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-300 dark:border-slate-700/60">
                   <Download className="w-3.5 h-3.5" />
                   Download
                 </button>
@@ -463,7 +463,7 @@ export default function MockDataPage() {
               readOnly
               value={output}
               rows={18}
-              className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors resize-none"
+              className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-xs text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors resize-none"
             />
 
             <div className="flex items-center gap-4 mt-2 text-xs text-slate-500">

@@ -59,11 +59,11 @@ export default function MyIpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-lg mx-auto px-4 py-12">
         <Link
           href="/tools"
-          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors"
+          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors"
         >
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -71,19 +71,19 @@ export default function MyIpPage() {
           Tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">What&apos;s My IP</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">What&apos;s My IP</h1>
         <p className="text-slate-500 text-sm mb-8">See your public IP address and network information.</p>
 
-        <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-6">
+        <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-6">
           {loading && (
             <div className="space-y-4 animate-pulse">
-              <div className="h-10 bg-slate-800/60 rounded-xl w-3/4" />
-              <div className="h-4 bg-slate-800/60 rounded w-1/2" />
+              <div className="h-10 bg-slate-100 dark:bg-slate-800/60 rounded-xl w-3/4" />
+              <div className="h-4 bg-slate-100 dark:bg-slate-800/60 rounded w-1/2" />
               <div className="grid grid-cols-2 gap-3 mt-6">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="bg-slate-800/40 rounded-xl p-4 space-y-2">
-                    <div className="h-3 bg-slate-700/60 rounded w-1/2" />
-                    <div className="h-4 bg-slate-700/40 rounded w-3/4" />
+                  <div key={i} className="bg-slate-100 dark:bg-slate-800/40 rounded-xl p-4 space-y-2">
+                    <div className="h-3 bg-slate-200 dark:bg-slate-700/60 rounded w-1/2" />
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700/40 rounded w-3/4" />
                   </div>
                 ))}
               </div>
@@ -92,10 +92,10 @@ export default function MyIpPage() {
 
           {!loading && error && (
             <div className="text-center py-6 space-y-4">
-              <p className="text-red-400 text-sm">{error}</p>
+              <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
               <button
                 onClick={fetchIp}
-                className="px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/40 text-blue-300 text-sm rounded-xl transition-colors"
+                className="px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/40 text-blue-700 dark:text-blue-300 text-sm rounded-xl transition-colors"
               >
                 Retry
               </button>
@@ -106,57 +106,57 @@ export default function MyIpPage() {
             <div className="space-y-6">
               <div>
                 <p className="text-slate-500 text-xs mb-1">Your IP Address</p>
-                <p className="text-4xl font-mono font-bold text-white break-all">{data.ip}</p>
+                <p className="text-4xl font-mono font-bold text-slate-900 dark:text-white break-all">{data.ip}</p>
               </div>
 
               <div className="flex gap-2">
                 <button
                   onClick={copyIp}
-                  className="px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/40 text-blue-300 text-sm rounded-xl transition-colors"
+                  className="px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/40 text-blue-700 dark:text-blue-300 text-sm rounded-xl transition-colors"
                 >
                   {copied ? "Copied!" : "Copy IP"}
                 </button>
                 <button
                   onClick={fetchIp}
-                  className="px-4 py-2 bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-slate-400 hover:text-white text-sm rounded-xl transition-colors"
+                  className="px-4 py-2 bg-slate-100 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm rounded-xl transition-colors"
                 >
                   Refresh
                 </button>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-slate-800/40 border border-slate-700/40 rounded-xl p-4">
+                <div className="bg-slate-100 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700/40 rounded-xl p-4">
                   <p className="text-slate-500 text-xs mb-1">Location</p>
-                  <p className="text-white text-sm">{[data.city, data.region, data.country_name].filter(Boolean).join(", ")}</p>
+                  <p className="text-slate-900 dark:text-white text-sm">{[data.city, data.region, data.country_name].filter(Boolean).join(", ")}</p>
                 </div>
-                <div className="bg-slate-800/40 border border-slate-700/40 rounded-xl p-4">
+                <div className="bg-slate-100 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700/40 rounded-xl p-4">
                   <p className="text-slate-500 text-xs mb-1">Timezone</p>
-                  <p className="text-white text-sm">{data.timezone}</p>
+                  <p className="text-slate-900 dark:text-white text-sm">{data.timezone}</p>
                 </div>
-                <div className="bg-slate-800/40 border border-slate-700/40 rounded-xl p-4">
+                <div className="bg-slate-100 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700/40 rounded-xl p-4">
                   <p className="text-slate-500 text-xs mb-1">ISP / Org</p>
-                  <p className="text-white text-sm break-all">{data.org}</p>
+                  <p className="text-slate-900 dark:text-white text-sm break-all">{data.org}</p>
                 </div>
-                <div className="bg-slate-800/40 border border-slate-700/40 rounded-xl p-4">
+                <div className="bg-slate-100 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700/40 rounded-xl p-4">
                   <p className="text-slate-500 text-xs mb-1">Coordinates</p>
-                  <p className="text-white text-sm font-mono">{data.latitude}, {data.longitude}</p>
+                  <p className="text-slate-900 dark:text-white text-sm font-mono">{data.latitude}, {data.longitude}</p>
                 </div>
-                <div className="bg-slate-800/40 border border-slate-700/40 rounded-xl p-4">
+                <div className="bg-slate-100 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700/40 rounded-xl p-4">
                   <p className="text-slate-500 text-xs mb-1">Currency</p>
-                  <p className="text-white text-sm">{data.currency}</p>
+                  <p className="text-slate-900 dark:text-white text-sm">{data.currency}</p>
                 </div>
-                <div className="bg-slate-800/40 border border-slate-700/40 rounded-xl p-4">
+                <div className="bg-slate-100 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700/40 rounded-xl p-4">
                   <p className="text-slate-500 text-xs mb-1">Languages</p>
-                  <p className="text-white text-sm">{data.languages}</p>
+                  <p className="text-slate-900 dark:text-white text-sm">{data.languages}</p>
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        <p className="text-slate-600 text-xs text-center mt-6">
+        <p className="text-slate-400 dark:text-slate-600 text-xs text-center mt-6">
           Location is approximate | IP geolocation can be off by city or region and is not always accurate.</p>
-        <p className="text-slate-600 text-xs text-center mt-1">
+        <p className="text-slate-400 dark:text-slate-600 text-xs text-center mt-1">
           Your IP is visible to every website you visit.
         </p>
       </div>

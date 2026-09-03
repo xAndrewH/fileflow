@@ -268,24 +268,24 @@ export default function CodeToImagePage() {
   const isCustomBg = !BG_PRESET_IDS.includes(bgType as typeof BG_PRESET_IDS[number]);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group">
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Code to Image</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Code to Image</h1>
         <p className="text-slate-500 text-sm mb-8">Turn a code snippet into a beautiful shareable PNG.</p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="space-y-4">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Language</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Language</label>
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value as Language)}
-                  className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                  className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                 >
                   {LANGUAGES.map((l) => (
                     <option key={l.id} value={l.id}>{l.label}</option>
@@ -294,13 +294,13 @@ export default function CodeToImagePage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Theme</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Theme</label>
                 <div className="grid grid-cols-2 gap-2">
                   {THEMES.map((t) => (
                     <button
                       key={t.id}
                       onClick={() => setTheme(t.id)}
-                      className={`px-3 py-2 rounded-lg text-xs font-medium border transition-colors ${theme === t.id ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700/60 text-slate-400 hover:text-white"}`}
+                      className={`px-3 py-2 rounded-lg text-xs font-medium border transition-colors ${theme === t.id ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
                     >
                       {t.label}
                     </button>
@@ -309,7 +309,7 @@ export default function CodeToImagePage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Font size: {fontSize}px</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Font size: {fontSize}px</label>
                 <input
                   type="range"
                   min={12}
@@ -321,7 +321,7 @@ export default function CodeToImagePage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Padding: {padding}px</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Padding: {padding}px</label>
                 <input
                   type="range"
                   min={16}
@@ -333,20 +333,20 @@ export default function CodeToImagePage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-400 text-xs block">Background</label>
+                <label className="text-slate-500 dark:text-slate-400 text-xs block">Background</label>
                 <div className="flex flex-wrap gap-2">
                   {BG_PRESETS.map((p) => (
                     <button
                       key={p.id}
                       onClick={() => setBgType(p.id)}
-                      className={`px-3 py-1.5 rounded-lg text-xs border transition-colors ${bgType === p.id ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700/60 text-slate-400 hover:text-white"}`}
+                      className={`px-3 py-1.5 rounded-lg text-xs border transition-colors ${bgType === p.id ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
                     >
                       {p.label}
                     </button>
                   ))}
                   <button
                     onClick={() => setBgType(customBg)}
-                    className={`px-3 py-1.5 rounded-lg text-xs border transition-colors ${isCustomBg ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700/60 text-slate-400 hover:text-white"}`}
+                    className={`px-3 py-1.5 rounded-lg text-xs border transition-colors ${isCustomBg ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
                   >
                     Custom
                   </button>
@@ -372,7 +372,7 @@ export default function CodeToImagePage() {
                     onChange={(e) => setWindowControls(e.target.checked)}
                     className="accent-blue-500"
                   />
-                  <span className="text-slate-400 text-xs">Window controls</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-xs">Window controls</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -381,27 +381,27 @@ export default function CodeToImagePage() {
                     onChange={(e) => setLineNumbers(e.target.checked)}
                     className="accent-blue-500"
                   />
-                  <span className="text-slate-400 text-xs">Line numbers</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-xs">Line numbers</span>
                 </label>
               </div>
             </div>
 
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-              <label className="text-slate-400 text-xs mb-1.5 block">Code</label>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+              <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">Code</label>
               <textarea
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 rows={12}
                 placeholder="Paste code here…"
                 spellCheck={false}
-                className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors font-mono resize-none placeholder-slate-600"
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors font-mono resize-none placeholder-slate-400 dark:placeholder-slate-600"
               />
             </div>
           </div>
 
           <div className="space-y-4">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-              <p className="text-slate-400 text-xs mb-3">Preview</p>
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+              <p className="text-slate-500 dark:text-slate-400 text-xs mb-3">Preview</p>
               <div
                 className="flex items-center justify-center rounded-lg overflow-hidden min-h-[200px]"
                 style={{ background: "repeating-conic-gradient(#1e293b 0% 25%, #0f172a 0% 50%) 0 0 / 16px 16px" }}
@@ -411,7 +411,7 @@ export default function CodeToImagePage() {
             </div>
             <button
               onClick={download}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-colors"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-slate-900 dark:text-white text-sm font-medium rounded-lg transition-colors"
             >
               <Download className="w-4 h-4" />
               Download PNG

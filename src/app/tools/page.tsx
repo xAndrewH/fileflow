@@ -144,11 +144,11 @@ function ToolsPageInner() {
   }, [filtered]);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-5xl mx-auto px-4 py-14">
 
         {/* Header */}
-        <Link href="/" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-10 transition-colors">
+        <Link href="/" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-10 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
@@ -156,8 +156,8 @@ function ToolsPageInner() {
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Tools</h1>
-          <p className="text-slate-400 text-base">{TOOL_COUNT} browser-side utilities. No account, no uploads, no limits.</p>
+          <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">Tools</h1>
+          <p className="text-slate-500 dark:text-slate-400 text-base">{TOOL_COUNT} browser-side utilities. No account, no uploads, no limits.</p>
         </div>
 
         {/* Search */}
@@ -170,16 +170,16 @@ function ToolsPageInner() {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder={`Search ${PLACEHOLDER_COUNT}+ tools…`}
-            className="w-full bg-slate-900/60 border border-slate-800/60 rounded-2xl pl-11 pr-24 py-3 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600 transition-colors"
+            className="w-full bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl pl-11 pr-24 py-3 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600 transition-colors"
           />
           {query ? (
-            <button onClick={() => setQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors">
+            <button onClick={() => setQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition-colors">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           ) : (
-            <kbd className="hidden sm:block absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 text-xs bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-700 font-mono pointer-events-none">⌘K</kbd>
+            <kbd className="hidden sm:block absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-600 text-xs bg-slate-100 dark:bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-300 dark:border-slate-700 font-mono pointer-events-none">⌘K</kbd>
           )}
         </div>
 
@@ -190,7 +190,7 @@ function ToolsPageInner() {
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
               activeCategory === null && query === ""
                 ? "bg-blue-600 text-white"
-                : "bg-slate-800/60 border border-slate-700/50 text-slate-400 hover:text-white"
+                : "bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}>
             All <span className="ml-1 opacity-70">{TOOL_COUNT}</span>
           </button>
@@ -201,7 +201,7 @@ function ToolsPageInner() {
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 activeCategory === c.id
                   ? "bg-blue-600 text-white"
-                  : "bg-slate-800/60 border border-slate-700/50 text-slate-400 hover:text-white"
+                  : "bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}>
               {c.name} <span className="ml-1 opacity-70">{c.tools.length}</span>
             </button>
@@ -211,8 +211,8 @@ function ToolsPageInner() {
         {/* No results */}
         {filtered.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-slate-400 text-lg mb-1">No tools match &ldquo;{query}&rdquo;</p>
-            <p className="text-slate-600 text-sm">Try a different keyword or <button onClick={() => { setQuery(""); setActiveCategory(null); }} className="text-blue-400 hover:text-blue-300 underline underline-offset-2">browse all tools</button></p>
+            <p className="text-slate-500 dark:text-slate-400 text-lg mb-1">No tools match &ldquo;{query}&rdquo;</p>
+            <p className="text-slate-400 dark:text-slate-600 text-sm">Try a different keyword or <button onClick={() => { setQuery(""); setActiveCategory(null); }} className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline underline-offset-2">browse all tools</button></p>
           </div>
         )}
 
@@ -239,10 +239,10 @@ function ToolsPageInner() {
             {favorites.length > 0 && (
               <section className="scroll-mt-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <Heart className="w-3.5 h-3.5 text-pink-400 fill-pink-400" />
-                  <h2 className="text-white text-sm font-semibold">Favorites</h2>
-                  <div className="h-px flex-1 bg-slate-800/60" />
-                  <span className="text-slate-600 text-xs">{favorites.length}</span>
+                  <Heart className="w-3.5 h-3.5 text-pink-600 dark:text-pink-400 fill-pink-400" />
+                  <h2 className="text-slate-900 dark:text-white text-sm font-semibold">Favorites</h2>
+                  <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800/60" />
+                  <span className="text-slate-400 dark:text-slate-600 text-xs">{favorites.length}</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {favorites.map(href => {
@@ -263,9 +263,9 @@ function ToolsPageInner() {
             {recents.length > 0 && (
               <section className="scroll-mt-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <h2 className="text-white text-sm font-semibold">Recently Used</h2>
-                  <div className="h-px flex-1 bg-slate-800/60" />
-                  <span className="text-slate-600 text-xs">{recents.length}</span>
+                  <h2 className="text-slate-900 dark:text-white text-sm font-semibold">Recently Used</h2>
+                  <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800/60" />
+                  <span className="text-slate-400 dark:text-slate-600 text-xs">{recents.length}</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {recents.map(({ href, title }) => {
@@ -286,9 +286,9 @@ function ToolsPageInner() {
             {groupedFiltered.map(({ id, name, tools }) => (
               <section key={id} id={id} className="scroll-mt-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <h2 className="text-white text-sm font-semibold">{name}</h2>
-                  <div className="h-px flex-1 bg-slate-800/60" />
-                  <span className="text-slate-600 text-xs">{tools.length}</span>
+                  <h2 className="text-slate-900 dark:text-white text-sm font-semibold">{name}</h2>
+                  <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800/60" />
+                  <span className="text-slate-400 dark:text-slate-600 text-xs">{tools.length}</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {tools.map(({ href, icon, title, description }) => (
@@ -304,9 +304,9 @@ function ToolsPageInner() {
             {/* Coming soon */}
             <section className="scroll-mt-8">
               <div className="flex items-center gap-3 mb-4">
-                <h2 className="text-white text-sm font-semibold">Coming Soon</h2>
-                <div className="h-px flex-1 bg-slate-800/60" />
-                <span className="text-slate-600 text-xs">{COMING_SOON.length}</span>
+                <h2 className="text-slate-900 dark:text-white text-sm font-semibold">Coming Soon</h2>
+                <div className="h-px flex-1 bg-slate-100 dark:bg-slate-800/60" />
+                <span className="text-slate-400 dark:text-slate-600 text-xs">{COMING_SOON.length}</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {COMING_SOON.map(({ icon, title, description }) => (
@@ -330,14 +330,14 @@ function ToolCard({ href, icon: Icon, title, description, tag, onNavigate, isFav
     <Link
       href={href}
       onClick={onNavigate}
-      className="group flex items-start gap-3 p-4 rounded-xl bg-slate-900/40 border border-slate-800/60 hover:border-slate-700/80 hover:bg-slate-900/70 transition-all duration-150"
+      className="group flex items-start gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/60 hover:border-slate-400 dark:hover:border-slate-700/80 hover:bg-slate-50 dark:hover:bg-slate-900/70 transition-all duration-150"
     >
-      <div className="shrink-0 w-9 h-9 rounded-lg bg-slate-800 border border-slate-700/60 flex items-center justify-center">
-        <Icon className="w-5 h-5 text-slate-400 group-hover:text-blue-300 transition-colors" />
+      <div className="shrink-0 w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700/60 flex items-center justify-center">
+        <Icon className="w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-blue-300 transition-colors" />
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-white font-medium text-sm group-hover:text-blue-300 transition-colors leading-snug">{title}</h3>
+          <h3 className="text-slate-900 dark:text-white font-medium text-sm group-hover:text-blue-300 transition-colors leading-snug">{title}</h3>
           <div className="flex items-center gap-1 shrink-0">
             {onFavorite && (
               <button
@@ -345,27 +345,27 @@ function ToolCard({ href, icon: Icon, title, description, tag, onNavigate, isFav
                 title={isFavorite ? "Remove from favorites" : "Add to favorites"}
                 className={`w-5 h-5 flex items-center justify-center rounded transition-all ${isFavorite ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
               >
-                <Heart className={`w-3.5 h-3.5 transition-colors ${isFavorite ? "text-pink-400 fill-pink-400" : "text-slate-500 hover:text-pink-400"}`} />
+                <Heart className={`w-3.5 h-3.5 transition-colors ${isFavorite ? "text-pink-600 dark:text-pink-400 fill-pink-400" : "text-slate-500 hover:text-pink-600 dark:hover:text-pink-400"}`} />
               </button>
             )}
             {onRemove && (
               <button
                 onClick={onRemove}
                 title="Remove from recently used"
-                className="w-5 h-5 flex items-center justify-center rounded opacity-0 group-hover:opacity-100 transition-all hover:bg-slate-700/60"
+                className="w-5 h-5 flex items-center justify-center rounded opacity-0 group-hover:opacity-100 transition-all hover:bg-slate-200 dark:hover:bg-slate-700/60"
               >
-                <svg className="w-3 h-3 text-slate-500 hover:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="w-3 h-3 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             )}
-            <svg className="w-3 h-3 text-slate-600 group-hover:text-blue-400 mt-0.5 transition-colors group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg className="w-3 h-3 text-slate-400 dark:text-slate-600 group-hover:text-blue-400 mt-0.5 transition-colors group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
           </div>
         </div>
         <p className="text-slate-500 text-xs leading-relaxed mt-0.5 line-clamp-2">{description}</p>
-        {tag && <span className="inline-block mt-1.5 text-[10px] text-slate-600 bg-slate-800/60 px-1.5 py-0.5 rounded-md">{tag}</span>}
+        {tag && <span className="inline-block mt-1.5 text-[10px] text-slate-400 dark:text-slate-600 bg-slate-100 dark:bg-slate-800/60 px-1.5 py-0.5 rounded-md">{tag}</span>}
       </div>
     </Link>
   );
@@ -373,16 +373,16 @@ function ToolCard({ href, icon: Icon, title, description, tag, onNavigate, isFav
 
 function ComingSoonCard({ icon: Icon, title, description }: { icon: IconComponent; title: string; description: string }) {
   return (
-    <div className="flex items-start gap-3 p-4 rounded-xl bg-slate-900/20 border border-slate-800/40 opacity-60 cursor-default select-none">
-      <div className="shrink-0 w-9 h-9 rounded-lg bg-slate-800/60 border border-slate-700/40 flex items-center justify-center">
+    <div className="flex items-start gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-900/20 border border-slate-200 dark:border-slate-800/40 opacity-60 cursor-default select-none">
+      <div className="shrink-0 w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/40 flex items-center justify-center">
         <Icon className="w-5 h-5 text-slate-500" />
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <h3 className="text-slate-400 font-medium text-sm leading-snug">{title}</h3>
-          <span className="text-[9px] font-semibold tracking-wide uppercase text-slate-600 bg-slate-800 px-1.5 py-0.5 rounded-full border border-slate-700/50">Soon</span>
+          <h3 className="text-slate-500 dark:text-slate-400 font-medium text-sm leading-snug">{title}</h3>
+          <span className="text-[9px] font-semibold tracking-wide uppercase text-slate-400 dark:text-slate-600 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded-full border border-slate-300 dark:border-slate-700/50">Soon</span>
         </div>
-        <p className="text-slate-600 text-xs leading-relaxed mt-0.5 line-clamp-2">{description}</p>
+        <p className="text-slate-400 dark:text-slate-600 text-xs leading-relaxed mt-0.5 line-clamp-2">{description}</p>
       </div>
     </div>
   );

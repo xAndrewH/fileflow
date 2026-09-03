@@ -167,21 +167,21 @@ export default function RasterToSvgPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">PNG / JPG → SVG</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">PNG / JPG → SVG</h1>
         <p className="text-slate-500 text-sm mb-8">Vectorize raster images to scalable SVG. Color trace, B&amp;W trace, or embed.</p>
 
         <div className="space-y-4">
           {/* Mode + options */}
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-4">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4">
             {/* Mode */}
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="text-slate-400 text-sm w-20 shrink-0">Mode</span>
+              <span className="text-slate-500 dark:text-slate-400 text-sm w-20 shrink-0">Mode</span>
               <div className="flex gap-2 flex-wrap">
                 {([
                   ["color", "Color Trace", "Full-color vectorization (slower)"],
@@ -189,7 +189,7 @@ export default function RasterToSvgPage() {
                   ["embed", "Embed",        "Wrap the raster image inside SVG"],
                 ] as [Mode, string, string][]).map(([id, label, tip]) => (
                   <button key={id} onClick={() => set("mode", id)} title={tip}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${opts.mode === id ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${opts.mode === id ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                     {label}
                   </button>
                 ))}
@@ -200,14 +200,14 @@ export default function RasterToSvgPage() {
             {opts.mode === "color" && (
               <>
                 <div className="flex items-center gap-3">
-                  <span className="text-slate-400 text-sm w-20 shrink-0">Colors</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-sm w-20 shrink-0">Colors</span>
                   <input type="range" min={2} max={64} value={opts.colors} onChange={(e) => set("colors", +e.target.value)} className="flex-1 accent-blue-500" />
-                  <span className="text-blue-400 font-mono text-sm w-8 text-right">{opts.colors}</span>
+                  <span className="text-blue-600 dark:text-blue-400 font-mono text-sm w-8 text-right">{opts.colors}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-slate-400 text-sm w-20 shrink-0">Smoothing</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-sm w-20 shrink-0">Smoothing</span>
                   <input type="range" min={0} max={5} step={0.5} value={opts.smoothing} onChange={(e) => set("smoothing", +e.target.value)} className="flex-1 accent-blue-500" />
-                  <span className="text-blue-400 font-mono text-sm w-8 text-right">{opts.smoothing}</span>
+                  <span className="text-blue-600 dark:text-blue-400 font-mono text-sm w-8 text-right">{opts.smoothing}</span>
                 </div>
               </>
             )}
@@ -215,24 +215,24 @@ export default function RasterToSvgPage() {
             {/* B&W threshold */}
             {opts.mode === "bw" && (
               <div className="flex items-center gap-3">
-                <span className="text-slate-400 text-sm w-20 shrink-0">Threshold</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm w-20 shrink-0">Threshold</span>
                 <input type="range" min={0} max={255} value={opts.threshold} onChange={(e) => set("threshold", +e.target.value)} className="flex-1 accent-blue-500" />
-                <span className="text-blue-400 font-mono text-sm w-8 text-right">{opts.threshold}</span>
+                <span className="text-blue-600 dark:text-blue-400 font-mono text-sm w-8 text-right">{opts.threshold}</span>
               </div>
             )}
 
             {/* Blur (color + bw) */}
             {opts.mode !== "embed" && (
               <div className="flex items-center gap-3">
-                <span className="text-slate-400 text-sm w-20 shrink-0">Pre-blur</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm w-20 shrink-0">Pre-blur</span>
                 <input type="range" min={0} max={5} value={opts.blur} onChange={(e) => set("blur", +e.target.value)} className="flex-1 accent-blue-500" />
-                <span className="text-blue-400 font-mono text-sm w-8 text-right">{opts.blur}px</span>
+                <span className="text-blue-600 dark:text-blue-400 font-mono text-sm w-8 text-right">{opts.blur}px</span>
               </div>
             )}
 
             {original && (
               <button onClick={rerun} disabled={processing}
-                className="text-xs text-slate-500 hover:text-blue-400 transition-colors disabled:opacity-40">
+                className="text-xs text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors disabled:opacity-40">
                 ↺ Re-convert with current settings
               </button>
             )}
@@ -240,22 +240,22 @@ export default function RasterToSvgPage() {
 
           {/* Drop zone */}
           <div
-            className="bg-slate-900/60 border-2 border-dashed border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
+            className="bg-slate-50 dark:bg-slate-900/60 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
             onClick={() => !processing && fileRef.current?.click()}
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }}>
             {processing ? (
               <div className="space-y-2">
                 <div className="w-7 h-7 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-slate-400 text-sm">{progress}</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">{progress}</p>
                 {opts.mode === "color" && <p className="text-slate-500 text-xs">Color tracing may take a moment for large images.</p>}
               </div>
             ) : (
               <>
-                <svg className="w-8 h-8 text-slate-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
-                <p className="text-slate-400 text-sm">Drop a PNG, JPG, or WEBP or <span className="text-blue-400">browse</span></p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm">Drop a PNG, JPG, or WEBP or <span className="text-blue-600 dark:text-blue-400">browse</span></p>
                 <p className="text-slate-500 text-xs mt-1">Best results with logos, icons, and flat-color artwork</p>
               </>
             )}
@@ -268,15 +268,15 @@ export default function RasterToSvgPage() {
           {/* Before/after */}
           {original && svgResult && (
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-3">
+              <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-3">
                 <p className="text-slate-500 text-xs mb-2">Original (raster)</p>
-                <div className="rounded-lg overflow-hidden bg-slate-800 flex items-center justify-center min-h-32"
+                <div className="rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center min-h-32"
                   style={{ background: "repeating-conic-gradient(#374151 0% 25%,#1e293b 0% 50%) 0 0/12px 12px" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={original} alt="Original" className="w-full max-h-60 object-contain" />
                 </div>
               </div>
-              <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-3">
+              <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-3">
                 <p className="text-slate-500 text-xs mb-2">SVG output (scalable)</p>
                 <div className="rounded-lg overflow-hidden flex items-center justify-center min-h-32"
                   style={{ background: "repeating-conic-gradient(#374151 0% 25%,#1e293b 0% 50%) 0 0/12px 12px" }}>

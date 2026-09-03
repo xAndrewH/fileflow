@@ -23,22 +23,22 @@ export const metadata: Metadata = {
 
 export default function DmcaPage() {
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-16">
-        <Link href="/" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-10 transition-colors">
+        <Link href="/" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-10 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
           Back to FileSpark
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-2">DMCA Policy</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">DMCA Policy</h1>
         <p className="text-slate-500 text-sm mb-10">Last updated: {new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
 
-        <div className="prose-slate space-y-8 text-slate-400 text-sm leading-relaxed">
+        <div className="prose-slate space-y-8 text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
 
           <section>
-            <h2 className="text-white font-semibold text-base mb-2">Overview</h2>
+            <h2 className="text-slate-900 dark:text-white font-semibold text-base mb-2">Overview</h2>
             <p>
               FileSpark respects the intellectual property rights of others and expects users of the service to do the same.
               In accordance with the Digital Millennium Copyright Act of 1998 (the &quot;DMCA&quot;), FileSpark will respond
@@ -47,7 +47,7 @@ export default function DmcaPage() {
           </section>
 
           <section>
-            <h2 className="text-white font-semibold text-base mb-2">How FileSpark Works</h2>
+            <h2 className="text-slate-900 dark:text-white font-semibold text-base mb-2">How FileSpark Works</h2>
             <p>
               FileSpark is a client-side file conversion tool. The vast majority of conversions happen entirely within
               your browser | files are never uploaded to or stored on our servers. For conversions that do pass through
@@ -57,7 +57,7 @@ export default function DmcaPage() {
           </section>
 
           <section>
-            <h2 className="text-white font-semibold text-base mb-2">Reporting Copyright Infringement</h2>
+            <h2 className="text-slate-900 dark:text-white font-semibold text-base mb-2">Reporting Copyright Infringement</h2>
             <p>
               If you believe that content available through FileSpark infringes your copyright, you may submit a DMCA
               takedown notice to our designated agent. Your notice must include all of the following:
@@ -79,11 +79,11 @@ export default function DmcaPage() {
           </section>
 
           <section>
-            <h2 className="text-white font-semibold text-base mb-2">Designated Copyright Agent</h2>
+            <h2 className="text-slate-900 dark:text-white font-semibold text-base mb-2">Designated Copyright Agent</h2>
             <p>Send DMCA notices to:</p>
-            <div className="mt-3 bg-slate-900 border border-slate-800 rounded-lg px-4 py-3 text-slate-300 text-sm">
-              <p className="font-medium text-white">FileSpark DMCA Agent</p>
-              <p className="mt-1">Email: <a href="mailto:dmca@filespark.app" className="text-blue-400 hover:underline">dmca@filespark.app</a></p>
+            <div className="mt-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-3 text-slate-700 dark:text-slate-300 text-sm">
+              <p className="font-medium text-slate-900 dark:text-white">FileSpark DMCA Agent</p>
+              <p className="mt-1">Email: <a href="mailto:dmca@filespark.app" className="text-blue-600 dark:text-blue-400 hover:underline">dmca@filespark.app</a></p>
             </div>
             <p className="mt-3 text-slate-500 text-xs">
               We will review and respond to valid DMCA notices within a reasonable time. Incomplete notices may be
@@ -92,7 +92,7 @@ export default function DmcaPage() {
           </section>
 
           <section>
-            <h2 className="text-white font-semibold text-base mb-2">Counter-Notification</h2>
+            <h2 className="text-slate-900 dark:text-white font-semibold text-base mb-2">Counter-Notification</h2>
             <p>
               If you believe material was removed as a result of a mistake or misidentification, you may submit a
               counter-notification to our designated agent with the following information:
@@ -109,7 +109,7 @@ export default function DmcaPage() {
           </section>
 
           <section>
-            <h2 className="text-white font-semibold text-base mb-2">Repeat Infringers</h2>
+            <h2 className="text-slate-900 dark:text-white font-semibold text-base mb-2">Repeat Infringers</h2>
             <p>
               FileSpark reserves the right to terminate access to the service for users who are repeat infringers of
               intellectual property rights.
@@ -117,7 +117,7 @@ export default function DmcaPage() {
           </section>
 
           <section>
-            <h2 className="text-white font-semibold text-base mb-2">Misrepresentation</h2>
+            <h2 className="text-slate-900 dark:text-white font-semibold text-base mb-2">Misrepresentation</h2>
             <p>
               Under Section 512(f) of the DMCA, any person who knowingly materially misrepresents that material is
               infringing may be liable for damages, including costs and attorneys&apos; fees.

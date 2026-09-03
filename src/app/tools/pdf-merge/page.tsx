@@ -70,9 +70,9 @@ export default function PdfMergePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
@@ -80,7 +80,7 @@ export default function PdfMergePage() {
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-1">PDF Merge</h1>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">PDF Merge</h1>
           <p className="text-slate-500 text-sm">Combine multiple PDF files into one. Drag to reorder pages.</p>
         </div>
 
@@ -92,8 +92,8 @@ export default function PdfMergePage() {
           onClick={() => inputRef.current?.click()}
           className={`flex flex-col items-center justify-center gap-3 py-10 rounded-2xl border border-dashed cursor-pointer transition-all mb-5 ${
             isDragging
-              ? "border-blue-500/70 bg-blue-500/8 text-blue-400"
-              : "border-slate-700/60 text-slate-500 hover:border-slate-600 hover:text-slate-300"
+              ? "border-blue-500/70 bg-blue-500/8 text-blue-600 dark:text-blue-400"
+              : "border-slate-300 dark:border-slate-700/60 text-slate-500 hover:border-slate-400 dark:hover:border-slate-600 hover:text-slate-800 dark:hover:text-slate-300"
           }`}
         >
           <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -118,20 +118,20 @@ export default function PdfMergePage() {
         {pdfs.length > 0 && (
           <div className="space-y-2 mb-6">
             {pdfs.map((pdf, idx) => (
-              <div key={pdf.id} className="flex items-center gap-3 bg-slate-900/60 border border-slate-800/60 rounded-xl px-4 py-3">
-                <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-400 text-xs flex items-center justify-center font-bold shrink-0">
+              <div key={pdf.id} className="flex items-center gap-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-3">
+                <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs flex items-center justify-center font-bold shrink-0">
                   {idx + 1}
                 </span>
-                <span className="text-red-400 text-lg shrink-0">📄</span>
+                <span className="text-red-600 dark:text-red-400 text-lg shrink-0">📄</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm truncate">{pdf.file.name}</p>
+                  <p className="text-slate-900 dark:text-white text-sm truncate">{pdf.file.name}</p>
                   <p className="text-slate-500 text-xs">{formatBytes(pdf.file.size)}</p>
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     onClick={() => moveUp(idx)}
                     disabled={idx === 0}
-                    className="p-1 text-slate-600 hover:text-slate-300 disabled:opacity-30 transition-colors"
+                    className="p-1 text-slate-400 dark:text-slate-600 hover:text-slate-800 dark:hover:text-slate-300 disabled:opacity-30 transition-colors"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
@@ -140,7 +140,7 @@ export default function PdfMergePage() {
                   <button
                     onClick={() => moveDown(idx)}
                     disabled={idx === pdfs.length - 1}
-                    className="p-1 text-slate-600 hover:text-slate-300 disabled:opacity-30 transition-colors"
+                    className="p-1 text-slate-400 dark:text-slate-600 hover:text-slate-800 dark:hover:text-slate-300 disabled:opacity-30 transition-colors"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -148,7 +148,7 @@ export default function PdfMergePage() {
                   </button>
                   <button
                     onClick={() => remove(pdf.id)}
-                    className="p-1 text-slate-600 hover:text-red-400 transition-colors ml-1"
+                    className="p-1 text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors ml-1"
                   >
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                       <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />

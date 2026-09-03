@@ -200,13 +200,13 @@ const COMPRESSORS: { section: string; emoji: string; color: string; items: Direc
 ];
 
 const colorMap: Record<string, { header: string; pill: string; pillActive: string; dot: string }> = {
-  violet: { header: "text-violet-400", dot: "bg-violet-500",  pill: "hover:bg-violet-500/10 hover:text-violet-300 hover:border-violet-500/30",  pillActive: "bg-violet-500/15 text-violet-300 border-violet-500/40" },
-  emerald:{ header: "text-emerald-400",dot: "bg-emerald-500", pill: "hover:bg-emerald-500/10 hover:text-emerald-300 hover:border-emerald-500/30",pillActive: "bg-emerald-500/15 text-emerald-300 border-emerald-500/40" },
-  amber:  { header: "text-amber-400",  dot: "bg-amber-500",   pill: "hover:bg-amber-500/10 hover:text-amber-300 hover:border-amber-500/30",    pillActive: "bg-amber-500/15 text-amber-300 border-amber-500/40" },
-  pink:   { header: "text-pink-400",   dot: "bg-pink-500",    pill: "hover:bg-pink-500/10 hover:text-pink-300 hover:border-pink-500/30",        pillActive: "bg-pink-500/15 text-pink-300 border-pink-500/40" },
-  cyan:   { header: "text-cyan-400",   dot: "bg-cyan-500",    pill: "hover:bg-cyan-500/10 hover:text-cyan-300 hover:border-cyan-500/30",        pillActive: "bg-cyan-500/15 text-cyan-300 border-cyan-500/40" },
-  rose:   { header: "text-rose-400",   dot: "bg-rose-500",    pill: "hover:bg-rose-500/10 hover:text-rose-300 hover:border-rose-500/30",        pillActive: "bg-rose-500/15 text-rose-300 border-rose-500/40" },
-  orange: { header: "text-orange-400", dot: "bg-orange-500",  pill: "hover:bg-orange-500/10 hover:text-orange-300 hover:border-orange-500/30",  pillActive: "bg-orange-500/15 text-orange-300 border-orange-500/40" },
+  violet: { header: "text-violet-600 dark:text-violet-400", dot: "bg-violet-500",  pill: "hover:bg-violet-500/10 hover:text-violet-700 dark:hover:text-violet-300 hover:border-violet-500/30",  pillActive: "bg-violet-500/15 text-violet-700 dark:text-violet-300 border-violet-500/40" },
+  emerald:{ header: "text-emerald-600 dark:text-emerald-400",dot: "bg-emerald-500", pill: "hover:bg-emerald-500/10 hover:text-emerald-700 dark:hover:text-emerald-300 hover:border-emerald-500/30",pillActive: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/40" },
+  amber:  { header: "text-amber-600 dark:text-amber-400",  dot: "bg-amber-500",   pill: "hover:bg-amber-500/10 hover:text-amber-700 dark:hover:text-amber-300 hover:border-amber-500/30",    pillActive: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/40" },
+  pink:   { header: "text-pink-600 dark:text-pink-400",   dot: "bg-pink-500",    pill: "hover:bg-pink-500/10 hover:text-pink-700 dark:hover:text-pink-300 hover:border-pink-500/30",        pillActive: "bg-pink-500/15 text-pink-700 dark:text-pink-300 border-pink-500/40" },
+  cyan:   { header: "text-cyan-600 dark:text-cyan-400",   dot: "bg-cyan-500",    pill: "hover:bg-cyan-500/10 hover:text-cyan-700 dark:hover:text-cyan-300 hover:border-cyan-500/30",        pillActive: "bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/40" },
+  rose:   { header: "text-rose-600 dark:text-rose-400",   dot: "bg-rose-500",    pill: "hover:bg-rose-500/10 hover:text-rose-700 dark:hover:text-rose-300 hover:border-rose-500/30",        pillActive: "bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/40" },
+  orange: { header: "text-orange-600 dark:text-orange-400", dot: "bg-orange-500",  pill: "hover:bg-orange-500/10 hover:text-orange-700 dark:hover:text-orange-300 hover:border-orange-500/30",  pillActive: "bg-orange-500/15 text-orange-700 dark:text-orange-300 border-orange-500/40" },
 };
 
 export default function ConverterDirectory({ activeLabel, selectedCategory, onSelect }: Props) {
@@ -225,22 +225,22 @@ export default function ConverterDirectory({ activeLabel, selectedCategory, onSe
   const categoryLabel = allowedSections ? data[0]?.section ?? "Tools" : "All Tools";
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden">
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 overflow-hidden">
       {/* Header bar */}
-      <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-800 bg-slate-900">
+      <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
         <div className="flex items-center gap-3">
-          <span className="text-white font-semibold text-sm">{categoryLabel}</span>
-          <span className="text-slate-600 text-xs">·</span>
-          <div className="flex rounded-lg overflow-hidden border border-slate-700 text-xs">
+          <span className="text-slate-900 dark:text-white font-semibold text-sm">{categoryLabel}</span>
+          <span className="text-slate-400 dark:text-slate-600 text-xs">·</span>
+          <div className="flex rounded-lg overflow-hidden border border-slate-300 dark:border-slate-700 text-xs">
             <button
               onClick={() => setTab("convert")}
-              className={`px-3 py-1 font-medium transition-colors ${tab === "convert" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}
+              className={`px-3 py-1 font-medium transition-colors ${tab === "convert" ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
             >
               Convert
             </button>
             <button
               onClick={() => setTab("compress")}
-              className={`px-3 py-1 font-medium transition-colors ${tab === "compress" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}
+              className={`px-3 py-1 font-medium transition-colors ${tab === "compress" ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
             >
               Compress
             </button>
@@ -249,7 +249,7 @@ export default function ConverterDirectory({ activeLabel, selectedCategory, onSe
 
         <button
           onClick={() => setOpen((v) => !v)}
-          className="flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-xs transition-colors"
+          className="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-xs transition-colors"
         >
           {open ? "Hide" : "Show"}
           <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -261,11 +261,11 @@ export default function ConverterDirectory({ activeLabel, selectedCategory, onSe
       {/* Grid | animated collapse, capped height with internal scroll */}
       <div className={`transition-all duration-300 ease-in-out overflow-hidden ${open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
         <div className="overflow-y-auto max-h-96 scrollbar-thin">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-0 divide-x divide-slate-800/60">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-0 divide-x divide-slate-200 dark:divide-slate-800/60">
             {data.map(({ section, emoji, color, items }) => {
               const c = colorMap[color] ?? colorMap.violet;
               return (
-                <div key={section} className="px-3 py-3 border-b border-slate-800/60">
+                <div key={section} className="px-3 py-3 border-b border-slate-200 dark:border-slate-800/60">
                   <div className="flex items-center gap-1.5 mb-2">
                     <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${c.dot}`} />
                     <span className={`text-[10px] font-bold uppercase tracking-wider ${c.header}`}>{section}</span>
@@ -281,7 +281,7 @@ export default function ConverterDirectory({ activeLabel, selectedCategory, onSe
                           className={`text-left text-xs px-2 py-1 rounded-md border transition-all duration-150 ${
                             isActive
                               ? `${c.pillActive} border font-medium`
-                              : `text-slate-400 border-transparent ${c.pill}`
+                              : `text-slate-500 dark:text-slate-400 border-transparent ${c.pill}`
                           }`}
                         >
                           {item.label}

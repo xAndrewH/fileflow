@@ -209,52 +209,52 @@ export default function UnitsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Unit Converter</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Unit Converter</h1>
         <p className="text-slate-500 text-sm mb-8">Convert between common units of measurement.</p>
 
         {/* Category tabs */}
         <div className="flex flex-wrap gap-2 mb-6">
           {CATEGORIES.map((c, i) => (
             <button key={c.name} onClick={() => switchCat(i)}
-              className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${catIdx === i ? "bg-blue-600 text-white" : "bg-slate-900/60 border border-slate-800/60 text-slate-400 hover:text-white"}`}>
+              className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${catIdx === i ? "bg-blue-600 text-white" : "bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
               {c.name}
             </button>
           ))}
         </div>
 
-        <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
+        <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
           <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-end">
             <div className="space-y-2">
               <select value={fromUnit} onChange={e => setFromUnit(+e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none">
+                className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white text-sm focus:outline-none">
                 {cat.units.map((u, i) => <option key={u.label} value={i}>{u.label}</option>)}
               </select>
               <input
                 type="number"
                 value={value}
                 onChange={e => setValue(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2.5 text-white text-lg font-mono focus:outline-none focus:border-blue-500"
+                className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2.5 text-slate-900 dark:text-white text-lg font-mono focus:outline-none focus:border-blue-500"
               />
             </div>
             <button onClick={swap}
-              className="pb-1 text-slate-400 hover:text-blue-400 transition-colors">
+              className="pb-1 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
               </svg>
             </button>
             <div className="space-y-2">
               <select value={toUnit} onChange={e => setToUnit(+e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none">
+                className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-slate-900 dark:text-white text-sm focus:outline-none">
                 {cat.units.map((u, i) => <option key={u.label} value={i}>{u.label}</option>)}
               </select>
-              <div className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2.5 text-blue-400 text-lg font-mono min-h-[3rem] flex items-center">
-                {result || <span className="text-slate-600">|</span>}
+              <div className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2.5 text-blue-600 dark:text-blue-400 text-lg font-mono min-h-[3rem] flex items-center">
+                {result || <span className="text-slate-400 dark:text-slate-600">|</span>}
               </div>
             </div>
           </div>

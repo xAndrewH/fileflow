@@ -111,12 +111,12 @@ export default function GrammarCheckerPage() {
   }, [text, matches]);
 
   const categoryColor: Record<string, string> = {
-    GRAMMAR: "text-red-400 bg-red-950/40 border-red-800/50",
-    SPELLING: "text-yellow-400 bg-yellow-950/40 border-yellow-800/50",
-    PUNCTUATION: "text-orange-400 bg-orange-950/40 border-orange-800/50",
-    STYLE: "text-blue-400 bg-blue-950/40 border-blue-800/50",
+    GRAMMAR: "text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-800/50",
+    SPELLING: "text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-950/40 border-yellow-200 dark:border-yellow-800/50",
+    PUNCTUATION: "text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/40 border-orange-200 dark:border-orange-800/50",
+    STYLE: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800/50",
   };
-  const getColor = (cat: string) => categoryColor[cat] ?? "text-slate-400 bg-slate-800/60 border-slate-700/50";
+  const getColor = (cat: string) => categoryColor[cat] ?? "text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/60 border-slate-300 dark:border-slate-700/50";
 
   const renderHighlighted = () => {
     if (!checked || matches.length === 0) return null;
@@ -155,51 +155,51 @@ export default function GrammarCheckerPage() {
   const fixableCount = matches.filter(m => m.replacements.length > 0).length;
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           Tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Grammar &amp; Spell Checker</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Grammar &amp; Spell Checker</h1>
         <p className="text-slate-500 text-sm mb-8">Check grammar, spelling, and style instantly | no signup required.</p>
 
         <div className="space-y-4">
           {/* Language selector */}
           <div className="flex items-center gap-3">
-            <label className="text-slate-400 text-xs shrink-0">Language:</label>
+            <label className="text-slate-500 dark:text-slate-400 text-xs shrink-0">Language:</label>
             <select value={language}
               onChange={e => { setLanguage(e.target.value); setChecked(false); setMatches([]); }}
-              className="bg-slate-900/60 border border-slate-800/60 text-slate-300 text-xs rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500/50">
+              className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 text-slate-700 dark:text-slate-300 text-xs rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500/50">
               {LANGUAGES.map(l => (
                 <option key={l.code} value={l.code}>{l.label}</option>
               ))}
             </select>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl overflow-hidden">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl overflow-hidden">
             <textarea
               value={text}
               onChange={e => { setText(e.target.value); setChecked(false); setMatches([]); setActiveIdx(null); setError(""); }}
               placeholder="Paste or type your text here to check for grammar and spelling mistakes…"
               rows={8}
-              className="w-full bg-transparent px-4 py-4 text-slate-200 text-sm leading-relaxed resize-none focus:outline-none placeholder:text-slate-600"
+              className="w-full bg-transparent px-4 py-4 text-slate-800 dark:text-slate-200 text-sm leading-relaxed resize-none focus:outline-none placeholder:text-slate-600"
             />
-            <div className="flex items-center justify-between px-4 py-3 border-t border-slate-800/60">
+            <div className="flex items-center justify-between px-4 py-3 border-t border-slate-200 dark:border-slate-800/60">
               <div className="flex items-center gap-2">
-                <span className="text-slate-600 text-xs">{text.trim().split(/\s+/).filter(Boolean).length} words · {text.length} chars</span>
+                <span className="text-slate-400 dark:text-slate-600 text-xs">{text.trim().split(/\s+/).filter(Boolean).length} words · {text.length} chars</span>
                 {loading && <span className="text-slate-500 text-xs animate-pulse">Checking…</span>}
               </div>
               <div className="flex items-center gap-2">
                 {text && (
                   <button onClick={copyText}
-                    className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-700/60">
+                    className="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-300 dark:border-slate-700/60">
                     {copied ? "Copied" : "Copy"}
                   </button>
                 )}
                 {text && (
                   <button onClick={clearAll}
-                    className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-700/60">
+                    className="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium rounded-lg transition-colors border border-slate-300 dark:border-slate-700/60">
                     Clear
                   </button>
                 )}
@@ -218,30 +218,30 @@ export default function GrammarCheckerPage() {
           </div>
 
           {error && (
-            <div className="flex items-center gap-2 text-red-400 text-xs bg-red-400/5 border border-red-400/20 rounded-xl px-4 py-2">
+            <div className="flex items-center gap-2 text-red-600 dark:text-red-400 text-xs bg-red-400/5 border border-red-400/20 rounded-xl px-4 py-2">
               <span>⚠</span><span>{error}</span>
             </div>
           )}
 
           {/* Highlighted preview */}
           {highlighted && (
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
               <p className="text-slate-500 text-xs mb-2">Click a highlighted word to see and apply suggestions</p>
-              <div className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap font-sans">{highlighted}</div>
+              <div className="text-slate-800 dark:text-slate-200 text-sm leading-relaxed whitespace-pre-wrap font-sans">{highlighted}</div>
             </div>
           )}
 
           {checked && matches.length === 0 && (
-            <div className="flex items-center gap-3 bg-emerald-950/40 border border-emerald-800/50 rounded-xl p-4">
-              <span className="text-emerald-400 text-lg">✓</span>
-              <p className="text-emerald-400 text-sm">No issues found. Your text looks great!</p>
+            <div className="flex items-center gap-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 rounded-xl p-4">
+              <span className="text-emerald-600 dark:text-emerald-400 text-lg">✓</span>
+              <p className="text-emerald-600 dark:text-emerald-400 text-sm">No issues found. Your text looks great!</p>
             </div>
           )}
 
           {matches.length > 0 && (
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <p className="text-slate-400 text-sm font-medium">{matches.length} issue{matches.length !== 1 ? "s" : ""} found</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{matches.length} issue{matches.length !== 1 ? "s" : ""} found</p>
                 {fixableCount > 0 && (
                   <button onClick={fixAll}
                     className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold rounded-lg transition-colors">

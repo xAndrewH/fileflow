@@ -152,9 +152,9 @@ export default function ImagesToGifPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
@@ -162,10 +162,10 @@ export default function ImagesToGifPage() {
         </Link>
 
         <div className="flex items-center gap-3 mb-2">
-          <Film className="w-6 h-6 text-blue-400" />
-          <h1 className="text-2xl font-semibold text-slate-100">Images to GIF</h1>
+          <Film className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+          <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Images to GIF</h1>
         </div>
-        <p className="text-slate-400 text-sm mb-8">Combine a sequence of images into an animated GIF, right in your browser.</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mb-8">Combine a sequence of images into an animated GIF, right in your browser.</p>
 
         {/* Drop zone */}
         <div
@@ -175,8 +175,8 @@ export default function ImagesToGifPage() {
           onClick={() => inputRef.current?.click()}
           className={`flex flex-col items-center justify-center gap-3 py-10 rounded-2xl border border-dashed cursor-pointer transition-all mb-5 ${
             isDragging
-              ? "border-blue-500/70 bg-blue-500/8 text-blue-400"
-              : "border-slate-700/60 text-slate-500 hover:border-slate-600 hover:text-slate-300"
+              ? "border-blue-500/70 bg-blue-500/8 text-blue-600 dark:text-blue-400"
+              : "border-slate-300 dark:border-slate-700/60 text-slate-500 hover:border-slate-400 dark:hover:border-slate-600 hover:text-slate-800 dark:hover:text-slate-300"
           }`}
         >
           <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -203,30 +203,30 @@ export default function ImagesToGifPage() {
         {images.length > 0 && (
           <div className="space-y-2 mb-5">
             {images.map((img, idx) => (
-              <div key={img.id} className="flex items-center gap-3 bg-slate-900/60 border border-slate-800/60 rounded-xl px-3 py-3">
-                <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-400 text-xs flex items-center justify-center font-bold shrink-0">
+              <div key={img.id} className="flex items-center gap-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-3 py-3">
+                <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs flex items-center justify-center font-bold shrink-0">
                   {idx + 1}
                 </span>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.url} alt={img.file.name} className="w-10 h-10 object-cover rounded-lg border border-slate-700 shrink-0" />
+                <img src={img.url} alt={img.file.name} className="w-10 h-10 object-cover rounded-lg border border-slate-300 dark:border-slate-700 shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm truncate">{img.file.name}</p>
+                  <p className="text-slate-900 dark:text-white text-sm truncate">{img.file.name}</p>
                   <p className="text-slate-500 text-xs">{formatBytes(img.file.size)}</p>
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
                   <button onClick={() => moveUp(idx)} disabled={idx === 0}
-                    className="p-1 text-slate-600 hover:text-slate-300 disabled:opacity-30 transition-colors">
+                    className="p-1 text-slate-400 dark:text-slate-600 hover:text-slate-800 dark:hover:text-slate-300 disabled:opacity-30 transition-colors">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
                     </svg>
                   </button>
                   <button onClick={() => moveDown(idx)} disabled={idx === images.length - 1}
-                    className="p-1 text-slate-600 hover:text-slate-300 disabled:opacity-30 transition-colors">
+                    className="p-1 text-slate-400 dark:text-slate-600 hover:text-slate-800 dark:hover:text-slate-300 disabled:opacity-30 transition-colors">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
-                  <button onClick={() => remove(img.id)} className="p-1 text-slate-600 hover:text-red-400 transition-colors ml-1">
+                  <button onClick={() => remove(img.id)} className="p-1 text-slate-400 dark:text-slate-600 hover:text-red-600 dark:hover:text-red-400 transition-colors ml-1">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                       <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                     </svg>
@@ -238,27 +238,27 @@ export default function ImagesToGifPage() {
         )}
 
         {/* Settings */}
-        <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-5 mb-5">
+        <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-5 mb-5">
           <div>
-            <label className="block text-sm text-slate-300 mb-2">
-              Frame delay: <span className="text-slate-400">{delay.toFixed(1)}s per image</span>
+            <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+              Frame delay: <span className="text-slate-500 dark:text-slate-400">{delay.toFixed(1)}s per image</span>
             </label>
             <input type="range" min={0.1} max={2} step={0.1} value={delay} onChange={(e) => setDelay(Number(e.target.value))} className="w-full accent-blue-500" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-slate-300 mb-2">Width</label>
+              <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">Width</label>
               <select value={width} onChange={(e) => setWidth(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors">
+                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors">
                 {WIDTH_OPTIONS.map((w) => (
                   <option key={w} value={w}>{w === "original" ? "Original (first image)" : `${w}px`}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-slate-300 mb-2">
-                Quality (colors): <span className="text-slate-400">{colors}</span>
+              <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                Quality (colors): <span className="text-slate-500 dark:text-slate-400">{colors}</span>
               </label>
               <input type="range" min={32} max={256} step={1} value={colors} onChange={(e) => setColors(Number(e.target.value))} className="w-full accent-blue-500 mt-3" />
             </div>
@@ -278,7 +278,7 @@ export default function ImagesToGifPage() {
               {processing ? "Working…" : "Create GIF"}
             </button>
             {images.length > 0 && (
-              <button onClick={reset} className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-xs transition-colors">
+              <button onClick={reset} className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-xs transition-colors">
                 <RotateCcw className="w-3.5 h-3.5" />
                 Start over
               </button>
@@ -287,14 +287,14 @@ export default function ImagesToGifPage() {
 
           {processing && (
             <div>
-              <div className="flex items-center justify-between text-xs text-slate-400 mb-1.5">
+              <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-1.5">
                 <span className="inline-flex items-center gap-1.5">
                   <Loader2 className="w-3 h-3 animate-spin" />
                   {status === "loading" ? "Loading FFmpeg… (first run can take a few seconds)" : status === "rendering" ? "Preparing frames…" : "Encoding…"}
                 </span>
                 {status === "encoding" && <span>{progress}%</span>}
               </div>
-              <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                 <div className="h-full bg-blue-500 transition-all" style={{ width: status === "encoding" ? `${progress}%` : "100%" }} />
               </div>
             </div>
@@ -302,8 +302,8 @@ export default function ImagesToGifPage() {
         </div>
 
         {resultUrl && (
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-            <p className="text-sm text-slate-300 mb-3">Your GIF is ready</p>
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+            <p className="text-sm text-slate-700 dark:text-slate-300 mb-3">Your GIF is ready</p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={resultUrl} alt="Generated GIF" className="w-full max-h-80 object-contain rounded-lg bg-black" />
             <div className="flex items-center justify-between mt-4">

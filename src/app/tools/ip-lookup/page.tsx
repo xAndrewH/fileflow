@@ -16,12 +16,12 @@ function flagEmoji(countryCode: string): string {
 
 function InfoCard({ label, value, icon }: { label: string; value: string; icon?: React.ReactNode }) {
   return (
-    <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+    <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
       <div className="flex items-center gap-1.5 text-slate-500 text-xs mb-1.5">
         {icon}
         <span>{label}</span>
       </div>
-      <p className="text-slate-200 text-sm font-medium break-all">{value || <span className="text-slate-600">|</span>}</p>
+      <p className="text-slate-800 dark:text-slate-200 text-sm font-medium break-all">{value || <span className="text-slate-400 dark:text-slate-600">|</span>}</p>
     </div>
   );
 }
@@ -29,10 +29,10 @@ function InfoCard({ label, value, icon }: { label: string; value: string; icon?:
 function Skeleton() {
   return (
     <div className="mt-6 space-y-4">
-      <div className="animate-pulse bg-slate-800 rounded-xl h-16 w-full" />
+      <div className="animate-pulse bg-slate-100 dark:bg-slate-800 rounded-xl h-16 w-full" />
       <div className="grid grid-cols-2 gap-3">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="animate-pulse bg-slate-800 rounded-xl h-16" />
+          <div key={i} className="animate-pulse bg-slate-100 dark:bg-slate-800 rounded-xl h-16" />
         ))}
       </div>
     </div>
@@ -70,29 +70,29 @@ export default function IpLookupPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
         <Link
           href="/tools"
-          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group"
+          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group"
         >
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">IP Address Lookup</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">IP Address Lookup</h1>
         <p className="text-slate-500 text-sm mb-8">
           Geolocate any IPv4, IPv6 address or hostname, or look up your own IP.
         </p>
 
-        <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
+        <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
           <div className="flex gap-3">
             <input
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === "Enter" && lookup()}
               placeholder="Enter IP address or hostname, or leave blank for your IP"
-              className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+              className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
             />
             <button
               onClick={() => lookup()}
@@ -107,18 +107,18 @@ export default function IpLookupPage() {
         {loading && <Skeleton />}
 
         {error && !loading && (
-          <div className="mt-5 bg-red-500/10 border border-red-500/20 rounded-lg p-4 text-red-400 text-sm">
+          <div className="mt-5 bg-red-500/10 border border-red-500/20 rounded-lg p-4 text-red-600 dark:text-red-400 text-sm">
             {error}
           </div>
         )}
 
         {result && !loading && (
           <div className="mt-6 space-y-4">
-            <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
+            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
               <p className="text-slate-500 text-xs mb-1">IP Address</p>
-              <p className="text-3xl font-bold text-white font-mono">{result.ip}</p>
+              <p className="text-3xl font-bold text-slate-900 dark:text-white font-mono">{result.ip}</p>
               {result.isPrivate && (
-                <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-400 text-xs font-medium">
+                <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-600 dark:text-yellow-400 text-xs font-medium">
                   <Server className="w-3.5 h-3.5" />
                   Private / Local IP | no geolocation available
                 </div>
@@ -160,18 +160,18 @@ export default function IpLookupPage() {
                   />
                 </div>
 
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
                   <p className="text-slate-500 text-xs mb-1.5">AS Number</p>
-                  <p className="text-slate-200 text-sm font-mono">{result.as || "|"}</p>
+                  <p className="text-slate-800 dark:text-slate-200 text-sm font-mono">{result.as || "|"}</p>
                 </div>
 
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
                   <div className="flex items-center gap-1.5 text-slate-500 text-xs mb-1.5">
                     <MapPin className="w-3 h-3" />
                     <span>Coordinates</span>
-                    <span className="text-slate-600">(not exact)</span>
+                    <span className="text-slate-400 dark:text-slate-600">(not exact)</span>
                   </div>
-                  <p className="text-slate-200 text-sm font-mono">
+                  <p className="text-slate-800 dark:text-slate-200 text-sm font-mono">
                     {result.lat}, {result.lon}
                   </p>
                 </div>
@@ -180,8 +180,8 @@ export default function IpLookupPage() {
           </div>
         )}
 
-        <div className="mt-8 bg-slate-900/60 border border-slate-800/60 rounded-xl p-5">
-          <h2 className="text-slate-300 text-sm font-medium mb-3">Private IP Ranges</h2>
+        <div className="mt-8 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+          <h2 className="text-slate-700 dark:text-slate-300 text-sm font-medium mb-3">Private IP Ranges</h2>
           <div className="space-y-1.5">
             {[
               { range: "10.0.0.0/8", desc: "Class A private network" },
@@ -191,9 +191,9 @@ export default function IpLookupPage() {
             ].map(({ range, desc }, i) => (
               <div
                 key={range}
-                className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm ${i % 2 === 0 ? "bg-slate-800/30" : ""}`}
+                className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm ${i % 2 === 0 ? "bg-slate-100 dark:bg-slate-800/30" : ""}`}
               >
-                <code className="text-slate-300 font-mono">{range}</code>
+                <code className="text-slate-700 dark:text-slate-300 font-mono">{range}</code>
                 <span className="text-slate-500 text-xs">{desc}</span>
               </div>
             ))}

@@ -9,7 +9,7 @@ export function ErrorAlert({ message, className = "" }: { message?: string | nul
   return (
     <div
       role="alert"
-      className={`flex items-start gap-2.5 bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400 text-sm ${className}`}
+      className={`flex items-start gap-2.5 bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-600 dark:text-red-400 text-sm ${className}`}
     >
       <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
       <span>{message}</span>

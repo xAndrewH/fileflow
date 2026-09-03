@@ -26,8 +26,8 @@ function NumInput({
 }) {
   return (
     <div>
-      <label className="text-slate-400 text-xs mb-1.5 block">{label}</label>
-      <div className="flex items-center bg-slate-800/60 border border-slate-700 rounded-lg overflow-hidden focus-within:border-blue-500">
+      <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">{label}</label>
+      <div className="flex items-center bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 rounded-lg overflow-hidden focus-within:border-blue-500">
         {prefix && (
           <span className="px-3 text-slate-500 text-sm select-none">{prefix}</span>
         )}
@@ -37,7 +37,7 @@ function NumInput({
           step={step ?? "any"}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="flex-1 bg-transparent py-2 text-white text-sm focus:outline-none min-w-0 px-2"
+          className="flex-1 bg-transparent py-2 text-slate-900 dark:text-white text-sm focus:outline-none min-w-0 px-2"
         />
         {suffix && (
           <span className="px-3 text-slate-500 text-sm select-none">{suffix}</span>
@@ -77,11 +77,11 @@ export default function SalesTaxPage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-lg mx-auto px-4 py-12">
         <Link
           href="/tools"
-          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors"
+          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors"
         >
           <svg
             className="w-3.5 h-3.5"
@@ -99,14 +99,14 @@ export default function SalesTaxPage() {
           Tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
           Sales Tax Calculator
         </h1>
         <p className="text-slate-500 text-sm mb-8">
           Calculate tax amount and total price.
         </p>
 
-        <div className="flex gap-1 bg-slate-900/60 border border-slate-800/60 rounded-xl p-1 mb-5">
+        <div className="flex gap-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-1 mb-5">
           {(
             [
               ["add", "Add Tax"],
@@ -120,7 +120,7 @@ export default function SalesTaxPage() {
               className={`flex-1 py-1.5 rounded-lg text-xs transition-colors ${
                 tab === id
                   ? "bg-blue-600 text-white"
-                  : "text-slate-400 hover:text-white"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               {label}
@@ -129,7 +129,7 @@ export default function SalesTaxPage() {
         </div>
 
         {tab === "add" && (
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-4">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-4">
             <NumInput
               label="Price (before tax)"
               value={addPrice}
@@ -142,25 +142,25 @@ export default function SalesTaxPage() {
               onChange={setAddRate}
               suffix="%"
             />
-            <div className="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4 space-y-3">
+            <div className="bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/60 rounded-xl p-4 space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-slate-400 text-sm">Pre-tax</span>
-                <span className="text-slate-300 text-sm">{fmt(addPriceNum)}</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm">Pre-tax</span>
+                <span className="text-slate-700 dark:text-slate-300 text-sm">{fmt(addPriceNum)}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-slate-400 text-sm">Tax Amount</span>
-                <span className="text-amber-400 text-sm font-medium">{fmt(addTax)}</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm">Tax Amount</span>
+                <span className="text-amber-600 dark:text-amber-400 text-sm font-medium">{fmt(addTax)}</span>
               </div>
-              <div className="border-t border-slate-700/60 pt-3 flex justify-between items-center">
-                <span className="text-slate-400 text-sm font-medium">Total Price</span>
-                <span className="text-white text-xl font-bold">{fmt(addTotal)}</span>
+              <div className="border-t border-slate-300 dark:border-slate-700/60 pt-3 flex justify-between items-center">
+                <span className="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Price</span>
+                <span className="text-slate-900 dark:text-white text-xl font-bold">{fmt(addTotal)}</span>
               </div>
             </div>
           </div>
         )}
 
         {tab === "remove" && (
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-4">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-4">
             <NumInput
               label="Price (includes tax)"
               value={removePrice}
@@ -173,21 +173,21 @@ export default function SalesTaxPage() {
               onChange={setRemoveRate}
               suffix="%"
             />
-            <div className="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4 space-y-3">
+            <div className="bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/60 rounded-xl p-4 space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-slate-400 text-sm">Original Price</span>
-                <span className="text-white text-xl font-bold">{fmt(removeOriginal)}</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm">Original Price</span>
+                <span className="text-slate-900 dark:text-white text-xl font-bold">{fmt(removeOriginal)}</span>
               </div>
-              <div className="border-t border-slate-700/60 pt-3 flex justify-between items-center">
-                <span className="text-slate-400 text-sm">Tax Amount</span>
-                <span className="text-amber-400 text-sm font-medium">{fmt(removeTax)}</span>
+              <div className="border-t border-slate-300 dark:border-slate-700/60 pt-3 flex justify-between items-center">
+                <span className="text-slate-500 dark:text-slate-400 text-sm">Tax Amount</span>
+                <span className="text-amber-600 dark:text-amber-400 text-sm font-medium">{fmt(removeTax)}</span>
               </div>
             </div>
           </div>
         )}
 
         {tab === "compare" && (
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-4">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-4">
             <NumInput
               label="Price (before tax)"
               value={comparePrice}
@@ -195,14 +195,14 @@ export default function SalesTaxPage() {
               prefix="$"
             />
             <div>
-              <label className="text-slate-400 text-xs mb-1.5 block">
+              <label className="text-slate-500 dark:text-slate-400 text-xs mb-1.5 block">
                 Tax Rates to Compare
               </label>
               <div className="grid grid-cols-4 gap-2">
                 {compareRates.map((r, i) => (
                   <div
                     key={i}
-                    className="flex items-center bg-slate-800/60 border border-slate-700 rounded-lg overflow-hidden focus-within:border-blue-500"
+                    className="flex items-center bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 rounded-lg overflow-hidden focus-within:border-blue-500"
                   >
                     <input
                       type="number"
@@ -214,31 +214,31 @@ export default function SalesTaxPage() {
                         next[i] = e.target.value;
                         setCompareRates(next);
                       }}
-                      className="flex-1 bg-transparent py-2 text-white text-sm focus:outline-none min-w-0 px-2 text-center"
+                      className="flex-1 bg-transparent py-2 text-slate-900 dark:text-white text-sm focus:outline-none min-w-0 px-2 text-center"
                     />
                     <span className="pr-2 text-slate-500 text-sm select-none">%</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-slate-800/60 border border-slate-700/60 rounded-xl overflow-hidden">
+            <div className="bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/60 rounded-xl overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-slate-700/60">
-                    <th className="text-left text-slate-400 px-4 py-2.5 font-medium">Rate</th>
-                    <th className="text-right text-slate-400 px-4 py-2.5 font-medium">Tax Amount</th>
-                    <th className="text-right text-slate-400 px-4 py-2.5 font-medium">Total</th>
+                  <tr className="border-b border-slate-300 dark:border-slate-700/60">
+                    <th className="text-left text-slate-500 dark:text-slate-400 px-4 py-2.5 font-medium">Rate</th>
+                    <th className="text-right text-slate-500 dark:text-slate-400 px-4 py-2.5 font-medium">Tax Amount</th>
+                    <th className="text-right text-slate-500 dark:text-slate-400 px-4 py-2.5 font-medium">Total</th>
                   </tr>
                 </thead>
                 <tbody>
                   {compareRows.map(({ rate, tax, total }, i) => (
                     <tr
                       key={i}
-                      className={i < compareRows.length - 1 ? "border-b border-slate-700/40" : ""}
+                      className={i < compareRows.length - 1 ? "border-b border-slate-300 dark:border-slate-700/40" : ""}
                     >
-                      <td className="text-slate-300 px-4 py-2.5">{rate}%</td>
-                      <td className="text-amber-400 px-4 py-2.5 text-right">{fmt(tax)}</td>
-                      <td className="text-slate-300 px-4 py-2.5 text-right font-medium">{fmt(total)}</td>
+                      <td className="text-slate-700 dark:text-slate-300 px-4 py-2.5">{rate}%</td>
+                      <td className="text-amber-600 dark:text-amber-400 px-4 py-2.5 text-right">{fmt(tax)}</td>
+                      <td className="text-slate-700 dark:text-slate-300 px-4 py-2.5 text-right font-medium">{fmt(total)}</td>
                     </tr>
                   ))}
                 </tbody>

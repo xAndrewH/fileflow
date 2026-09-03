@@ -56,15 +56,15 @@ const FORMAT_GROUPS: FormatGroup[] = [
 ];
 
 const COLOR_MAP: Record<string, { pill: string; badge: string; count: string }> = {
-  blue:    { pill: "bg-blue-500/15 border-blue-500/40 text-blue-300",    badge: "bg-blue-500/10 border-blue-500/20 text-blue-300 hover:bg-blue-500/20",    count: "bg-blue-500/20 text-blue-300" },
-  violet:  { pill: "bg-violet-500/15 border-violet-500/40 text-violet-300", badge: "bg-violet-500/10 border-violet-500/20 text-violet-300 hover:bg-violet-500/20", count: "bg-violet-500/20 text-violet-300" },
-  green:   { pill: "bg-green-500/15 border-green-500/40 text-green-300",  badge: "bg-green-500/10 border-green-500/20 text-green-300 hover:bg-green-500/20",  count: "bg-green-500/20 text-green-300" },
-  orange:  { pill: "bg-orange-500/15 border-orange-500/40 text-orange-300", badge: "bg-orange-500/10 border-orange-500/20 text-orange-300 hover:bg-orange-500/20", count: "bg-orange-500/20 text-orange-300" },
-  emerald: { pill: "bg-emerald-500/15 border-emerald-500/40 text-emerald-300", badge: "bg-emerald-500/10 border-emerald-500/20 text-emerald-300 hover:bg-emerald-500/20", count: "bg-emerald-500/20 text-emerald-300" },
-  amber:   { pill: "bg-amber-500/15 border-amber-500/40 text-amber-300",  badge: "bg-amber-500/10 border-amber-500/20 text-amber-300 hover:bg-amber-500/20",  count: "bg-amber-500/20 text-amber-300" },
-  pink:    { pill: "bg-pink-500/15 border-pink-500/40 text-pink-300",    badge: "bg-pink-500/10 border-pink-500/20 text-pink-300 hover:bg-pink-500/20",    count: "bg-pink-500/20 text-pink-300" },
-  slate:   { pill: "bg-slate-600/30 border-slate-500/40 text-slate-300",  badge: "bg-slate-700/40 border-slate-600/30 text-slate-300 hover:bg-slate-700/60",  count: "bg-slate-600/30 text-slate-300" },
-  cyan:    { pill: "bg-cyan-500/15 border-cyan-500/40 text-cyan-300",    badge: "bg-cyan-500/10 border-cyan-500/20 text-cyan-300 hover:bg-cyan-500/20",    count: "bg-cyan-500/20 text-cyan-300" },
+  blue:    { pill: "bg-blue-500/15 border-blue-500/40 text-blue-700 dark:text-blue-300",    badge: "bg-blue-500/10 border-blue-500/20 text-blue-700 dark:text-blue-300 hover:bg-blue-500/20",    count: "bg-blue-500/20 text-blue-700 dark:text-blue-300" },
+  violet:  { pill: "bg-violet-500/15 border-violet-500/40 text-violet-700 dark:text-violet-300", badge: "bg-violet-500/10 border-violet-500/20 text-violet-700 dark:text-violet-300 hover:bg-violet-500/20", count: "bg-violet-500/20 text-violet-700 dark:text-violet-300" },
+  green:   { pill: "bg-green-500/15 border-green-500/40 text-green-700 dark:text-green-300",  badge: "bg-green-500/10 border-green-500/20 text-green-700 dark:text-green-300 hover:bg-green-500/20",  count: "bg-green-500/20 text-green-700 dark:text-green-300" },
+  orange:  { pill: "bg-orange-500/15 border-orange-500/40 text-orange-700 dark:text-orange-300", badge: "bg-orange-500/10 border-orange-500/20 text-orange-700 dark:text-orange-300 hover:bg-orange-500/20", count: "bg-orange-500/20 text-orange-700 dark:text-orange-300" },
+  emerald: { pill: "bg-emerald-500/15 border-emerald-500/40 text-emerald-700 dark:text-emerald-300", badge: "bg-emerald-500/10 border-emerald-500/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20", count: "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300" },
+  amber:   { pill: "bg-amber-500/15 border-amber-500/40 text-amber-700 dark:text-amber-300",  badge: "bg-amber-500/10 border-amber-500/20 text-amber-700 dark:text-amber-300 hover:bg-amber-500/20",  count: "bg-amber-500/20 text-amber-700 dark:text-amber-300" },
+  pink:    { pill: "bg-pink-500/15 border-pink-500/40 text-pink-700 dark:text-pink-300",    badge: "bg-pink-500/10 border-pink-500/20 text-pink-700 dark:text-pink-300 hover:bg-pink-500/20",    count: "bg-pink-500/20 text-pink-700 dark:text-pink-300" },
+  slate:   { pill: "bg-slate-600/30 border-slate-500/40 text-slate-700 dark:text-slate-300",  badge: "bg-slate-200 dark:bg-slate-700/40 border-slate-600/30 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700/60",  count: "bg-slate-600/30 text-slate-700 dark:text-slate-300" },
+  cyan:    { pill: "bg-cyan-500/15 border-cyan-500/40 text-cyan-700 dark:text-cyan-300",    badge: "bg-cyan-500/10 border-cyan-500/20 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-500/20",    count: "bg-cyan-500/20 text-cyan-700 dark:text-cyan-300" },
 };
 
 const CATEGORY_MAP: Record<string, string> = {
@@ -90,13 +90,13 @@ export default function FormatsSection({ selectedCategory }: Props) {
   const colors = COLOR_MAP[current.color];
 
   return (
-    <div className="rounded-2xl border border-slate-800/60 bg-slate-900/40 overflow-hidden">
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-800/60 bg-slate-50 dark:bg-slate-900/40 overflow-hidden">
       {/* Header */}
       <div className="px-6 pt-6 pb-5">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-2">Supported Formats</p>
-            <h2 className="text-3xl font-black text-white leading-tight">
+            <p className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">Supported Formats</p>
+            <h2 className="text-3xl font-black text-slate-900 dark:text-white leading-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{TOTAL_UNIQUE}+</span> formats
             </h2>
             <p className="text-slate-500 text-sm mt-1.5 leading-relaxed">
@@ -113,12 +113,12 @@ export default function FormatsSection({ selectedCategory }: Props) {
           return (
             <button key={label} onClick={() => setActive(label)}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all duration-150 ${
-                isActive ? COLOR_MAP[color].pill : "bg-slate-800/40 border-slate-700/40 text-slate-500 hover:text-slate-200 hover:bg-slate-800/70"
+                isActive ? COLOR_MAP[color].pill : "bg-slate-100 dark:bg-slate-800/40 border-slate-300 dark:border-slate-700/40 text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/70"
               }`}>
               <span>{icon}</span>
               <span>{label}</span>
               <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-bold tabular-nums ${
-                isActive ? COLOR_MAP[color].count : "bg-slate-700/60 text-slate-600"
+                isActive ? COLOR_MAP[color].count : "bg-slate-200 dark:bg-slate-700/60 text-slate-400 dark:text-slate-600"
               }`}>{formats.length}</span>
             </button>
           );
@@ -126,7 +126,7 @@ export default function FormatsSection({ selectedCategory }: Props) {
       </div>
 
       {/* Divider */}
-      <div className="mx-5 border-t border-slate-800/60 mb-4" />
+      <div className="mx-5 border-t border-slate-200 dark:border-slate-800/60 mb-4" />
 
       {/* Format badges */}
       <div className="px-5 pb-5">
@@ -138,7 +138,7 @@ export default function FormatsSection({ selectedCategory }: Props) {
             </span>
           ))}
         </div>
-        <p className="text-slate-700 text-xs mt-3">
+        <p className="text-slate-300 dark:text-slate-700 text-xs mt-3">
           {current.formats.length} {current.label.toLowerCase()} format{current.formats.length !== 1 ? "s" : ""} supported
         </p>
       </div>

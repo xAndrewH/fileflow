@@ -131,25 +131,25 @@ export default function UpscaleImagePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors group">
+        <Link href="/tools" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors group">
           <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
           All tools
         </Link>
-        <h1 className="text-3xl font-bold text-white mb-1">Upscale Image</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Upscale Image</h1>
         <p className="text-slate-500 text-sm mb-8">Enlarge images up to 4× in your browser. No uploads, no servers.</p>
 
         <div className="space-y-4">
           <div
-            className="bg-slate-900/60 border-2 border-dashed border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
+            className="bg-slate-50 dark:bg-slate-900/60 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
             onClick={() => fileRef.current?.click()}
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
           >
-            <ImageIcon className="w-8 h-8 text-slate-600 mx-auto mb-3" />
-            <p className="text-slate-400 text-sm">Drop an image or <span className="text-blue-400">browse</span></p>
-            <p className="text-slate-600 text-xs mt-1">PNG · JPG · WEBP</p>
+            <ImageIcon className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+            <p className="text-slate-500 dark:text-slate-400 text-sm">Drop an image or <span className="text-blue-600 dark:text-blue-400">browse</span></p>
+            <p className="text-slate-400 dark:text-slate-600 text-xs mt-1">PNG · JPG · WEBP</p>
             <input
               ref={fileRef}
               type="file"
@@ -163,30 +163,30 @@ export default function UpscaleImagePage() {
 
           {file && originalDims && (
             <>
-              <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
+              <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
                 <div className="flex gap-4 items-start">
                   {previewUrl && (
                     <div className="shrink-0">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={previewUrl} alt="Original" className="w-20 h-20 object-cover rounded-lg border border-slate-700" />
-                      <p className="text-slate-600 text-xs mt-1 text-center">Original</p>
+                      <img src={previewUrl} alt="Original" className="w-20 h-20 object-cover rounded-lg border border-slate-300 dark:border-slate-700" />
+                      <p className="text-slate-400 dark:text-slate-600 text-xs mt-1 text-center">Original</p>
                     </div>
                   )}
                   <div className="flex-1 min-w-0 space-y-1">
-                    <p className="text-white text-sm font-medium truncate">{file.name}</p>
+                    <p className="text-slate-900 dark:text-white text-sm font-medium truncate">{file.name}</p>
                     <p className="text-slate-500 text-xs">{originalDims.w} × {originalDims.h} px</p>
                     {originalSize !== null && <p className="text-slate-500 text-xs">{fmtSize(originalSize)}</p>}
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-slate-400 text-xs block">Scale factor</label>
+                  <label className="text-slate-500 dark:text-slate-400 text-xs block">Scale factor</label>
                   <div className="flex gap-2">
                     {([2, 3, 4] as Scale[]).map((s) => (
                       <button
                         key={s}
                         onClick={() => { setScale(s); setResultUrl(null); setNewDims(null); }}
-                        className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${scale === s ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700/60 text-slate-400 hover:text-white"}`}
+                        className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${scale === s ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
                       >
                         {s}×
                       </button>
@@ -195,7 +195,7 @@ export default function UpscaleImagePage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-slate-400 text-xs block">Algorithm</label>
+                  <label className="text-slate-500 dark:text-slate-400 text-xs block">Algorithm</label>
                   <div className="flex gap-2">
                     {([
                       { id: "bilinear" as Algorithm, label: "Smooth (Bilinear)" },
@@ -204,7 +204,7 @@ export default function UpscaleImagePage() {
                       <button
                         key={a.id}
                         onClick={() => { setAlgorithm(a.id); setResultUrl(null); setNewDims(null); }}
-                        className={`flex-1 py-2 text-xs rounded-lg border transition-colors ${algorithm === a.id ? "bg-blue-600/20 border-blue-500/40 text-blue-300" : "bg-slate-800 border-slate-700/60 text-slate-400 hover:text-white"}`}
+                        className={`flex-1 py-2 text-xs rounded-lg border transition-colors ${algorithm === a.id ? "bg-blue-600/20 border-blue-500/40 text-blue-700 dark:text-blue-300" : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700/60 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}
                       >
                         {a.label}
                       </button>
@@ -213,14 +213,14 @@ export default function UpscaleImagePage() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 text-center">
-                  <div className="bg-slate-800/60 rounded-lg px-3 py-3">
+                  <div className="bg-slate-100 dark:bg-slate-800/60 rounded-lg px-3 py-3">
                     <p className="text-slate-500 text-xs mb-1">Original</p>
-                    <p className="text-white text-sm font-medium">{originalDims.w} × {originalDims.h}</p>
+                    <p className="text-slate-900 dark:text-white text-sm font-medium">{originalDims.w} × {originalDims.h}</p>
                     {originalSize !== null && <p className="text-slate-500 text-xs mt-0.5">{fmtSize(originalSize)}</p>}
                   </div>
-                  <div className="bg-slate-800/60 rounded-lg px-3 py-3">
+                  <div className="bg-slate-100 dark:bg-slate-800/60 rounded-lg px-3 py-3">
                     <p className="text-slate-500 text-xs mb-1">Output ({scale}×)</p>
-                    <p className="text-blue-300 text-sm font-medium">{originalDims.w * scale} × {originalDims.h * scale}</p>
+                    <p className="text-blue-700 dark:text-blue-300 text-sm font-medium">{originalDims.w * scale} × {originalDims.h * scale}</p>
                     {resultSize !== null && <p className="text-slate-500 text-xs mt-0.5">{fmtSize(resultSize)}</p>}
                   </div>
                 </div>
@@ -245,10 +245,10 @@ export default function UpscaleImagePage() {
               </div>
 
               {resultUrl && newDims && (
-                <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-5 space-y-4">
+                <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 space-y-4">
                   <div className="flex items-center justify-between">
-                    <p className="text-slate-300 text-sm font-medium">Result</p>
-                    <span className="text-green-400 text-xs">{newDims.w} × {newDims.h} px</span>
+                    <p className="text-slate-700 dark:text-slate-300 text-sm font-medium">Result</p>
+                    <span className="text-green-600 dark:text-green-400 text-xs">{newDims.w} × {newDims.h} px</span>
                   </div>
                   <div
                     className="rounded-lg overflow-hidden"

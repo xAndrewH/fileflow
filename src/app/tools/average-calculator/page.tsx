@@ -62,9 +62,9 @@ interface StatCardProps {
 
 function StatCard({ label, value }: StatCardProps) {
   return (
-    <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+    <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
       <div className="text-slate-500 text-xs mb-1">{label}</div>
-      <div className="text-white text-xl font-bold truncate">{value}</div>
+      <div className="text-slate-900 dark:text-white text-xl font-bold truncate">{value}</div>
     </div>
   );
 }
@@ -85,12 +85,12 @@ export default function AverageCalculatorPage() {
     : dash;
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 py-12">
         {/* Back link */}
         <Link
           href="/tools"
-          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-300 text-sm mb-8 transition-colors"
+          className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 text-sm mb-8 transition-colors"
         >
           <svg
             className="w-3.5 h-3.5"
@@ -104,27 +104,27 @@ export default function AverageCalculatorPage() {
           Tools
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-1">Average Calculator</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">Average Calculator</h1>
         <p className="text-slate-500 text-sm mb-8">
           Paste or type numbers to instantly compute mean, median, mode, and more.
         </p>
 
         {/* Input area */}
-        <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl overflow-hidden mb-6">
+        <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl overflow-hidden mb-6">
           <textarea
             value={raw}
             onChange={(e) => setRaw(e.target.value)}
             placeholder={"Enter numbers separated by commas, spaces, or newlines\ne.g.  4, 8, 15, 16, 23, 42"}
-            className="w-full h-32 bg-transparent px-5 py-5 text-slate-200 text-sm leading-relaxed resize-none focus:outline-none placeholder:text-slate-600 font-mono"
+            className="w-full h-32 bg-transparent px-5 py-5 text-slate-800 dark:text-slate-200 text-sm leading-relaxed resize-none focus:outline-none placeholder:text-slate-600 font-mono"
             spellCheck={false}
           />
-          <div className="flex items-center justify-between px-5 py-3 border-t border-slate-800/60">
+          <div className="flex items-center justify-between px-5 py-3 border-t border-slate-200 dark:border-slate-800/60">
             <span className="text-slate-500 text-xs">
               {numbers.length} valid number{numbers.length !== 1 ? "s" : ""} detected
             </span>
             <button
               onClick={() => setRaw("")}
-              className="text-xs text-slate-500 hover:text-slate-300 transition-colors px-2 py-1 rounded hover:bg-slate-800"
+              className="text-xs text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 transition-colors px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
             >
               Clear
             </button>
@@ -143,13 +143,13 @@ export default function AverageCalculatorPage() {
 
         {/* Sorted list */}
         {stats && stats.sorted.length > 0 && (
-          <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
             <div className="text-slate-500 text-xs mb-3">Sorted (ascending)</div>
             <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto">
               {stats.sorted.map((n, i) => (
                 <span
                   key={i}
-                  className="bg-slate-800 rounded px-2 py-0.5 text-xs text-slate-300 font-mono"
+                  className="bg-slate-100 dark:bg-slate-800 rounded px-2 py-0.5 text-xs text-slate-700 dark:text-slate-300 font-mono"
                 >
                   {n}
                 </span>
