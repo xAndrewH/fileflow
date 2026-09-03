@@ -1,9 +1,12 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { Star } from "lucide-react";
 import { ALL_TOOLS } from "@/lib/tool-registry";
+import { useToolHistory } from "@/hooks/useToolHistory";
 
 const MAX_RESULTS = 12;
+export const OPEN_COMMAND_PALETTE_EVENT = "open-command-palette";
 
 const TOOLS = ALL_TOOLS.map(t => ({
   href: t.href,
@@ -12,6 +15,7 @@ const TOOLS = ALL_TOOLS.map(t => ({
   cat: t.category,
 }));
 
+const TOOLS_BY_HREF = new Map(TOOLS.map(t => [t.href, t]));
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
@@ -20,6 +24,7 @@ export function CommandPalette() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const { favorites, recents, toggleFavorite } = useToolHistory();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -31,13 +36,29 @@ export function CommandPalette() {
       }
       if (e.key === "Escape") setOpen(false);
     };
+    const onOpenEvent = () => { setOpen(true); setQuery(""); setIdx(0); };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener(OPEN_COMMAND_PALETTE_EVENT, onOpenEvent);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener(OPEN_COMMAND_PALETTE_EVENT, onOpenEvent);
+    };
   }, []);
 
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 30);
   }, [open]);
+
+  // With no query, lead with favorites and recents (deduped) before filling out with the rest.
+  const defaultList = useMemo(() => {
+    const seen = new Set<string>();
+    const pinned = [
+      ...favorites.map(h => TOOLS_BY_HREF.get(h)).filter((t): t is typeof TOOLS[number] => !!t),
+      ...recents.map(r => TOOLS_BY_HREF.get(r.href)).filter((t): t is typeof TOOLS[number] => !!t),
+    ].filter(t => (seen.has(t.href) ? false : (seen.add(t.href), true)));
+    const rest = TOOLS.filter(t => !seen.has(t.href));
+    return [...pinned, ...rest].slice(0, MAX_RESULTS);
+  }, [favorites, recents]);
 
   const filtered = query.trim()
     ? TOOLS.filter(t =>
@@ -45,7 +66,7 @@ export function CommandPalette() {
         t.desc.toLowerCase().includes(query.toLowerCase()) ||
         t.cat.toLowerCase().includes(query.toLowerCase())
       ).slice(0, MAX_RESULTS)
-    : TOOLS.slice(0, MAX_RESULTS);
+    : defaultList;
 
   useEffect(() => {
     itemRefs.current[idx]?.scrollIntoView({ block: "nearest" });
@@ -88,7 +109,9 @@ export function CommandPalette() {
             {filtered.length === 0 ? (
               <p className="text-slate-500 text-sm text-center py-8">No tools found</p>
             ) : (
-              filtered.map((tool, i) => (
+              filtered.map((tool, i) => {
+                const isFav = favorites.includes(tool.href);
+                return (
                 <button
                   key={tool.href}
                   ref={el => { itemRefs.current[i] = el; }}
@@ -101,8 +124,18 @@ export function CommandPalette() {
                     <p className="text-slate-500 text-xs truncate">{tool.desc}</p>
                   </div>
                   <span className="text-[10px] text-slate-600 shrink-0 hidden sm:block">{tool.cat}</span>
+                  <span
+                    role="button"
+                    tabIndex={-1}
+                    onClick={e => { e.stopPropagation(); toggleFavorite(tool.href); }}
+                    className={`shrink-0 p-1 rounded transition-colors ${isFav ? "text-amber-400" : "text-slate-700 hover:text-slate-400"}`}
+                    aria-label={isFav ? `Remove ${tool.title} from favorites` : `Add ${tool.title} to favorites`}
+                  >
+                    <Star className="w-3.5 h-3.5" fill={isFav ? "currentColor" : "none"} />
+                  </span>
                 </button>
-              ))
+                );
+              })
             )}
           </div>
           <div className="px-4 py-2 border-t border-slate-800/60 flex items-center gap-4 text-xs text-slate-600">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { usePersistedText } from "@/hooks/usePersistedText";
 import Link from "next/link";
 
 const EXAMPLE = `.container{max-width:1200px;margin:0 auto;padding:0 1rem}.hero{display:flex;align-items:center;justify-content:space-between;min-height:100vh;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}.hero h1{font-size:3rem;font-weight:700;color:#fff;line-height:1.2}.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;background:#6366f1;color:#fff;border:none;border-radius:.5rem;cursor:pointer;transition:background .2s}.btn:hover{background:#4f46e5}@media(max-width:768px){.hero{flex-direction:column;padding:2rem 1rem}.hero h1{font-size:2rem}}`;
@@ -18,7 +19,7 @@ async function beautifyCSS(code: string): Promise<string> {
 }
 
 export default function CSSBeautifierPage() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = usePersistedText("ff-draft-css-beautifier");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);

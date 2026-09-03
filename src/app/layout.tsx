@@ -4,6 +4,8 @@ import { Analytics } from "@vercel/analytics/next";
 import Footer from "@/components/Footer";
 import { CommandPalette } from "@/components/CommandPalette";
 import { BackToTop } from "@/components/BackToTop";
+import { RecordToolVisit } from "@/components/RecordToolVisit";
+import { InstallPrompt } from "@/components/InstallPrompt";
 import "./globals.css";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
@@ -42,6 +44,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <CommandPalette />
         <BackToTop />
+        <RecordToolVisit />
+        <InstallPrompt />
         <Analytics />
       </body>
     </html>

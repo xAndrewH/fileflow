@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { usePersistedText } from "@/hooks/usePersistedText";
 import Link from "next/link";
 
 function csvToJson(csv: string): { data: Record<string, string>[]; headers: string[] } | null {
@@ -34,7 +35,7 @@ function jsonToCsv(json: string): { csv: string; headers: string[] } | null {
 
 export default function CsvJsonPage() {
   const [mode, setMode] = useState<"csv-to-json" | "json-to-csv">("csv-to-json");
-  const [input, setInput] = useState("");
+  const [input, setInput] = usePersistedText("ff-draft-csv-json");
   const [copied, setCopied] = useState(false);
 
   const result = useMemo(() => {

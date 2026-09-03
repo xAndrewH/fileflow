@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { usePersistedText } from "@/hooks/usePersistedText";
 import Link from "next/link";
 import { CopyButton } from "@/components/CopyButton";
 import { RelatedTools } from "@/components/RelatedTools";
@@ -34,7 +35,7 @@ function beautifyPython(code: string): string {
 }
 
 export default function PythonBeautifierPage() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = usePersistedText("ff-draft-python-beautifier");
   const [output, setOutput] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 

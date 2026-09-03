@@ -2,6 +2,9 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useHistoryState } from "@/hooks/useHistoryState";
+import { useUndoRedoShortcut } from "@/hooks/useUndoRedoShortcut";
+import { UndoRedoButtons } from "@/components/UndoRedoButtons";
 
 const CELL_COLORS = [
   "bg-blue-500/70", "bg-purple-500/70", "bg-green-500/70", "bg-orange-500/70",
@@ -9,15 +12,27 @@ const CELL_COLORS = [
   "bg-indigo-500/70", "bg-teal-500/70", "bg-rose-500/70", "bg-lime-500/70",
 ];
 
+interface GridConfig {
+  columns: number; rows: number;
+  columnGap: number; rowGap: number;
+  templateColumns: string; templateRows: string;
+  useCustomTemplate: boolean;
+  itemCount: number;
+}
+
+const DEFAULT_CONFIG: GridConfig = {
+  columns: 3, rows: 3,
+  columnGap: 16, rowGap: 16,
+  templateColumns: "repeat(3, 1fr)", templateRows: "repeat(3, 100px)",
+  useCustomTemplate: false,
+  itemCount: 9,
+};
+
 export default function CssGridPage() {
-  const [columns, setColumns] = useState(3);
-  const [rows, setRows] = useState(3);
-  const [columnGap, setColumnGap] = useState(16);
-  const [rowGap, setRowGap] = useState(16);
-  const [templateColumns, setTemplateColumns] = useState("repeat(3, 1fr)");
-  const [templateRows, setTemplateRows] = useState("repeat(3, 100px)");
-  const [useCustomTemplate, setUseCustomTemplate] = useState(false);
-  const [itemCount, setItemCount] = useState(9);
+  const [config, setConfig, configHistory] = useHistoryState<GridConfig>(DEFAULT_CONFIG);
+  const { columns, rows, columnGap, rowGap, templateColumns, templateRows, useCustomTemplate, itemCount } = config;
+  const patch = (p: Partial<GridConfig>) => setConfig(c => ({ ...c, ...p }));
+  useUndoRedoShortcut(configHistory);
   const [copied, setCopied] = useState(false);
 
   const effectiveCols = useCustomTemplate ? templateColumns : `repeat(${columns}, 1fr)`;
@@ -62,7 +77,7 @@ export default function CssGridPage() {
                   <button
                     role="switch"
                     aria-checked={useCustomTemplate}
-                    onClick={() => setUseCustomTemplate(v => !v)}
+                    onClick={() => patch({ useCustomTemplate: !useCustomTemplate })}
                     className={`w-9 h-5 rounded-full transition-colors relative shrink-0 ${useCustomTemplate ? "bg-blue-600" : "bg-slate-700"}`}
                   >
                     <span className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform ${useCustomTemplate ? "translate-x-4" : "translate-x-0"}`} />
@@ -81,8 +96,7 @@ export default function CssGridPage() {
                       value={columns}
                       onChange={e => {
                         const v = Math.min(12, Math.max(1, parseInt(e.target.value) || 1));
-                        setColumns(v);
-                        setItemCount(v * rows);
+                        patch({ columns: v, itemCount: v * rows });
                       }}
                       className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60"
                     />
@@ -95,8 +109,7 @@ export default function CssGridPage() {
                       value={rows}
                       onChange={e => {
                         const v = Math.min(12, Math.max(1, parseInt(e.target.value) || 1));
-                        setRows(v);
-                        setItemCount(columns * v);
+                        patch({ rows: v, itemCount: columns * v });
                       }}
                       className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm focus:outline-none focus:border-blue-500/60"
                     />
@@ -108,7 +121,7 @@ export default function CssGridPage() {
                     <label className="block text-xs font-medium text-slate-400 uppercase tracking-wide">grid-template-columns</label>
                     <input
                       value={templateColumns}
-                      onChange={e => setTemplateColumns(e.target.value)}
+                      onChange={e => patch({ templateColumns: e.target.value })}
                       placeholder="repeat(3, 1fr)"
                       className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm font-mono focus:outline-none focus:border-blue-500/60"
                     />
@@ -117,7 +130,7 @@ export default function CssGridPage() {
                     <label className="block text-xs font-medium text-slate-400 uppercase tracking-wide">grid-template-rows</label>
                     <input
                       value={templateRows}
-                      onChange={e => setTemplateRows(e.target.value)}
+                      onChange={e => patch({ templateRows: e.target.value })}
                       placeholder="repeat(3, 100px)"
                       className="w-full bg-slate-800/60 border border-slate-700/50 rounded-lg px-3 py-2 text-slate-200 text-sm font-mono focus:outline-none focus:border-blue-500/60"
                     />
@@ -133,7 +146,7 @@ export default function CssGridPage() {
                     type="range"
                     min={0} max={64}
                     value={columnGap}
-                    onChange={e => setColumnGap(parseInt(e.target.value))}
+                    onChange={e => patch({ columnGap: parseInt(e.target.value) })}
                     className="w-full accent-blue-500"
                   />
                 </div>
@@ -143,7 +156,7 @@ export default function CssGridPage() {
                     type="range"
                     min={0} max={64}
                     value={rowGap}
-                    onChange={e => setRowGap(parseInt(e.target.value))}
+                    onChange={e => patch({ rowGap: parseInt(e.target.value) })}
                     className="w-full accent-blue-500"
                   />
                 </div>
@@ -153,12 +166,12 @@ export default function CssGridPage() {
               <div className="flex items-center gap-3">
                 <span className="text-xs text-slate-400">Items:</span>
                 <button
-                  onClick={() => setItemCount(c => Math.max(1, c - 1))}
+                  onClick={() => patch({ itemCount: Math.max(1, itemCount - 1) })}
                   className="w-7 h-7 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-white text-sm transition-colors"
                 >−</button>
                 <span className="text-white text-sm font-semibold w-6 text-center">{itemCount}</span>
                 <button
-                  onClick={() => setItemCount(c => Math.min(48, c + 1))}
+                  onClick={() => patch({ itemCount: Math.min(48, itemCount + 1) })}
                   className="w-7 h-7 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-white text-sm transition-colors"
                 >+</button>
               </div>
@@ -168,12 +181,15 @@ export default function CssGridPage() {
             <div className="bg-slate-900/60 border border-slate-800/60 rounded-2xl p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <h2 className="text-white text-sm font-semibold">Generated CSS</h2>
-                <button
-                  onClick={copyCss}
-                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-xs font-medium text-white transition-colors"
-                >
-                  {copied ? "Copied!" : "Copy CSS"}
-                </button>
+                <div className="flex items-center gap-2">
+                  <UndoRedoButtons {...configHistory} />
+                  <button
+                    onClick={copyCss}
+                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-xs font-medium text-white transition-colors"
+                  >
+                    {copied ? "Copied!" : "Copy CSS"}
+                  </button>
+                </div>
               </div>
               <pre className="bg-slate-800/60 border border-slate-700/40 rounded-lg p-4 text-blue-300 text-xs font-mono whitespace-pre overflow-x-auto leading-relaxed">{css}</pre>
             </div>
@@ -216,12 +232,7 @@ export default function CssGridPage() {
                 ].map(tpl => (
                   <button
                     key={tpl.label}
-                    onClick={() => {
-                      setUseCustomTemplate(true);
-                      setTemplateColumns(tpl.cols);
-                      setTemplateRows(tpl.rows);
-                      setItemCount(tpl.items);
-                    }}
+                    onClick={() => patch({ useCustomTemplate: true, templateColumns: tpl.cols, templateRows: tpl.rows, itemCount: tpl.items })}
                     className="px-3 py-2 bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 rounded-lg text-xs text-slate-300 hover:text-white transition-colors text-left"
                   >
                     {tpl.label}

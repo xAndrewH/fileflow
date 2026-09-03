@@ -2,17 +2,23 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
+import { useHistoryState } from "@/hooks/useHistoryState";
+import { useUndoRedoShortcut } from "@/hooks/useUndoRedoShortcut";
+import { UndoRedoButtons } from "@/components/UndoRedoButtons";
 
 interface Stop { color: string; position: number }
+
+const INITIAL_STOPS: Stop[] = [
+  { color: "#6366f1", position: 0 },
+  { color: "#ec4899", position: 100 },
+];
 
 export default function GradientPage() {
   const [type, setType] = useState<"linear" | "radial">("linear");
   const [angle, setAngle] = useState(135);
-  const [stops, setStops] = useState<Stop[]>([
-    { color: "#6366f1", position: 0 },
-    { color: "#ec4899", position: 100 },
-  ]);
+  const [stops, setStops, stopsHistory] = useHistoryState<Stop[]>(INITIAL_STOPS);
   const [copied, setCopied] = useState(false);
+  useUndoRedoShortcut(stopsHistory);
 
   const stopsStr = stops
     .slice()
@@ -107,10 +113,13 @@ export default function GradientPage() {
           <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
             <div className="flex items-center justify-between">
               <p className="text-white text-sm font-medium">Color stops</p>
-              <button onClick={addStop}
-                className="px-3 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">
-                + Add stop
-              </button>
+              <div className="flex items-center gap-2">
+                <UndoRedoButtons {...stopsHistory} />
+                <button onClick={addStop}
+                  className="px-3 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">
+                  + Add stop
+                </button>
+              </div>
             </div>
             {stops.map((stop, i) => (
               <div key={i} className="flex items-center gap-3">

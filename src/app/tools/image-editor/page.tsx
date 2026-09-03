@@ -167,10 +167,12 @@ export default function ImageEditorPage() {
   const [textInput, setTextInput]     = useState("");
   const textInputRef = useRef<HTMLInputElement>(null);
 
-  // Undo
+  // Undo / redo
   type Snap = { edits: Edits; cropRgn: CropRegion | null; strokes: Stroke[] };
   const historyRef = useRef<Snap[]>([]);
+  const futureRef = useRef<Snap[]>([]);
   const [canUndo, setCanUndo] = useState(false);
+  const [canRedo, setCanRedo] = useState(false);
 
   // Refs that mirror state so pushSnap can read them synchronously
   const editsRef   = useRef<Edits>(edits);
@@ -201,7 +203,9 @@ export default function ImageEditorPage() {
       ...historyRef.current.slice(-49),
       { edits: editsRef.current, cropRgn: cropRgnRef.current, strokes: strokesRef.current },
     ];
+    futureRef.current = [];
     setCanUndo(true);
+    setCanRedo(false);
   }, []);
 
   const undo = useCallback(() => {
@@ -209,24 +213,45 @@ export default function ImageEditorPage() {
     if (!h.length) return;
     const prev = h[h.length - 1];
     historyRef.current = h.slice(0, -1);
+    futureRef.current = [
+      { edits: editsRef.current, cropRgn: cropRgnRef.current, strokes: strokesRef.current },
+      ...futureRef.current,
+    ];
     setEditsRaw(prev.edits);
     setCropRgn(prev.cropRgn);
     setStrokes(prev.strokes);
     setCanUndo(h.length > 1);
+    setCanRedo(true);
+  }, []);
+
+  const redo = useCallback(() => {
+    const f = futureRef.current;
+    if (!f.length) return;
+    const next = f[0];
+    futureRef.current = f.slice(1);
+    historyRef.current = [
+      ...historyRef.current,
+      { edits: editsRef.current, cropRgn: cropRgnRef.current, strokes: strokesRef.current },
+    ];
+    setEditsRaw(next.edits);
+    setCropRgn(next.cropRgn);
+    setStrokes(next.strokes);
+    setCanUndo(true);
+    setCanRedo(f.length > 1);
   }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
       if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) return;
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "z" && !e.shiftKey) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "z") {
         e.preventDefault();
-        undo();
+        if (e.shiftKey) redo(); else undo();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [undo]);
+  }, [undo, redo]);
 
   const setEdits = useCallback((upd: Edits | ((e: Edits) => Edits)) => {
     pushSnap();
@@ -248,7 +273,9 @@ export default function ImageEditorPage() {
       setCropMode(false);
       setCropSel(null);
       historyRef.current = [];
+      futureRef.current = [];
       setCanUndo(false);
+      setCanRedo(false);
       URL.revokeObjectURL(url);
     };
     img.src = url;
@@ -879,10 +906,18 @@ export default function ImageEditorPage() {
                   </svg>
                   Undo
                 </button>
+                <button onClick={redo} disabled={!canRedo}
+                  title="Redo (Ctrl+Shift+Z)"
+                  className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-sm rounded-xl disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
+                  </svg>
+                  Redo
+                </button>
                 <button onClick={resetTab} className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-sm rounded-xl transition-colors">
                   Reset tab
                 </button>
-                <button onClick={() => { setFile(null); setOrig(null); setCropRgn(null); setStrokes([]); setCropMode(false); setCropSel(null); historyRef.current = []; setCanUndo(false); }}
+                <button onClick={() => { setFile(null); setOrig(null); setCropRgn(null); setStrokes([]); setCropMode(false); setCropSel(null); historyRef.current = []; futureRef.current = []; setCanUndo(false); setCanRedo(false); }}
                   className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-sm rounded-xl transition-colors">
                   New
                 </button>

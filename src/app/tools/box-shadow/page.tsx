@@ -4,6 +4,9 @@ import { useState, useCallback } from "react";
 import Link from "next/link";
 import { CopyButton } from "@/components/CopyButton";
 import { RelatedTools } from "@/components/RelatedTools";
+import { useHistoryState } from "@/hooks/useHistoryState";
+import { useUndoRedoShortcut } from "@/hooks/useUndoRedoShortcut";
+import { UndoRedoButtons } from "@/components/UndoRedoButtons";
 
 interface Shadow {
   x: number; y: number; blur: number; spread: number;
@@ -31,10 +34,11 @@ const SLIDERS: { key: keyof Shadow; label: string; min: number; max: number }[] 
 ];
 
 export default function BoxShadowPage() {
-  const [shadows, setShadows] = useState<Shadow[]>([{ ...DEFAULT }]);
+  const [shadows, setShadows, shadowsHistory] = useHistoryState<Shadow[]>([{ ...DEFAULT }]);
   const [active, setActive] = useState(0);
   const [bgColor, setBgColor] = useState("#1e293b");
   const [boxColor, setBoxColor] = useState("#ffffff");
+  useUndoRedoShortcut(shadowsHistory);
 
   const css = `box-shadow: ${shadows.map(shadowToCss).join(",\n             ")};`;
 
@@ -106,7 +110,10 @@ export default function BoxShadowPage() {
           <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
             <div className="flex items-center justify-between">
               <p className="text-white text-sm font-medium">Layers</p>
-              <button onClick={addLayer} className="px-3 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">+ Add layer</button>
+              <div className="flex items-center gap-2">
+                <UndoRedoButtons {...shadowsHistory} />
+                <button onClick={addLayer} className="px-3 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs rounded-lg transition-colors">+ Add layer</button>
+              </div>
             </div>
             <div className="flex gap-2 flex-wrap">
               {shadows.map((_, i) => (

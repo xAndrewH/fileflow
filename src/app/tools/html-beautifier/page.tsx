@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { usePersistedText } from "@/hooks/usePersistedText";
 import Link from "next/link";
 
 const EXAMPLE = `<!DOCTYPE html><html><head><title>Hello</title><meta charset="UTF-8"><link rel="stylesheet" href="style.css"></head><body><div class="container"><header><h1>Hello World</h1></header><main><p>This is a paragraph with <strong>bold</strong> text.</p><ul><li>Item one</li><li>Item two</li><li>Item three</li></ul></main></div><script src="app.js"></script></body></html>`;
@@ -21,7 +22,7 @@ async function beautifyHTML(code: string): Promise<string> {
 }
 
 export default function HTMLBeautifierPage() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = usePersistedText("ff-draft-html-beautifier");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);

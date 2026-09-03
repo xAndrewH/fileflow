@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { Search } from "lucide-react";
+import { OPEN_COMMAND_PALETTE_EVENT } from "@/components/CommandPalette";
 
 interface Props {
   historyCount: number;
@@ -29,6 +31,15 @@ export default function Navbar({ historyCount, onHistoryClick, onKeyClick }: Pro
 
         {/* Right side */}
         <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => window.dispatchEvent(new Event(OPEN_COMMAND_PALETTE_EVENT))}
+            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-500 hover:text-white text-sm transition-all duration-150"
+            aria-label="Search tools"
+          >
+            <Search className="w-3.5 h-3.5" />
+            <span>Search</span>
+            <kbd className="text-[10px] text-slate-600 bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-700 font-mono">⌘K</kbd>
+          </button>
           <a
             href="https://buymeacoffee.com/Huppa"
             target="_blank"

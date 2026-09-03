@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { usePersistedText } from "@/hooks/usePersistedText";
 import Link from "next/link";
 
 const EXAMPLE = `const express=require('express');const app=express();app.use(express.json());app.get('/api/users',async(req,res)=>{try{const users=await User.find({active:true}).sort({createdAt:-1}).limit(50);res.json({success:true,data:users,count:users.length});}catch(err){res.status(500).json({success:false,message:err.message});}});app.listen(3000,()=>console.log('Server running'));`;
@@ -26,7 +27,7 @@ async function beautifyJS(code: string): Promise<string> {
 }
 
 export default function JSBeautifierPage() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = usePersistedText("ff-draft-js-beautifier");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);

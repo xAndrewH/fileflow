@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { usePersistedText } from "@/hooks/usePersistedText";
 import Link from "next/link";
 import { RelatedTools } from "@/components/RelatedTools";
 import { CopyButton } from "@/components/CopyButton";
 
 export default function WordCounterPage() {
-  const [text, setText] = useState("");
+  const [text, setText] = usePersistedText("ff-draft-word-counter");
 
   const stats = useMemo(() => {
     const words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;

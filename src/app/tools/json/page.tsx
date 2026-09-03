@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import Link from "next/link";
+import { usePersistedText } from "@/hooks/usePersistedText";
 
 function sortKeys(val: unknown): unknown {
   if (Array.isArray(val)) return val.map(sortKeys);
@@ -14,7 +15,7 @@ function sortKeys(val: unknown): unknown {
 }
 
 export default function JsonPage() {
-  const [input, setInput]     = useState("");
+  const [input, setInput]     = usePersistedText("ff-draft-json");
   const [output, setOutput]   = useState("");
   const [error, setError]     = useState("");
   const [indent, setIndent]   = useState(2);
