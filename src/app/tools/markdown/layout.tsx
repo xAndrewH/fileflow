@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Markdown Editor | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Markdown Editor"
+        description="Split-pane editor with live HTML preview."
+        path="/tools/markdown"
+      />
+      {children}
+    </>
+  );
 }

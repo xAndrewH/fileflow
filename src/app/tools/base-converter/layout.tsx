@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Number Base Converter | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Number Base Converter"
+        description="Convert numbers between binary, octal, decimal, and hex."
+        path="/tools/base-converter"
+      />
+      {children}
+    </>
+  );
 }

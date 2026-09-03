@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Page Speed Estimator | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Page Speed Estimator"
+        description="Check load time, TTFB, resource counts, and get performance tips for any URL."
+        path="/tools/page-speed"
+      />
+      {children}
+    </>
+  );
 }

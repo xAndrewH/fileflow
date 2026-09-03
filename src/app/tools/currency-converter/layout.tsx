@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Currency Converter | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Currency Converter"
+        description="Live exchange rates for 160+ currencies by country."
+        path="/tools/currency-converter"
+      />
+      {children}
+    </>
+  );
 }

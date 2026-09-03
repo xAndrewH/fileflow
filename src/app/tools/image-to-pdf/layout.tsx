@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Image to PDF Converter | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Image to PDF Converter"
+        description="Combine JPG, PNG, WEBP, or GIF images into a single PDF. Reorder pages, choose page size and margins."
+        path="/tools/image-to-pdf"
+      />
+      {children}
+    </>
+  );
 }

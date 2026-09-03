@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Schema Markup Generator | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Schema Markup Generator"
+        description="Choose a Schema.org type and get the JSON-LD snippet for your site."
+        path="/tools/schema-generator"
+      />
+      {children}
+    </>
+  );
 }

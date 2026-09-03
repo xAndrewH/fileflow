@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "JavaScript Beautifier | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="JavaScript Beautifier"
+        description="Format JavaScript and TypeScript following Airbnb / ESLint standards."
+        path="/tools/js-beautifier"
+      />
+      {children}
+    </>
+  );
 }

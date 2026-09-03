@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "URL Encoder / Decoder | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="URL Encoder / Decoder"
+        description="Percent-encode URLs or decode encoded query strings."
+        path="/tools/url-encode"
+      />
+      {children}
+    </>
+  );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Type, FileCode, GitCompare, AlignLeft, Shuffle, Link as LucideLink, Hash, Braces, Search, Table2, CaseSensitive, SpellCheck, Code2, Wand2, Paintbrush, Terminal, Pipette, Palette, Blend, Layers, BoxSelect, SquareDashed, Bookmark, Ruler, Maximize2, Clock, Binary, Timer, Key, Calculator, Coins, Hourglass, Percent, BarChart2, ImagePlus, Minimize2, Scissors, PenTool, FileImage, Camera, FilePlus2, ScanLine, QrCode, Globe, BookOpen, Tag, Image, ZoomIn, FileMinus2, Replace, CalendarDays, Receipt, Wifi, MapPin, Play, ShieldCheck, Share2, Contrast, Database, Lock, Zap, Bot, Map, FileText, Mail, Smartphone, TrendingUp, DollarSign, Gauge, Server, MousePointer2, PackageMinus, Activity, LayoutTemplate, Newspaper, Code, PenLine, ListChecks, FileSearch, PieChart, Film, FileOutput, RefreshCw, Images } from "lucide-react";
+import { Type, FileCode, GitCompare, AlignLeft, Shuffle, Link as LucideLink, Hash, Braces, Search, Table2, CaseSensitive, SpellCheck, Code2, Wand2, Paintbrush, Terminal, Pipette, Palette, Blend, Layers, BoxSelect, SquareDashed, Bookmark, Ruler, Maximize2, Clock, Binary, Timer, Key, Calculator, Coins, Hourglass, Percent, BarChart2, ImagePlus, Minimize2, Scissors, PenTool, FileImage, Camera, FilePlus2, ScanLine, QrCode, Globe, BookOpen, Tag, Image, ZoomIn, FileMinus2, Replace, CalendarDays, Receipt, Wifi, MapPin, Play, ShieldCheck, Share2, Contrast, Database, Lock, Zap, Bot, Map, FileText, Mail, Smartphone, TrendingUp, DollarSign, Gauge, Server, MousePointer2, PackageMinus, Activity, LayoutTemplate, Newspaper, Code, PenLine, ListChecks, FileSearch, PieChart, Film, FileOutput, RefreshCw, Images, FileType, FileSpreadsheet, BookText, FileArchive } from "lucide-react";
 
 export type IconComponent = React.ComponentType<{ className?: string }>;
 
@@ -102,6 +102,17 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       { href: "/tools/image-to-pdf",       icon: FileOutput, title: "Image to PDF",                description: "Combine JPG, PNG, WEBP, or GIF images into a single PDF." },
       { href: "/tools/pdf-to-images",      icon: ScanLine,   title: "PDF to JPG / PNG / WEBP",     description: "Convert PDF pages to JPG, PNG, or WEBP images." },
       { href: "/tools/pdf-pages",          icon: FileMinus2, title: "Reorder / Delete PDF Pages",  description: "Drag to reorder or remove pages from a PDF before saving." },
+    ],
+  },
+  {
+    id: "documents",
+    name: "Documents & Fonts",
+    icon: FileType,
+    tools: [
+      { href: "/tools/font-converter", icon: FileType,        title: "Font Converter", description: "Convert fonts between TTF, OTF, and WOFF in bulk." },
+      { href: "/tools/xlsx-converter", icon: FileSpreadsheet, title: "XLSX Converter", description: "Convert spreadsheets between XLSX, CSV, and JSON in bulk." },
+      { href: "/tools/docx-converter", icon: BookText,        title: "DOCX Converter", description: "Convert Word documents to HTML or plain text in bulk." },
+      { href: "/tools/epub-converter", icon: FileArchive,     title: "EPUB Converter", description: "Convert EPUB ebooks to HTML or plain text in bulk." },
     ],
   },
   {

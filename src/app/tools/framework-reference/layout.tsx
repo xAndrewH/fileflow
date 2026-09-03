@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Framework Reference | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Framework Reference"
+        description="Snippets for Tailwind, Bootstrap, Sass, React, and Next.js."
+        path="/tools/framework-reference"
+      />
+      {children}
+    </>
+  );
 }

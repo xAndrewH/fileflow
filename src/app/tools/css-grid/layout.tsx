@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "CSS Grid Builder | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="CSS Grid Builder"
+        description="Visual grid builder: set rows, columns, and gaps, then copy the CSS."
+        path="/tools/css-grid"
+      />
+      {children}
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Conversion Rate Calculator | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Conversion Rate Calculator"
+        description="Calculate conversion rates, revenue impact, and A/B test significance."
+        path="/tools/conversion-rate"
+      />
+      {children}
+    </>
+  );
 }

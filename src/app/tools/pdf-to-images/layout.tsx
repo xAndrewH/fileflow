@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "PDF to JPG, PNG, or WEBP Converter | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="PDF to JPG, PNG, or WEBP Converter"
+        description="Convert PDF pages to JPG, PNG, or WEBP images at multiple resolutions, entirely in your browser."
+        path="/tools/pdf-to-images"
+      />
+      {children}
+    </>
+  );
 }

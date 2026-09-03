@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Image Converter — PNG, JPG, WEBP | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Image Converter — PNG, JPG, WEBP"
+        description="Convert images between PNG, JPG, and WEBP in bulk. Adjust quality and download all at once, entirely in your browser."
+        path="/tools/image-converter"
+      />
+      {children}
+    </>
+  );
 }

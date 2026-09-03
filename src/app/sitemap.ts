@@ -10,12 +10,13 @@ const TOOLS = [
   "/tools/color-picker","/tools/conversion-rate","/tools/cpm-calculator",
   "/tools/cron","/tools/css-animation","/tools/css-beautifier",
   "/tools/css-grid","/tools/css-minifier","/tools/csv-json",
-  "/tools/currency-converter","/tools/diff","/tools/dns-lookup",
-  "/tools/email-preview","/tools/exif","/tools/favicon","/tools/find-replace",
-  "/tools/framework-reference","/tools/glassmorphism","/tools/gradient",
+  "/tools/currency-converter","/tools/diff","/tools/dns-lookup","/tools/docx-converter",
+  "/tools/email-preview","/tools/epub-converter","/tools/exif","/tools/favicon","/tools/find-replace",
+  "/tools/font-converter","/tools/framework-reference","/tools/glassmorphism","/tools/gradient",
   "/tools/grammar-checker","/tools/hash","/tools/html-beautifier",
   "/tools/html-to-markdown","/tools/http-headers","/tools/http-status",
-  "/tools/image-compressor","/tools/image-editor","/tools/image-to-base64",
+  "/tools/image-compressor","/tools/image-converter","/tools/image-editor","/tools/image-to-base64",
+  "/tools/image-to-pdf","/tools/images-to-gif",
   "/tools/invoice-generator","/tools/ip-lookup","/tools/js-beautifier",
   "/tools/js-minifier","/tools/json","/tools/jwt-decoder",
   "/tools/landing-page-template","/tools/lorem","/tools/markdown",
@@ -29,7 +30,7 @@ const TOOLS = [
   "/tools/sitemap-generator","/tools/ssl-checker","/tools/svg-to-png",
   "/tools/time-calculator","/tools/timestamp","/tools/traffic-attribution",
   "/tools/units","/tools/upscale-image","/tools/url-encode","/tools/utm-builder",
-  "/tools/video-to-gif","/tools/word-counter","/tools/youtube-thumbnail",
+  "/tools/video-to-gif","/tools/word-counter","/tools/xlsx-converter","/tools/youtube-thumbnail",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

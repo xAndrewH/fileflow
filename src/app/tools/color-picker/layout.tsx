@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Color Picker | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Color Picker"
+        description="Pick a color and get HEX, RGB, HSL, and CMYK values instantly."
+        path="/tools/color-picker"
+      />
+      {children}
+    </>
+  );
 }

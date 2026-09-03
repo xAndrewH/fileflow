@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Lorem Ipsum Generator | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Lorem Ipsum Generator"
+        description="Generate paragraphs, sentences, or words of placeholder text."
+        path="/tools/lorem"
+      />
+      {children}
+    </>
+  );
 }

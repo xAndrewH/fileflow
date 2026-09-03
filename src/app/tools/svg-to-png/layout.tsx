@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "SVG to PNG | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="SVG to PNG"
+        description="Convert SVG files or pasted code to PNG at up to 4× scale."
+        path="/tools/svg-to-png"
+      />
+      {children}
+    </>
+  );
 }

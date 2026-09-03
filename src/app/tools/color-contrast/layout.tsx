@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Color Contrast Checker | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Color Contrast Checker"
+        description="Check foreground/background pairs against WCAG AA and AAA ratios."
+        path="/tools/color-contrast"
+      />
+      {children}
+    </>
+  );
 }

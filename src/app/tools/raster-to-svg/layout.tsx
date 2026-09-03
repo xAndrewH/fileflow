@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "PNG / JPG → SVG | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="PNG / JPG → SVG"
+        description="Vectorize raster images to scalable SVG."
+        path="/tools/raster-to-svg"
+      />
+      {children}
+    </>
+  );
 }

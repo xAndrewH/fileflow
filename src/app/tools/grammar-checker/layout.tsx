@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 export const metadata: Metadata = {
   title: "Grammar & Spell Checker | FileSpark",
@@ -18,5 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <ToolJsonLd
+        name="Grammar & Spell Checker"
+        description="Check grammar, spelling, and style instantly in your browser."
+        path="/tools/grammar-checker"
+      />
+      {children}
+    </>
+  );
 }

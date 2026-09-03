@@ -1,14 +1,27 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { Eraser, Brush, Undo2, RotateCcw, Check, X, Eye } from "lucide-react";
+import { Eraser, Brush, Undo2, RotateCcw, Check, X, Eye, Download } from "lucide-react";
 import { ErrorAlert } from "@/components/ErrorAlert";
 import { RelatedTools } from "@/components/RelatedTools";
 
 type BgOption = "transparent" | "white" | "black" | "custom" | "blur";
 type ModelSize = "isnet_quint8" | "isnet";
 type EditTool = "erase" | "restore";
+type ItemStatus = "queued" | "processing" | "done" | "error";
+
+interface RemovalItem {
+  id: string;
+  file: File;
+  fileName: string;
+  original: string;          // object URL of the source image
+  aiResult: string | null;   // raw AI cutout, before any manual touch-up
+  rawResult: string | null;  // current cutout (with manual edits applied)
+  display: string | null;    // rawResult with background applied
+  status: ItemStatus;
+  error?: string;
+}
 
 function loadImageEl(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -61,23 +74,27 @@ const BG_OPTIONS: { id: BgOption; label: string; preview: string }[] = [
   { id: "custom",      label: "Custom",      preview: "" },
 ];
 
+let uid = 0;
+const nextId = () => `item-${Date.now()}-${uid++}`;
+
 export default function BackgroundRemoverPage() {
-  const [original, setOriginal]     = useState<string | null>(null);
-  const [rawResult, setRawResult]   = useState<string | null>(null);  // current cutout (with manual edits applied)
-  const [display, setDisplay]       = useState<string | null>(null);  // with bg applied
-  const [processing, setProcessing] = useState(false);
+  const [items, setItems]           = useState<RemovalItem[]>([]);
+  const [activeId, setActiveId]     = useState<string | null>(null);
   const [progress, setProgress]     = useState("");
   const [error, setError]           = useState("");
-  const [fileName, setFileName]     = useState("image");
   const [model, setModel]           = useState<ModelSize>("isnet");
   const [bg, setBg]                 = useState<BgOption>("transparent");
   const [customColor, setCustomColor] = useState("#3b82f6");
   const [sliderPos, setSliderPos]   = useState(50);
-  const [showSlider, setShowSlider] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
-  const currentFile = useRef<File | null>(null);
 
-  // Manual touch-up (erase/restore) state
+  const itemsRef = useRef<RemovalItem[]>([]);
+  useEffect(() => { itemsRef.current = items; }, [items]);
+  const processingRef = useRef(false);
+  const modelRef = useRef(model);
+  useEffect(() => { modelRef.current = model; }, [model]);
+
+  // Manual touch-up (erase/restore) state — scoped to the active item
   const [editMode, setEditMode]       = useState(false);
   const [editTool, setEditTool]       = useState<EditTool>("erase");
   const [brushSize, setBrushSize]     = useState(40);
@@ -86,79 +103,125 @@ export default function BackgroundRemoverPage() {
   const [cursorPos, setCursorPos]     = useState<{ x: number; y: number } | null>(null);
   const editCanvasRef = useRef<HTMLCanvasElement>(null);
   const origCanvasRef = useRef<HTMLCanvasElement>(null);
-  const aiResultRef   = useRef<string | null>(null);
   const historyRef    = useRef<ImageData[]>([]);
   const drawingRef    = useRef(false);
   const lastPointRef  = useRef<{ x: number; y: number } | null>(null);
 
-  const updateDisplay = useCallback(async (resultUrl: string, bgOpt: BgOption, color: string) => {
-    const out = await applyBackground(resultUrl, bgOpt, color);
-    setDisplay(out);
+  const active = items.find((it) => it.id === activeId) ?? null;
+
+  const updateItem = useCallback((id: string, patch: Partial<RemovalItem>) => {
+    setItems((prev) => prev.map((it) => (it.id === id ? { ...it, ...patch } : it)));
   }, []);
 
-  const run = useCallback(async (file: File) => {
-    setOriginal(URL.createObjectURL(file));
-    setRawResult(null);
-    setDisplay(null);
-    setError("");
-    setShowSlider(false);
-    setEditMode(false);
-    aiResultRef.current = null;
-    setProcessing(true);
-    setProgress("Loading AI model…");
-    currentFile.current = file;
-    setFileName(file.name.replace(/\.[^.]+$/, ""));
+  const updateDisplayFor = useCallback(async (id: string, resultUrl: string, bgOpt: BgOption, color: string) => {
+    const out = await applyBackground(resultUrl, bgOpt, color);
+    updateItem(id, { display: out });
+  }, [updateItem]);
+
+  // Recompute every item's display whenever the chosen background changes.
+  useEffect(() => {
+    itemsRef.current.forEach((it) => {
+      if (it.rawResult) updateDisplayFor(it.id, it.rawResult, bg, customColor);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bg, customColor]);
+
+  const processQueue = useCallback(async () => {
+    if (processingRef.current) return;
+    processingRef.current = true;
     try {
-      const { removeBackground } = await import("@imgly/background-removal");
-      setProgress("Processing image…");
-      const blob = await removeBackground(file, {
-        model,
-        progress: (_key: string, current: number, total: number) => {
-          if (total > 0) setProgress(`AI model: ${Math.round((current / total) * 100)}%`);
-        },
-      });
-      const url = URL.createObjectURL(blob);
-      setRawResult(url);
-      aiResultRef.current = url;
-      await updateDisplay(url, bg, customColor);
-      setShowSlider(true);
-    } catch (e) {
-      setError((e as Error).message);
+      while (true) {
+        const next = itemsRef.current.find((it) => it.status === "queued");
+        if (!next) break;
+        updateItem(next.id, { status: "processing" });
+        setProgress("Loading AI model…");
+        try {
+          const { removeBackground } = await import("@imgly/background-removal");
+          const blob = await removeBackground(next.file, {
+            model: modelRef.current,
+            progress: (_key: string, current: number, total: number) => {
+              if (total > 0) setProgress(`${next.fileName}: ${Math.round((current / total) * 100)}%`);
+            },
+          });
+          const url = URL.createObjectURL(blob);
+          updateItem(next.id, { status: "done", aiResult: url, rawResult: url });
+          await updateDisplayFor(next.id, url, bg, customColor);
+        } catch (e) {
+          updateItem(next.id, { status: "error", error: (e as Error).message });
+        }
+      }
+    } finally {
+      setProgress("");
+      processingRef.current = false;
     }
-    setProgress("");
-    setProcessing(false);
-  }, [model, bg, customColor, updateDisplay]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateItem, updateDisplayFor]);
 
-  const handleFile = (file: File) => {
-    if (!file.type.startsWith("image/")) return;
-    run(file);
+  const handleFiles = (files: FileList | File[]) => {
+    const images = Array.from(files).filter((f) => f.type.startsWith("image/"));
+    if (images.length === 0) return;
+    setError("");
+    const newItems: RemovalItem[] = images.map((file) => ({
+      id: nextId(),
+      file,
+      fileName: file.name.replace(/\.[^.]+$/, ""),
+      original: URL.createObjectURL(file),
+      aiResult: null,
+      rawResult: null,
+      display: null,
+      status: "queued",
+    }));
+    setItems((prev) => [...prev, ...newItems]);
+    setActiveId((prev) => prev ?? newItems[0].id);
+    void processQueue();
   };
 
-  const reprocess = () => { if (currentFile.current) run(currentFile.current); };
-
-  const changeBg = async (newBg: BgOption) => {
-    setBg(newBg);
-    if (rawResult) await updateDisplay(rawResult, newBg, customColor);
+  const reprocess = (id: string) => {
+    updateItem(id, { status: "queued", aiResult: null, rawResult: null, display: null });
+    void processQueue();
   };
 
-  const changeColor = async (color: string) => {
+  const changeColor = (color: string) => {
     setCustomColor(color);
-    if (rawResult && bg === "custom") await updateDisplay(rawResult, "custom", color);
   };
 
-  const download = () => {
-    if (!display) return;
+  const download = (item: RemovalItem) => {
+    if (!item.display) return;
     const a = document.createElement("a");
-    a.href = display;
-    a.download = `${fileName}_no_bg.png`;
+    a.href = item.display;
+    a.download = `${item.fileName}_no_bg.png`;
     a.click();
   };
 
-  // ---- Manual erase / restore editor ----
+  const downloadAll = async () => {
+    const done = items.filter((it) => it.status === "done" && it.display);
+    if (done.length === 0) return;
+    if (done.length === 1) { download(done[0]); return; }
+    const JSZip = (await import("jszip")).default;
+    const zip = new JSZip();
+    await Promise.all(done.map(async (it) => {
+      const blob = await fetch(it.display!).then((r) => r.blob());
+      zip.file(`${it.fileName}_no_bg.png`, blob);
+    }));
+    const blob = await zip.generateAsync({ type: "blob" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "background-removed.zip";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  const clearAll = () => {
+    setItems([]);
+    setActiveId(null);
+    setEditMode(false);
+  };
+
+  // ---- Manual erase / restore editor (operates on the active item) ----
 
   const openEditor = useCallback(async () => {
-    if (!rawResult || !original) return;
-    const [resImg, origImg] = await Promise.all([loadImageEl(rawResult), loadImageEl(original)]);
+    if (!active?.rawResult || !active.original) return;
+    const [resImg, origImg] = await Promise.all([loadImageEl(active.rawResult), loadImageEl(active.original)]);
     const canvas = editCanvasRef.current;
     const oc = origCanvasRef.current;
     if (!canvas || !oc) return;
@@ -175,7 +238,7 @@ export default function BackgroundRemoverPage() {
     setCanUndo(false);
     setShowOriginalEdit(false);
     setEditMode(true);
-  }, [rawResult, original]);
+  }, [active]);
 
   const paintAt = useCallback((x: number, y: number, radius: number) => {
     const canvas = editCanvasRef.current;
@@ -268,8 +331,8 @@ export default function BackgroundRemoverPage() {
 
   const resetEdits = async () => {
     const canvas = editCanvasRef.current;
-    if (!canvas || !aiResultRef.current) return;
-    const img = await loadImageEl(aiResultRef.current);
+    if (!canvas || !active?.aiResult) return;
+    const img = await loadImageEl(active.aiResult);
     const ctx = canvas.getContext("2d")!;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -279,14 +342,22 @@ export default function BackgroundRemoverPage() {
 
   const applyEdits = async () => {
     const canvas = editCanvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !active) return;
     const url = canvas.toDataURL("image/png");
-    setRawResult(url);
-    await updateDisplay(url, bg, customColor);
+    updateItem(active.id, { rawResult: url });
+    await updateDisplayFor(active.id, url, bg, customColor);
     setEditMode(false);
   };
 
   const cancelEdits = () => setEditMode(false);
+
+  const selectActive = (id: string) => {
+    setEditMode(false);
+    setActiveId(id);
+  };
+
+  const doneCount = items.filter((it) => it.status === "done").length;
+  const isProcessing = items.some((it) => it.status === "processing" || it.status === "queued");
 
   return (
     <div className="min-h-screen bg-slate-950">
@@ -313,8 +384,8 @@ export default function BackgroundRemoverPage() {
                 ))}
               </div>
             </div>
-            {rawResult && (
-              <button onClick={reprocess} disabled={processing}
+            {active && active.status === "done" && (
+              <button onClick={() => reprocess(active.id)} disabled={isProcessing}
                 className="text-xs text-slate-500 hover:text-blue-400 transition-colors disabled:opacity-40">
                 ↺ Re-process with new settings
               </button>
@@ -324,13 +395,13 @@ export default function BackgroundRemoverPage() {
           {/* Drop zone */}
           <div
             className="bg-slate-900/60 border-2 border-dashed border-slate-700 rounded-xl p-10 text-center cursor-pointer hover:border-blue-500/50 transition-colors"
-            onClick={() => !processing && fileRef.current?.click()}
+            onClick={() => fileRef.current?.click()}
             onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }}>
-            {processing ? (
+            onDrop={(e) => { e.preventDefault(); handleFiles(e.dataTransfer.files); }}>
+            {isProcessing ? (
               <div className="space-y-3">
                 <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-slate-400 text-sm">{progress}</p>
+                <p className="text-slate-400 text-sm">{progress || "Processing…"}</p>
                 <p className="text-slate-500 text-xs">First use downloads the model (~40 MB). Cached afterwards.</p>
               </div>
             ) : (
@@ -338,29 +409,53 @@ export default function BackgroundRemoverPage() {
                 <svg className="w-8 h-8 text-slate-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
-                <p className="text-slate-400 text-sm">Drop an image or <span className="text-blue-400">browse</span></p>
+                <p className="text-slate-400 text-sm">Drop one or more images or <span className="text-blue-400">browse</span></p>
                 <p className="text-slate-500 text-xs mt-1">Works best with clear subjects: people, products, objects</p>
               </>
             )}
-            <input ref={fileRef} type="file" accept="image/*" className="hidden"
-              onChange={(e) => { const f = e.target.files?.[0]; e.currentTarget.value = ""; if (f) handleFile(f); }} />
+            <input ref={fileRef} type="file" accept="image/*" multiple className="hidden"
+              onChange={(e) => { const f = e.target.files; e.currentTarget.value = ""; if (f) handleFiles(f); }} />
           </div>
 
           <ErrorAlert message={error} />
 
+          {/* Batch thumbnail strip */}
+          {items.length > 1 && (
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {items.map((it) => (
+                <button key={it.id} onClick={() => selectActive(it.id)}
+                  className={`relative shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${it.id === activeId ? "border-blue-500" : "border-slate-800 hover:border-slate-600"}`}
+                  style={{ background: "repeating-conic-gradient(#374151 0% 25%,#1e293b 0% 50%) 0 0/8px 8px" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={it.display ?? it.original} alt={it.fileName} className="w-full h-full object-cover" />
+                  {(it.status === "queued" || it.status === "processing") && (
+                    <span className="absolute inset-0 flex items-center justify-center bg-slate-950/60">
+                      <span className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                    </span>
+                  )}
+                  {it.status === "error" && (
+                    <span className="absolute inset-0 flex items-center justify-center bg-red-950/60 text-red-400 text-[10px]">Error</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {active?.status === "error" && <ErrorAlert message={active.error ?? "Failed to process image."} />}
+
           {/* Comparison slider */}
-          {original && display && showSlider && !editMode && (
+          {active && active.original && active.display && active.status === "done" && !editMode && (
             <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
               <p className="text-slate-400 text-xs font-medium">Before / After | drag slider</p>
               <div className="relative overflow-hidden rounded-xl select-none"
                 style={{ background: "repeating-conic-gradient(#374151 0% 25%,#1e293b 0% 50%) 0 0/16px 16px" }}>
                 {/* After (result) | full width */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={display} alt="Result" className="w-full block" />
+                <img src={active.display} alt="Result" className="w-full block" />
                 {/* Before (original) | clipped to slider position */}
                 <div className="absolute inset-0 overflow-hidden" style={{ width: `${sliderPos}%` }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={original} alt="Original" className="block" style={{ width: `${10000 / sliderPos}%`, maxWidth: "none" }} />
+                  <img src={active.original} alt="Original" className="block" style={{ width: `${10000 / sliderPos}%`, maxWidth: "none" }} />
                 </div>
                 {/* Slider handle */}
                 <div className="absolute inset-y-0 flex items-center justify-center" style={{ left: `${sliderPos}%`, transform: "translateX(-50%)" }}>
@@ -393,7 +488,7 @@ export default function BackgroundRemoverPage() {
           )}
 
           {/* Touch up: erase / restore */}
-          {rawResult && !processing && (
+          {active && active.rawResult && !isProcessing && (
             <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <div>
@@ -487,12 +582,13 @@ export default function BackgroundRemoverPage() {
           )}
 
           {/* Background options */}
-          {rawResult && !editMode && (
+          {active && active.rawResult && !editMode && (
             <div className="bg-slate-900/60 border border-slate-800/60 rounded-xl p-4 space-y-3">
               <p className="text-white text-sm font-medium">Background</p>
+              <p className="text-slate-500 text-xs -mt-2">Applies to every image in this batch.</p>
               <div className="flex flex-wrap gap-2">
                 {BG_OPTIONS.map(({ id, label, preview }) => (
-                  <button key={id} onClick={() => changeBg(id)}
+                  <button key={id} onClick={() => setBg(id)}
                     className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs transition-colors ${bg === id ? "border-blue-500/60 bg-blue-500/10 text-blue-300" : "border-slate-700 bg-slate-800 text-slate-400 hover:text-white"}`}>
                     {id !== "custom" ? (
                       <span className="w-4 h-4 rounded border border-slate-600 shrink-0" style={{ background: preview }} />
@@ -508,10 +604,28 @@ export default function BackgroundRemoverPage() {
             </div>
           )}
 
-          {display && !editMode && (
-            <button onClick={download}
-              className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-blue-500/20">
-              Download PNG
+          {doneCount > 0 && !editMode && (
+            <div className="flex gap-3">
+              {active?.display && (
+                <button onClick={() => download(active)}
+                  className="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-blue-500/20">
+                  Download PNG
+                </button>
+              )}
+              {doneCount > 1 && (
+                <button onClick={downloadAll}
+                  className="flex-1 inline-flex items-center justify-center gap-2 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700/60 text-slate-200 font-semibold rounded-xl transition-colors">
+                  <Download className="w-4 h-4" />
+                  Download all (ZIP)
+                </button>
+              )}
+            </div>
+          )}
+
+          {items.length > 0 && !isProcessing && (
+            <button onClick={clearAll}
+              className="w-full py-2 text-slate-500 hover:text-slate-300 text-xs transition-colors">
+              Clear all
             </button>
           )}
         </div>
