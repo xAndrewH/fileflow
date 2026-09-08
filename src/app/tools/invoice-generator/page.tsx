@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ChevronLeft, FileText, Plus, Trash2, Printer, Copy, Check } from "lucide-react";
+import { ChevronLeft, FileText, Plus, Trash2, Printer, Copy, Check, X } from "lucide-react";
 
 interface LineItem {
   description: string;
@@ -186,6 +186,14 @@ export default function InvoiceGeneratorPage() {
     { description: "", qty: "1", unitPrice: "" },
   ]);
   const [htmlCopied, setHtmlCopied] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+
+  useEffect(() => {
+    if (!previewOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setPreviewOpen(false); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [previewOpen]);
 
   const set = (key: keyof InvoiceForm) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
@@ -208,11 +216,7 @@ export default function InvoiceGeneratorPage() {
   const taxAmt = subtotal * (taxRate / 100);
   const total = subtotal + taxAmt - discount;
 
-  const preview = () => {
-    const html = buildInvoiceHtml(form, items);
-    const w = window.open("", "_blank");
-    if (w) { w.document.write(html); w.document.close(); }
-  };
+  const preview = () => setPreviewOpen(true);
 
   const copyHtml = async () => {
     const html = buildInvoiceHtml(form, items);
@@ -434,6 +438,27 @@ export default function InvoiceGeneratorPage() {
           </div>
         </div>
       </div>
+
+      {previewOpen && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-black/60 backdrop-blur-sm">
+          <div className="flex items-center justify-between gap-3 px-4 py-3 bg-slate-900 border-b border-slate-700/60 shrink-0">
+            <p className="text-white text-sm font-medium">Invoice Preview</p>
+            <button
+              onClick={() => setPreviewOpen(false)}
+              aria-label="Close preview"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-sm transition-colors"
+            >
+              <X className="w-4 h-4" />
+              Close
+            </button>
+          </div>
+          <iframe
+            title="Invoice preview"
+            srcDoc={buildInvoiceHtml(form, items)}
+            className="flex-1 w-full bg-white border-0"
+          />
+        </div>
+      )}
     </div>
   );
 }
