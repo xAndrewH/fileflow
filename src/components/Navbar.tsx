@@ -49,7 +49,7 @@ export default function Navbar({ historyCount, onHistoryClick, onKeyClick }: Pro
             </svg>
           </div>
           <span className="font-bold text-slate-900 dark:text-white text-[17px] tracking-tight shrink-0">FileSpark</span>
-          <span className="hidden md:flex items-center gap-1 text-slate-400 dark:text-slate-600 text-sm font-normal shrink-0">
+          <span className="hidden min-[880px]:flex items-center gap-1 text-slate-400 dark:text-slate-600 text-sm font-normal shrink-0">
             <span className="mx-1">·</span>
             Free File Converter
           </span>
@@ -60,48 +60,51 @@ export default function Navbar({ historyCount, onHistoryClick, onKeyClick }: Pro
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 min-[880px]:gap-3">
           {/* Navigate */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 min-[880px]:gap-1.5">
             <button
               onClick={() => window.dispatchEvent(new Event(OPEN_COMMAND_PALETTE_EVENT))}
-              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm transition-all duration-150"
+              className="flex items-center gap-2 px-2.5 min-[880px]:px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm transition-all duration-150"
               aria-label="Search tools"
             >
               <Search className="w-3.5 h-3.5" />
-              <span>Search</span>
-              <kbd className="text-[10px] text-slate-500 dark:text-slate-600 bg-slate-200 dark:bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-300 dark:border-slate-700 font-mono">⌘K</kbd>
+              <span className="hidden min-[880px]:block">Search</span>
+              <kbd className="hidden min-[880px]:block text-[10px] text-slate-500 dark:text-slate-600 bg-slate-200 dark:bg-slate-800/80 px-1.5 py-0.5 rounded border border-slate-300 dark:border-slate-700 font-mono">⌘K</kbd>
             </button>
             <Link
               href="/tools"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-medium transition-all duration-150"
+              className="flex items-center gap-1.5 px-2.5 min-[880px]:px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm font-medium transition-all duration-150"
+              aria-label="Tools"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l5.654-4.654m5.654-4.654l3.029-2.498a4.25 4.25 0 011.244 4.753l-1.272 3.186" />
               </svg>
-              <span>Tools</span>
+              <span className="hidden min-[880px]:block">Tools</span>
             </Link>
           </div>
 
-          <div className="hidden sm:block w-px h-6 bg-slate-200 dark:bg-slate-800" />
+          <div className="hidden min-[880px]:block w-px h-6 bg-slate-200 dark:bg-slate-800" />
 
           {/* Support + utility */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 min-[880px]:gap-1.5">
             <a
               href="https://buymeacoffee.com/Huppa"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-yellow-500/15 hover:bg-yellow-500/25 border border-yellow-500/30 hover:border-yellow-500/50 text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 text-sm font-medium transition-all duration-150"
+              title="Buy me a coffee"
+              aria-label="Buy me a coffee"
+              className="flex items-center gap-1.5 px-2.5 min-[880px]:px-3 py-1.5 rounded-lg bg-yellow-500/15 hover:bg-yellow-500/25 border border-yellow-500/30 hover:border-yellow-500/50 text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 text-sm font-medium transition-all duration-150"
             >
               <span className="text-base leading-none">☕</span>
-              <span>Buy me a coffee</span>
+              <span className="hidden min-[880px]:block">Buy me a coffee</span>
             </a>
 
             {onKeyClick && (
               <button
                 onClick={onKeyClick}
                 title="CloudConvert API Key (for document & eBook conversion)"
-                className="flex items-center justify-center w-9 h-9 rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-150"
+                className="hidden min-[880px]:flex items-center justify-center w-9 h-9 rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-150"
                 aria-label="CloudConvert API key settings"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -114,13 +117,13 @@ export default function Navbar({ historyCount, onHistoryClick, onKeyClick }: Pro
 
             <button
               onClick={onHistoryClick}
-              className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm transition-all duration-150"
+              className="relative flex items-center gap-1.5 px-2.5 min-[880px]:px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-sm transition-all duration-150"
               aria-label="Conversion history"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="hidden sm:block font-medium">History</span>
+              <span className="hidden min-[880px]:block font-medium">History</span>
               {historyCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-blue-600 text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
                   {historyCount > 99 ? "99+" : historyCount}
