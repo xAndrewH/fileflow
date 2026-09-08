@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
 import { usePersistedText } from "@/hooks/usePersistedText";
 
@@ -29,6 +29,7 @@ const LANGUAGES = [
 export default function GrammarCheckerPage() {
   const [text, setText] = usePersistedText("ff-draft-grammar-checker");
   const [language, setLanguage] = useState("en-US");
+  const [picky, setPicky] = useState(true);
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -36,8 +37,27 @@ export default function GrammarCheckerPage() {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Offset-ordered, non-overlapping matches — the single source of truth for
+  // the inline underlines, the issue list, and prev/next navigation, so all
+  // three always agree on what "issue #3" means.
+  const sortedMatches = useMemo(() => {
+    const sorted = [...matches].sort((a, b) => a.offset - b.offset);
+    const deduped: Match[] = [];
+    let lastEnd = -1;
+    for (const m of sorted) {
+      if (m.offset >= lastEnd) {
+        deduped.push(m);
+        lastEnd = m.offset + m.length;
+      }
+    }
+    return deduped;
+  }, [matches]);
 
   const clearAll = useCallback(() => {
+    if (debounceRef.current) { clearTimeout(debounceRef.current); debounceRef.current = null; }
     setText("");
     setMatches([]);
     setChecked(false);
@@ -53,9 +73,11 @@ export default function GrammarCheckerPage() {
     } catch { /* clipboard unavailable */ }
   }, [text]);
 
-  const check = useCallback(async (t?: string, lang?: string) => {
+  const check = useCallback(async (t?: string, lang?: string, pickyMode?: boolean) => {
+    if (debounceRef.current) { clearTimeout(debounceRef.current); debounceRef.current = null; }
     const src = t ?? text;
     const lng = lang ?? language;
+    const level = (pickyMode ?? picky) ? "picky" : "default";
     if (!src.trim()) return;
     setLoading(true);
     setChecked(false);
@@ -63,7 +85,7 @@ export default function GrammarCheckerPage() {
     setActiveIdx(null);
     setError("");
     try {
-      const body = new URLSearchParams({ text: src, language: lng });
+      const body = new URLSearchParams({ text: src, language: lng, level });
       const res = await fetch("https://api.languagetool.org/v2/check", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -81,7 +103,7 @@ export default function GrammarCheckerPage() {
     } finally {
       setLoading(false);
     }
-  }, [text, language]);
+  }, [text, language, picky]);
 
   const applyFix = useCallback((match: Match, replacement: string) => {
     const newText = text.slice(0, match.offset) + replacement + text.slice(match.offset + match.length);
@@ -98,7 +120,7 @@ export default function GrammarCheckerPage() {
 
   const fixAll = useCallback(() => {
     // Apply all first-suggestion fixes from last to first to preserve offsets
-    const fixable = [...matches]
+    const fixable = [...sortedMatches]
       .filter(m => m.replacements.length > 0)
       .sort((a, b) => b.offset - a.offset);
     let result = text;
@@ -109,7 +131,7 @@ export default function GrammarCheckerPage() {
     setMatches([]);
     setChecked(false);
     setActiveIdx(null);
-  }, [text, matches, setText]);
+  }, [text, sortedMatches, setText]);
 
   const categoryColor: Record<string, string> = {
     GRAMMAR: "text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-800/50",
@@ -119,41 +141,86 @@ export default function GrammarCheckerPage() {
   };
   const getColor = (cat: string) => categoryColor[cat] ?? "text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/60 border-slate-300 dark:border-slate-700/50";
 
-  const renderHighlighted = () => {
-    if (!checked || matches.length === 0) return null;
+  const underlineColor: Record<string, string> = {
+    GRAMMAR: "border-red-500",
+    SPELLING: "border-yellow-500",
+    PUNCTUATION: "border-orange-500",
+    STYLE: "border-blue-500",
+  };
+  const getUnderline = (cat: string) => underlineColor[cat] ?? "border-slate-400";
+
+  // Renders the live text with a colored underline under each flagged span —
+  // drawn on a non-interactive backdrop that sits behind a transparent-text
+  // textarea, so it reads as inline highlighting inside the writing surface
+  // itself instead of a separate read-only preview.
+  const renderBackdrop = () => {
+    if (matches.length === 0 || sortedMatches.length === 0) {
+      return <>{text}{text.endsWith("\n") ? " " : ""}</>;
+    }
     const parts: { text: string; matchIdx: number | null }[] = [];
     let pos = 0;
-    const sorted = [...matches].sort((a, b) => a.offset - b.offset);
-    for (const [mi, m] of sorted.entries()) {
+    for (const [mi, m] of sortedMatches.entries()) {
       if (m.offset > pos) parts.push({ text: text.slice(pos, m.offset), matchIdx: null });
       parts.push({ text: text.slice(m.offset, m.offset + m.length), matchIdx: mi });
       pos = m.offset + m.length;
     }
     if (pos < text.length) parts.push({ text: text.slice(pos), matchIdx: null });
-    return parts.map((p, i) =>
-      p.matchIdx !== null ? (
-        <mark key={i}
-          onClick={() => setActiveIdx(activeIdx === p.matchIdx ? null : p.matchIdx)}
-          className="bg-yellow-500/30 border-b-2 border-yellow-400 cursor-pointer rounded-sm hover:bg-yellow-500/50 transition-colors">
-          {p.text}
-        </mark>
-      ) : (
-        <span key={i}>{p.text}</span>
-      )
+    return (
+      <>
+        {parts.map((p, i) =>
+          p.matchIdx !== null ? (
+            <mark key={i}
+              className={`bg-transparent border-b-2 rounded-none ${getUnderline(sortedMatches[p.matchIdx].rule.category.name)} ${activeIdx === p.matchIdx ? "bg-blue-500/15" : ""}`}>
+              {p.text}
+            </mark>
+          ) : (
+            <span key={i}>{p.text}</span>
+          )
+        )}
+        {text.endsWith("\n") ? " " : ""}
+      </>
     );
   };
+
+  // Maps the textarea's cursor position to the issue (if any) it's sitting
+  // inside, so clicking or arrowing into an underlined word surfaces its fix
+  // without needing to hit the underline pixel-perfectly.
+  const syncActiveFromCursor = useCallback(() => {
+    const ta = textareaRef.current;
+    if (!ta || sortedMatches.length === 0) return;
+    const pos = ta.selectionStart;
+    const idx = sortedMatches.findIndex(m => pos >= m.offset && pos <= m.offset + m.length);
+    setActiveIdx(idx === -1 ? null : idx);
+  }, [sortedMatches]);
+
+  const goToIssue = useCallback((dir: 1 | -1) => {
+    if (sortedMatches.length === 0) return;
+    const next = activeIdx === null
+      ? (dir === 1 ? 0 : sortedMatches.length - 1)
+      : (activeIdx + dir + sortedMatches.length) % sortedMatches.length;
+    setActiveIdx(next);
+    const m = sortedMatches[next];
+    const ta = textareaRef.current;
+    if (ta) {
+      ta.focus();
+      ta.setSelectionRange(m.offset, m.offset + m.length);
+    }
+  }, [activeIdx, sortedMatches]);
+
+  useEffect(() => {
+    if (activeIdx !== null) cardRefs.current[activeIdx]?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [activeIdx]);
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     if (text.trim().split(/\s+/).filter(Boolean).length >= 5) {
-      debounceRef.current = setTimeout(() => check(text, language), 1500);
+      debounceRef.current = setTimeout(() => check(text, language, picky), 1500);
     }
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text, language]);
+  }, [text, language, picky]);
 
-  const highlighted = renderHighlighted();
-  const fixableCount = matches.filter(m => m.replacements.length > 0).length;
+  const fixableCount = sortedMatches.filter(m => m.replacements.length > 0).length;
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
@@ -166,27 +233,46 @@ export default function GrammarCheckerPage() {
         <p className="text-slate-500 text-sm mb-8">Check grammar, spelling, and style instantly | no signup required.</p>
 
         <div className="space-y-4">
-          {/* Language selector */}
-          <div className="flex items-center gap-3">
-            <label className="text-slate-500 dark:text-slate-400 text-xs shrink-0">Language:</label>
-            <select value={language}
-              onChange={e => { setLanguage(e.target.value); setChecked(false); setMatches([]); }}
-              className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 text-slate-700 dark:text-slate-300 text-xs rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500/50">
-              {LANGUAGES.map(l => (
-                <option key={l.code} value={l.code}>{l.label}</option>
-              ))}
-            </select>
+          {/* Language + check depth */}
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-3">
+              <label className="text-slate-500 dark:text-slate-400 text-xs shrink-0">Language:</label>
+              <select value={language}
+                onChange={e => { setLanguage(e.target.value); setChecked(false); setMatches([]); }}
+                className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 text-slate-700 dark:text-slate-300 text-xs rounded-lg px-3 py-1.5 focus:outline-none focus:border-blue-500/50">
+                {LANGUAGES.map(l => (
+                  <option key={l.code} value={l.code}>{l.label}</option>
+                ))}
+              </select>
+            </div>
+            <label className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs cursor-pointer select-none">
+              <input type="checkbox" checked={picky}
+                onChange={e => { setPicky(e.target.checked); setChecked(false); setMatches([]); }}
+                className="accent-blue-500" />
+              More thorough checks
+            </label>
           </div>
 
+          {/* Editor: a transparent-text textarea stacked over a highlighted
+              backdrop, so flagged spans get an underline right in the text
+              you're typing instead of a separate preview elsewhere. */}
           <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl overflow-hidden">
-            <textarea
-              value={text}
-              onChange={e => { setText(e.target.value); setChecked(false); setMatches([]); setActiveIdx(null); setError(""); }}
-              placeholder="Paste or type your text here to check for grammar and spelling mistakes…"
-              rows={8}
-              className="w-full bg-transparent px-4 py-4 text-slate-800 dark:text-slate-200 text-sm leading-relaxed resize-none focus:outline-none placeholder:text-slate-600"
-            />
-            <div className="flex items-center justify-between px-4 py-3 border-t border-slate-200 dark:border-slate-800/60">
+            <div className="relative">
+              <div aria-hidden className="min-h-48 w-full whitespace-pre-wrap break-words px-4 py-4 text-slate-800 dark:text-slate-200 text-sm leading-relaxed pointer-events-none">
+                {renderBackdrop()}
+              </div>
+              <textarea
+                ref={textareaRef}
+                value={text}
+                onChange={e => { setText(e.target.value); setChecked(false); setMatches([]); setActiveIdx(null); setError(""); }}
+                onClick={syncActiveFromCursor}
+                onKeyUp={syncActiveFromCursor}
+                onSelect={syncActiveFromCursor}
+                placeholder="Paste or type your text here to check for grammar and spelling mistakes…"
+                className="absolute inset-0 h-full w-full bg-transparent text-transparent caret-slate-900 dark:caret-white selection:bg-blue-500/30 px-4 py-4 text-sm leading-relaxed resize-none focus:outline-none placeholder:text-slate-600"
+              />
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 border-t border-slate-200 dark:border-slate-800/60 flex-wrap gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-slate-400 dark:text-slate-600 text-xs">{text.trim().split(/\s+/).filter(Boolean).length} words · {text.length} chars</span>
                 {loading && <span className="text-slate-500 text-xs animate-pulse">Checking…</span>}
@@ -224,14 +310,6 @@ export default function GrammarCheckerPage() {
             </div>
           )}
 
-          {/* Highlighted preview */}
-          {highlighted && (
-            <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
-              <p className="text-slate-500 text-xs mb-2">Click a highlighted word to see and apply suggestions</p>
-              <div className="text-slate-800 dark:text-slate-200 text-sm leading-relaxed whitespace-pre-wrap font-sans">{highlighted}</div>
-            </div>
-          )}
-
           {checked && matches.length === 0 && (
             <div className="flex items-center gap-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 rounded-xl p-4">
               <span className="text-emerald-600 dark:text-emerald-400 text-lg">✓</span>
@@ -239,19 +317,32 @@ export default function GrammarCheckerPage() {
             </div>
           )}
 
-          {matches.length > 0 && (
+          {sortedMatches.length > 0 && (
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{matches.length} issue{matches.length !== 1 ? "s" : ""} found</p>
-                {fixableCount > 0 && (
-                  <button onClick={fixAll}
-                    className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold rounded-lg transition-colors">
-                    Fix all {fixableCount} auto-fixable
-                  </button>
-                )}
+                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">{sortedMatches.length} issue{sortedMatches.length !== 1 ? "s" : ""} found</p>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
+                    <button onClick={() => goToIssue(-1)} aria-label="Previous issue"
+                      className="w-7 h-7 flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                      ↑
+                    </button>
+                    <button onClick={() => goToIssue(1)} aria-label="Next issue"
+                      className="w-7 h-7 flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                      ↓
+                    </button>
+                  </div>
+                  {fixableCount > 0 && (
+                    <button onClick={fixAll}
+                      className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-semibold rounded-lg transition-colors">
+                      Fix all {fixableCount} auto-fixable
+                    </button>
+                  )}
+                </div>
               </div>
-              {matches.map((m, i) => (
+              {sortedMatches.map((m, i) => (
                 <div key={i}
+                  ref={el => { cardRefs.current[i] = el; }}
                   onClick={() => setActiveIdx(activeIdx === i ? null : i)}
                   className={`border rounded-xl p-4 cursor-pointer transition-all ${getColor(m.rule.category.name)} ${activeIdx === i ? "ring-1 ring-blue-500/50" : ""}`}>
                   <div className="flex items-start justify-between gap-2">
