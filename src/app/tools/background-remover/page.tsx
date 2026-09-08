@@ -34,6 +34,20 @@ function loadImageEl(src: string): Promise<HTMLImageElement> {
   });
 }
 
+// A stalled model download or a WASM/worker init issue can leave the AI call
+// neither resolving nor rejecting, which would otherwise strand the item on
+// "processing" forever with no error and no way to recover short of a
+// reload. This guarantees it eventually surfaces as a normal, retryable error.
+function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(message)), ms);
+    promise.then(
+      (v) => { clearTimeout(timer); resolve(v); },
+      (e) => { clearTimeout(timer); reject(e); },
+    );
+  });
+}
+
 function applyBackground(resultUrl: string, bg: BgOption, customColor: string): Promise<string> {
   return new Promise((resolve) => {
     const img = new Image();
@@ -149,17 +163,16 @@ export default function BackgroundRemoverPage() {
         setProgress("Loading AI model…");
         try {
           const { removeBackground } = await import("@imgly/background-removal");
-          const blob = await removeBackground(next.file, {
-            model: modelRef.current,
-            // Prefer WebGPU when the browser supports it (the library
-            // silently falls back to WASM/CPU otherwise), and hand it off to
-            // a worker so a long inference doesn't freeze the UI thread.
-            device: "gpu",
-            proxyToWorker: true,
-            progress: (_key: string, current: number, total: number) => {
-              if (total > 0) setProgress(`${next.fileName}: ${Math.round((current / total) * 100)}%`);
-            },
-          });
+          const blob = await withTimeout(
+            removeBackground(next.file, {
+              model: modelRef.current,
+              progress: (_key: string, current: number, total: number) => {
+                if (total > 0) setProgress(`${next.fileName}: ${Math.round((current / total) * 100)}%`);
+              },
+            }),
+            90_000,
+            "Timed out removing the background. Try again, or switch to the Fast model.",
+          );
           const url = URL.createObjectURL(blob);
           updateItem(next.id, { status: "done", aiResult: url, rawResult: url });
           await updateDisplayFor(next.id, url, bgRef.current, customColorRef.current);
