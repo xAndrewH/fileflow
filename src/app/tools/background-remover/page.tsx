@@ -85,7 +85,7 @@ export default function BackgroundRemoverPage() {
   const [activeId, setActiveId]     = useState<string | null>(null);
   const [progress, setProgress]     = useState("");
   const [error, setError]           = useState("");
-  const [model, setModel]           = useState<ModelSize>("isnet");
+  const [model, setModel]           = useState<ModelSize>("isnet_quint8");
   const [bg, setBg]                 = useState<BgOption>("transparent");
   const [customColor, setCustomColor] = useState("#3b82f6");
   const [sliderPos, setSliderPos]   = useState(50);
@@ -96,6 +96,15 @@ export default function BackgroundRemoverPage() {
   const processingRef = useRef(false);
   const modelRef = useRef(model);
   useEffect(() => { modelRef.current = model; }, [model]);
+  // processQueue below is created once (its deps never change) and runs
+  // across every future upload, so it can't close over bg/customColor by
+  // value — it has to read the current selection through a ref, exactly
+  // like modelRef, or a newly-converted image keeps whatever background was
+  // selected when the page first loaded instead of what's picked right now.
+  const bgRef = useRef(bg);
+  useEffect(() => { bgRef.current = bg; }, [bg]);
+  const customColorRef = useRef(customColor);
+  useEffect(() => { customColorRef.current = customColor; }, [customColor]);
 
   // Manual touch-up (erase/restore) state — scoped to the active item
   const [editMode, setEditMode]       = useState(false);
@@ -142,13 +151,18 @@ export default function BackgroundRemoverPage() {
           const { removeBackground } = await import("@imgly/background-removal");
           const blob = await removeBackground(next.file, {
             model: modelRef.current,
+            // Prefer WebGPU when the browser supports it (the library
+            // silently falls back to WASM/CPU otherwise), and hand it off to
+            // a worker so a long inference doesn't freeze the UI thread.
+            device: "gpu",
+            proxyToWorker: true,
             progress: (_key: string, current: number, total: number) => {
               if (total > 0) setProgress(`${next.fileName}: ${Math.round((current / total) * 100)}%`);
             },
           });
           const url = URL.createObjectURL(blob);
           updateItem(next.id, { status: "done", aiResult: url, rawResult: url });
-          await updateDisplayFor(next.id, url, bg, customColor);
+          await updateDisplayFor(next.id, url, bgRef.current, customColorRef.current);
         } catch (e) {
           updateItem(next.id, { status: "error", error: (e as Error).message });
         }
@@ -157,7 +171,6 @@ export default function BackgroundRemoverPage() {
       setProgress("");
       processingRef.current = false;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateItem, updateDisplayFor]);
 
   const handleFiles = (files: FileList | File[]) => {
