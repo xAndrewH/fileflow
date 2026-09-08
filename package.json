@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "postinstall": "cp node_modules/@imagemagick/magick-wasm/dist/magick.wasm public/magick.wasm"
   },
   "dependencies": {
@@ -47,6 +49,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/archiver": "^7.0.0",
     "@types/node": "^20.19.40",
