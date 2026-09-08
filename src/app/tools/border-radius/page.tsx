@@ -1,24 +1,35 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import Link from "next/link";
 import { CopyButton } from "@/components/CopyButton";
 import { RelatedTools } from "@/components/RelatedTools";
+import { useHistoryState } from "@/hooks/useHistoryState";
+import { useUndoRedoShortcut } from "@/hooks/useUndoRedoShortcut";
+import { UndoRedoButtons } from "@/components/UndoRedoButtons";
 
 interface Corners { tl: number; tr: number; br: number; bl: number }
+interface BorderRadiusConfig { linked: boolean; corners: Corners; unit: "px" | "%" }
+
+const DEFAULT_CONFIG: BorderRadiusConfig = {
+  linked: true,
+  corners: { tl: 16, tr: 16, br: 16, bl: 16 },
+  unit: "px",
+};
 
 export default function BorderRadiusPage() {
-  const [linked, setLinked] = useState(true);
-  const [corners, setCorners] = useState<Corners>({ tl: 16, tr: 16, br: 16, bl: 16 });
-  const [unit, setUnit] = useState<"px" | "%">("px");
+  const [config, setConfig, configHistory] = useHistoryState<BorderRadiusConfig>(DEFAULT_CONFIG);
+  const { linked, corners, unit } = config;
+  const patch = useCallback((p: Partial<BorderRadiusConfig>) => setConfig(c => ({ ...c, ...p })), [setConfig]);
+  useUndoRedoShortcut(configHistory);
 
   const update = useCallback((key: keyof Corners, val: number) => {
     if (linked) {
-      setCorners({ tl: val, tr: val, br: val, bl: val });
+      patch({ corners: { tl: val, tr: val, br: val, bl: val } });
     } else {
-      setCorners(c => ({ ...c, [key]: val }));
+      setConfig(c => ({ ...c, corners: { ...c.corners, [key]: val } }));
     }
-  }, [linked]);
+  }, [linked, patch, setConfig]);
 
   const { tl, tr, br, bl } = corners;
   const isUniform = tl === tr && tr === br && br === bl;
@@ -65,8 +76,9 @@ export default function BorderRadiusPage() {
           </div>
 
           {/* CSS output */}
-          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-3 flex items-center gap-3">
-            <code className="flex-1 text-blue-700 dark:text-blue-300 text-sm font-mono">{css}</code>
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-3 flex flex-wrap items-center gap-3">
+            <code className="flex-1 min-w-0 text-blue-700 dark:text-blue-300 text-sm font-mono">{css}</code>
+            <UndoRedoButtons {...configHistory} />
             <CopyButton text={css} label="Copy CSS" className="shrink-0" />
           </div>
 
@@ -75,14 +87,16 @@ export default function BorderRadiusPage() {
             <div className="flex gap-1 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-1">
               {(["px", "%"] as const).map(u => (
                 <button key={u} onClick={() => {
-                  setUnit(u);
                   const newMax = u === "%" ? 50 : 120;
-                  setCorners(c => ({
-                    tl: Math.min(c.tl, newMax),
-                    tr: Math.min(c.tr, newMax),
-                    br: Math.min(c.br, newMax),
-                    bl: Math.min(c.bl, newMax),
-                  }));
+                  patch({
+                    unit: u,
+                    corners: {
+                      tl: Math.min(corners.tl, newMax),
+                      tr: Math.min(corners.tr, newMax),
+                      br: Math.min(corners.br, newMax),
+                      bl: Math.min(corners.bl, newMax),
+                    },
+                  });
                 }}
                   className={`px-4 py-1 rounded-lg text-sm transition-colors ${unit === u ? "bg-blue-600 text-white" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                   {u}
@@ -90,7 +104,7 @@ export default function BorderRadiusPage() {
               ))}
             </div>
             <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" checked={linked} onChange={e => setLinked(e.target.checked)} className="accent-blue-500" />
+              <input type="checkbox" checked={linked} onChange={e => patch({ linked: e.target.checked })} className="accent-blue-500" />
               <span className="text-slate-500 dark:text-slate-400 text-sm">Link all corners</span>
             </label>
           </div>
@@ -119,7 +133,10 @@ export default function BorderRadiusPage() {
                   : `${p.corners.tl}px ${p.corners.tr}px ${p.corners.br}px ${p.corners.bl}px`;
                 return (
                   <button key={p.label}
-                    onClick={() => { setCorners(p.corners); setLinked(p.corners.tl === p.corners.tr && p.corners.tr === p.corners.br && p.corners.br === p.corners.bl); }}
+                    onClick={() => patch({
+                      corners: p.corners,
+                      linked: p.corners.tl === p.corners.tr && p.corners.tr === p.corners.br && p.corners.br === p.corners.bl,
+                    })}
                     className="flex flex-col items-center gap-2 p-3 bg-slate-100 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700/50 rounded-xl transition-colors">
                     <div className="w-10 h-10 bg-blue-500/30 border border-blue-500/40" style={{ borderRadius: pVal }} />
                     <span className="text-slate-500 dark:text-slate-400 text-xs">{p.label}</span>

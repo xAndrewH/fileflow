@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePersistedText } from "@/hooks/usePersistedText";
 
 type Mode = "encode" | "decode";
 type Variant = "component" | "full" | "form";
@@ -27,7 +28,7 @@ function decode(input: string, variant: Variant): string {
 }
 
 export default function UrlEncodePage() {
-  const [input, setInput]     = useState("");
+  const [input, setInput]     = usePersistedText("ff-draft-url-encode");
   const [output, setOutput]   = useState("");
   const [mode, setMode]       = useState<Mode>("encode");
   const [variant, setVariant] = useState<Variant>("component");

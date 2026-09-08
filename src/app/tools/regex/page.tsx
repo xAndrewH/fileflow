@@ -158,7 +158,7 @@ export default function RegexPage() {
             <span className="text-slate-500 font-mono text-lg select-none">/</span>
             <input value={pattern} onChange={e => setPattern(e.target.value)}
               placeholder="pattern" spellCheck={false}
-              className="flex-1 bg-transparent text-slate-900 dark:text-white font-mono text-sm focus:outline-none placeholder-slate-400 dark:placeholder-slate-600" />
+              className="flex-1 min-w-0 bg-transparent text-slate-900 dark:text-white font-mono text-sm focus:outline-none placeholder-slate-400 dark:placeholder-slate-600" />
             <span className="text-slate-500 font-mono text-lg select-none">/</span>
             <div className="flex gap-1">
               {FLAG_OPTS.map(({ f, title }) => (

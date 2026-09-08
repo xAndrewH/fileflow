@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { useHistoryState } from "@/hooks/useHistoryState";
 import { useUndoRedoShortcut } from "@/hooks/useUndoRedoShortcut";
 import { UndoRedoButtons } from "@/components/UndoRedoButtons";
+import { ShareButton } from "@/components/ShareButton";
+import { decodeShareState } from "@/lib/shareState";
 
 interface Stop { color: string; position: number }
+interface ShareState { type: "linear" | "radial"; angle: number; stops: Stop[] }
 
 const INITIAL_STOPS: Stop[] = [
   { color: "#6366f1", position: 0 },
@@ -19,6 +22,18 @@ export default function GradientPage() {
   const [stops, setStops, stopsHistory] = useHistoryState<Stop[]>(INITIAL_STOPS);
   const [copied, setCopied] = useState(false);
   useUndoRedoShortcut(stopsHistory);
+
+  // Restore a shared config from the URL (?s=...) after mount.
+  useEffect(() => {
+    const encoded = new URLSearchParams(window.location.search).get("s");
+    if (!encoded) return;
+    const saved = decodeShareState<ShareState>(encoded);
+    if (!saved) return;
+    if (saved.type === "linear" || saved.type === "radial") setType(saved.type);
+    if (typeof saved.angle === "number") setAngle(saved.angle);
+    if (Array.isArray(saved.stops) && saved.stops.length >= 2) setStops(saved.stops);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const stopsStr = stops
     .slice()
@@ -79,6 +94,7 @@ export default function GradientPage() {
           {/* CSS output */}
           <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-3 flex items-center gap-3">
             <code className="flex-1 text-blue-700 dark:text-blue-300 text-sm font-mono break-all">{full}</code>
+            <ShareButton state={{ type, angle, stops } satisfies ShareState} className="shrink-0" />
             <button onClick={copy}
               className="shrink-0 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors">
               {copied ? "Copied!" : "Copy"}
@@ -129,9 +145,9 @@ export default function GradientPage() {
                     className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
                 </div>
                 <code className="text-slate-500 dark:text-slate-400 text-xs font-mono w-20">{stop.color}</code>
-                <div className="flex-1 flex items-center gap-2">
+                <div className="flex-1 min-w-0 flex items-center gap-2">
                   <input type="range" min={0} max={100} value={stop.position}
-                    onChange={e => updateStop(i, "position", +e.target.value)} className="flex-1" />
+                    onChange={e => updateStop(i, "position", +e.target.value)} className="flex-1 min-w-0" />
                   <span className="text-slate-500 dark:text-slate-400 text-xs font-mono w-10 text-right">{stop.position}%</span>
                 </div>
                 <button onClick={() => removeStop(i)}

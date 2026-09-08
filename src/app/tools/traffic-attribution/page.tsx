@@ -96,14 +96,14 @@ export default function TrafficAttributionPage() {
         </p>
 
         <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 mb-6">
-          <div className="grid grid-cols-[1fr_120px_120px] gap-3 mb-3">
+          <div className="grid grid-cols-[1fr_72px_72px] sm:grid-cols-[1fr_120px_120px] gap-2 sm:gap-3 mb-3">
             <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Channel</span>
             <span className="text-xs text-slate-500 font-medium uppercase tracking-wider text-center">Visits</span>
             <span className="text-xs text-slate-500 font-medium uppercase tracking-wider text-center">Conversions</span>
           </div>
           <div className="flex flex-col gap-2">
             {CHANNELS.map((ch, i) => (
-              <div key={ch.name} className="grid grid-cols-[1fr_120px_120px] gap-3 items-center">
+              <div key={ch.name} className="grid grid-cols-[1fr_72px_72px] sm:grid-cols-[1fr_120px_120px] gap-2 sm:gap-3 items-center">
                 <div className="flex items-center gap-2">
                   <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${ch.bgClass}`} />
                   <span className="text-sm text-slate-700 dark:text-slate-300">{ch.name}</span>

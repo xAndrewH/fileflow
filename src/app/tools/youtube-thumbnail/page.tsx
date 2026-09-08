@@ -243,19 +243,19 @@ export default function YoutubeThumbnailPage() {
               </div>
 
               <div className="flex gap-3 items-center">
-                <div className="space-y-1 flex-1">
+                <div className="space-y-1 flex-1 min-w-0">
                   <label className="text-slate-500 dark:text-slate-400 text-xs block">{bgMode === "gradient" ? "Color 1" : "Color"}</label>
                   <div className="flex items-center gap-2">
                     <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="w-8 h-8 rounded cursor-pointer bg-transparent border-0 p-0" />
-                    <input value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                    <input value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="flex-1 min-w-0 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                   </div>
                 </div>
                 {bgMode === "gradient" && (
-                  <div className="space-y-1 flex-1">
+                  <div className="space-y-1 flex-1 min-w-0">
                     <label className="text-slate-500 dark:text-slate-400 text-xs block">Color 2</label>
                     <div className="flex items-center gap-2">
                       <input type="color" value={bgColor2} onChange={(e) => setBgColor2(e.target.value)} className="w-8 h-8 rounded cursor-pointer bg-transparent border-0 p-0" />
-                      <input value={bgColor2} onChange={(e) => setBgColor2(e.target.value)} className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                      <input value={bgColor2} onChange={(e) => setBgColor2(e.target.value)} className="flex-1 min-w-0 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                     </div>
                   </div>
                 )}
@@ -323,7 +323,7 @@ export default function YoutubeThumbnailPage() {
                 <label className="text-slate-500 dark:text-slate-400 text-xs block">Title color</label>
                 <div className="flex items-center gap-2">
                   <input type="color" value={titleColor} onChange={(e) => setTitleColor(e.target.value)} className="w-8 h-8 rounded cursor-pointer bg-transparent border-0 p-0" />
-                  <input value={titleColor} onChange={(e) => setTitleColor(e.target.value)} className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={titleColor} onChange={(e) => setTitleColor(e.target.value)} className="flex-1 min-w-0 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
               </div>
 
@@ -359,7 +359,7 @@ export default function YoutubeThumbnailPage() {
               {accentBar && (
                 <div className="flex items-center gap-2">
                   <input type="color" value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="w-8 h-8 rounded cursor-pointer bg-transparent border-0 p-0" />
-                  <input value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="flex-1 min-w-0 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
               )}
             </div>

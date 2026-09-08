@@ -2,10 +2,23 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
+import { useHistoryState } from "@/hooks/useHistoryState";
+import { useUndoRedoShortcut } from "@/hooks/useUndoRedoShortcut";
+import { UndoRedoButtons } from "@/components/UndoRedoButtons";
 
 interface Keyframe {
   offset: number; // 0-100 (%)
   properties: { [key: string]: string };
+}
+
+interface AnimConfig {
+  animName: string;
+  duration: string;
+  timing: string;
+  iterCount: string;
+  delay: string;
+  fillMode: string;
+  keyframes: Keyframe[];
 }
 
 const ANIMATABLE_PROPS = [
@@ -40,6 +53,19 @@ const EASING_OPTIONS = [
   "steps(4, end)",
   "steps(6, start)",
 ];
+
+const DEFAULT_CONFIG: AnimConfig = {
+  animName: "my-animation",
+  duration: "1s",
+  timing: "ease",
+  iterCount: "1",
+  delay: "0s",
+  fillMode: "none",
+  keyframes: [
+    { offset: 0, properties: { opacity: "0", transform: "translateY(20px)" } },
+    { offset: 100, properties: { opacity: "1", transform: "translateY(0)" } },
+  ],
+};
 
 const PRESETS: { name: string; name_: string; keyframes: Keyframe[]; duration: string; timing: string; iterCount: string }[] = [
   {
@@ -134,16 +160,11 @@ function generateCss(name: string, keyframes: Keyframe[], duration: string, timi
 }
 
 export default function CssAnimationPage() {
-  const [animName, setAnimName] = useState("my-animation");
-  const [duration, setDuration] = useState("1s");
-  const [timing, setTiming] = useState("ease");
-  const [iterCount, setIterCount] = useState("1");
-  const [delay, setDelay] = useState("0s");
-  const [fillMode, setFillMode] = useState("none");
-  const [keyframes, setKeyframes] = useState<Keyframe[]>([
-    { offset: 0, properties: { opacity: "0", transform: "translateY(20px)" } },
-    { offset: 100, properties: { opacity: "1", transform: "translateY(0)" } },
-  ]);
+  const [config, setConfig, configHistory] = useHistoryState<AnimConfig>(DEFAULT_CONFIG);
+  const { animName, duration, timing, iterCount, delay, fillMode, keyframes } = config;
+  const patch = useCallback((p: Partial<AnimConfig>) => setConfig(c => ({ ...c, ...p })), [setConfig]);
+  useUndoRedoShortcut(configHistory);
+
   const [newPropKey, setNewPropKey] = useState("opacity");
   const [playing, setPlaying] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -154,52 +175,60 @@ export default function CssAnimationPage() {
     const offsets = keyframes.map(k => k.offset);
     const mid = Math.round((Math.min(...offsets) + Math.max(...offsets)) / 2);
     const next = mid === Math.max(...offsets) ? Math.min(100, Math.max(...offsets) + 25) : mid;
-    setKeyframes(prev => [...prev, { offset: next, properties: {} }].sort((a, b) => a.offset - b.offset));
+    setConfig(c => ({ ...c, keyframes: [...c.keyframes, { offset: next, properties: {} }].sort((a, b) => a.offset - b.offset) }));
   };
 
   const removeKeyframe = (i: number) => {
     if (keyframes.length <= 2) return;
-    setKeyframes(prev => prev.filter((_, idx) => idx !== i));
+    setConfig(c => ({ ...c, keyframes: c.keyframes.filter((_, idx) => idx !== i) }));
   };
 
   const updateOffset = (i: number, val: number) => {
-    setKeyframes(prev => {
-      const next = [...prev];
+    setConfig(c => {
+      const next = [...c.keyframes];
       next[i] = { ...next[i], offset: Math.max(0, Math.min(100, val)) };
-      return next.sort((a, b) => a.offset - b.offset);
+      return { ...c, keyframes: next.sort((a, b) => a.offset - b.offset) };
     });
   };
 
   const updateProp = (kfIdx: number, key: string, value: string) => {
-    setKeyframes(prev => {
-      const next = [...prev];
+    setConfig(c => {
+      const next = [...c.keyframes];
       next[kfIdx] = { ...next[kfIdx], properties: { ...next[kfIdx].properties, [key]: value } };
-      return next;
+      return { ...c, keyframes: next };
     });
   };
 
   const addPropToAll = () => {
     if (!newPropKey) return;
-    setKeyframes(prev => prev.map(kf => ({
-      ...kf,
-      properties: { ...kf.properties, [newPropKey]: kf.properties[newPropKey] ?? "" },
-    })));
+    setConfig(c => ({
+      ...c,
+      keyframes: c.keyframes.map(kf => ({
+        ...kf,
+        properties: { ...kf.properties, [newPropKey]: kf.properties[newPropKey] ?? "" },
+      })),
+    }));
   };
 
   const removeProp = useCallback((key: string) => {
-    setKeyframes(prev => prev.map(kf => {
-      const p = { ...kf.properties };
-      delete p[key];
-      return { ...kf, properties: p };
+    setConfig(c => ({
+      ...c,
+      keyframes: c.keyframes.map(kf => {
+        const p = { ...kf.properties };
+        delete p[key];
+        return { ...kf, properties: p };
+      }),
     }));
-  }, []);
+  }, [setConfig]);
 
   const loadPreset = (p: typeof PRESETS[0]) => {
-    setAnimName(p.name_);
-    setDuration(p.duration);
-    setTiming(p.timing);
-    setIterCount(p.iterCount);
-    setKeyframes(p.keyframes);
+    patch({
+      animName: p.name_,
+      duration: p.duration,
+      timing: p.timing,
+      iterCount: p.iterCount,
+      keyframes: p.keyframes,
+    });
   };
 
   const allPropKeys = Array.from(new Set(keyframes.flatMap(kf => Object.keys(kf.properties))));
@@ -251,29 +280,29 @@ export default function CssAnimationPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5 col-span-2">
                   <label className="text-xs text-slate-500">Name</label>
-                  <input value={animName} onChange={e => setAnimName(e.target.value)} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={animName} onChange={e => patch({ animName: e.target.value })} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Duration</label>
-                  <input value={duration} onChange={e => setDuration(e.target.value)} placeholder="1s" className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={duration} onChange={e => patch({ duration: e.target.value })} placeholder="1s" className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Delay</label>
-                  <input value={delay} onChange={e => setDelay(e.target.value)} placeholder="0s" className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={delay} onChange={e => patch({ delay: e.target.value })} placeholder="0s" className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Iterations</label>
-                  <input value={iterCount} onChange={e => setIterCount(e.target.value)} placeholder="1" className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
+                  <input value={iterCount} onChange={e => patch({ iterCount: e.target.value })} placeholder="1" className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Fill Mode</label>
-                  <select value={fillMode} onChange={e => setFillMode(e.target.value)} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors">
+                  <select value={fillMode} onChange={e => patch({ fillMode: e.target.value })} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors">
                     {["none", "forwards", "backwards", "both"].map(v => <option key={v} value={v}>{v}</option>)}
                   </select>
                 </div>
                 <div className="space-y-1.5 col-span-2">
                   <label className="text-xs text-slate-500">Timing Function</label>
-                  <select value={timing} onChange={e => setTiming(e.target.value)} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors">
+                  <select value={timing} onChange={e => patch({ timing: e.target.value })} className="w-full bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-1.5 text-slate-800 dark:text-slate-200 text-sm focus:outline-none focus:border-blue-500/60 transition-colors">
                     {EASING_OPTIONS.map(v => <option key={v} value={v}>{v}</option>)}
                   </select>
                 </div>
@@ -372,9 +401,12 @@ export default function CssAnimationPage() {
             <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium text-slate-700 dark:text-slate-300">CSS Output</p>
-                <button onClick={copy} className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
-                  {copied ? "Copied!" : "Copy"}
-                </button>
+                <div className="flex items-center gap-2">
+                  <UndoRedoButtons {...configHistory} />
+                  <button onClick={copy} className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                </div>
               </div>
               <pre className="text-xs text-slate-700 dark:text-slate-300 font-mono bg-slate-100 dark:bg-slate-800/40 rounded-xl p-4 overflow-auto max-h-64 whitespace-pre-wrap leading-relaxed">
                 {css}

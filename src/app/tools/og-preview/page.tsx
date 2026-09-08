@@ -157,7 +157,7 @@ export default function OgPreviewPage() {
               if (e.key === "Enter") run();
             }}
             placeholder="example.com or https://example.com/page"
-            className="flex-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600"
+            className="flex-1 min-w-0 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600"
           />
           <button
             onClick={run}

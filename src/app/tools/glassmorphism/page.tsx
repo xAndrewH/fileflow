@@ -2,15 +2,35 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
+import { useHistoryState } from "@/hooks/useHistoryState";
+import { useUndoRedoShortcut } from "@/hooks/useUndoRedoShortcut";
+import { UndoRedoButtons } from "@/components/UndoRedoButtons";
+
+interface GlassConfig {
+  blur: number;
+  opacity: number;
+  saturation: number;
+  borderOpacity: number;
+  borderRadius: number;
+  bgColor: string;
+  bg: string;
+}
+
+const DEFAULT_CONFIG: GlassConfig = {
+  blur: 12,
+  opacity: 15,
+  saturation: 100,
+  borderOpacity: 20,
+  borderRadius: 16,
+  bgColor: "#ffffff",
+  bg: "gradient",
+};
 
 export default function GlassmorphismPage() {
-  const [blur, setBlur] = useState(12);
-  const [opacity, setOpacity] = useState(15);
-  const [saturation, setSaturation] = useState(100);
-  const [borderOpacity, setBorderOpacity] = useState(20);
-  const [borderRadius, setBorderRadius] = useState(16);
-  const [bgColor, setBgColor] = useState("#ffffff");
-  const [bg, setBg] = useState("gradient");
+  const [config, setConfig, configHistory] = useHistoryState<GlassConfig>(DEFAULT_CONFIG);
+  const { blur, opacity, saturation, borderOpacity, borderRadius, bgColor, bg } = config;
+  const patch = useCallback((p: Partial<GlassConfig>) => setConfig(c => ({ ...c, ...p })), [setConfig]);
+  useUndoRedoShortcut(configHistory);
   const [copied, setCopied] = useState(false);
 
   const hex = bgColor.slice(1);
@@ -75,7 +95,7 @@ border-radius: ${borderRadius}px;`;
           {/* Background picker */}
           <div className="flex gap-2 flex-wrap">
             {Object.keys(BACKGROUNDS).map(k => (
-              <button key={k} onClick={() => setBg(k)}
+              <button key={k} onClick={() => patch({ bg: k })}
                 className={`px-3 py-1.5 rounded-lg text-xs capitalize transition-colors ${bg === k ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"}`}>
                 {k}
               </button>
@@ -85,26 +105,26 @@ border-radius: ${borderRadius}px;`;
           {/* Controls */}
           <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4 space-y-4">
             {[
-              { label: "Blur", value: blur, set: setBlur, min: 0, max: 40, unit: "px" },
-              { label: "Background opacity", value: opacity, set: setOpacity, min: 0, max: 80, unit: "%" },
-              { label: "Saturation", value: saturation, set: setSaturation, min: 0, max: 200, unit: "%" },
-              { label: "Border opacity", value: borderOpacity, set: setBorderOpacity, min: 0, max: 100, unit: "%" },
-              { label: "Border radius", value: borderRadius, set: setBorderRadius, min: 0, max: 48, unit: "px" },
-            ].map(({ label, value, set, min, max, unit }) => (
+              { key: "blur" as const, label: "Blur", value: blur, min: 0, max: 40, unit: "px" },
+              { key: "opacity" as const, label: "Background opacity", value: opacity, min: 0, max: 80, unit: "%" },
+              { key: "saturation" as const, label: "Saturation", value: saturation, min: 0, max: 200, unit: "%" },
+              { key: "borderOpacity" as const, label: "Border opacity", value: borderOpacity, min: 0, max: 100, unit: "%" },
+              { key: "borderRadius" as const, label: "Border radius", value: borderRadius, min: 0, max: 48, unit: "px" },
+            ].map(({ key, label, value, min, max, unit }) => (
               <div key={label}>
                 <div className="flex justify-between mb-1.5">
                   <span className="text-slate-500 dark:text-slate-400 text-sm">{label}</span>
                   <span className="text-blue-600 dark:text-blue-400 font-mono text-sm">{value}{unit}</span>
                 </div>
                 <input type="range" min={min} max={max} value={value}
-                  onChange={e => set(+e.target.value)} className="w-full accent-blue-500" />
+                  onChange={e => patch({ [key]: +e.target.value })} className="w-full accent-blue-500" />
               </div>
             ))}
             <div className="flex items-center gap-3">
               <span className="text-slate-500 dark:text-slate-400 text-sm">Glass color</span>
               <div className="relative">
                 <div className="w-8 h-8 rounded-lg border border-white/10" style={{ background: bgColor }} />
-                <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)}
+                <input type="color" value={bgColor} onChange={e => patch({ bgColor: e.target.value })}
                   className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
               </div>
               <code className="text-slate-500 text-xs font-mono">{bgColor.toUpperCase()}</code>
@@ -115,10 +135,13 @@ border-radius: ${borderRadius}px;`;
           <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
             <div className="flex items-center justify-between mb-3">
               <p className="text-slate-900 dark:text-white text-sm font-medium">CSS</p>
-              <button onClick={copy}
-                className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors">
-                {copied ? "Copied!" : "Copy"}
-              </button>
+              <div className="flex items-center gap-2">
+                <UndoRedoButtons {...configHistory} />
+                <button onClick={copy}
+                  className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs rounded-lg transition-colors">
+                  {copied ? "Copied!" : "Copy"}
+                </button>
+              </div>
             </div>
             <pre className="text-blue-700 dark:text-blue-300 text-xs font-mono whitespace-pre-wrap">{css}</pre>
           </div>

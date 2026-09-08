@@ -149,7 +149,7 @@ export default function CronPage() {
                 value={expr}
                 onChange={e => setExpr(e.target.value)}
                 spellCheck={false}
-                className={`flex-1 bg-slate-100 dark:bg-slate-800 border rounded-lg px-4 py-2.5 text-slate-900 dark:text-white font-mono text-lg focus:outline-none transition-colors ${
+                className={`flex-1 min-w-0 bg-slate-100 dark:bg-slate-800 border rounded-lg px-4 py-2.5 text-slate-900 dark:text-white font-mono text-lg focus:outline-none transition-colors ${
                   isValid ? "border-slate-300 dark:border-slate-700 focus:border-blue-500" : "border-red-500/50 focus:border-red-500"
                 }`}
               />

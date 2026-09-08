@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CopyButton } from "@/components/CopyButton";
 import { ErrorAlert } from "@/components/ErrorAlert";
 import { RelatedTools } from "@/components/RelatedTools";
+import { usePersistedText } from "@/hooks/usePersistedText";
 
 type Mode = "encode" | "decode";
 
@@ -29,7 +30,7 @@ function fromBase64(input: string, urlSafe: boolean): Uint8Array {
 }
 
 export default function Base64Page() {
-  const [input, setInput]     = useState("");
+  const [input, setInput]     = usePersistedText("ff-draft-base64");
   const [output, setOutput]   = useState("");
   const [mode, setMode]       = useState<Mode>("encode");
   const [urlSafe, setUrlSafe] = useState(false);

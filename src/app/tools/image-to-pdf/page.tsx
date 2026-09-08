@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import { formatBytes } from "@/lib/utils";
 import { ErrorAlert } from "@/components/ErrorAlert";
 import { RelatedTools } from "@/components/RelatedTools";
+import { takeToolHandoff } from "@/lib/toolHandoff";
 
 interface ImgFile {
   id: string;
@@ -40,6 +41,13 @@ export default function ImageToPdfPage() {
       ...prev,
       ...valid.map((f) => ({ id: crypto.randomUUID(), file: f, url: URL.createObjectURL(f) })),
     ]);
+  }, []);
+
+  // Pick up a file "sent" from another tool (e.g. background-remover) after mount.
+  useEffect(() => {
+    const handoff = takeToolHandoff();
+    if (handoff) addFiles([handoff.file]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onDrop = (e: React.DragEvent) => {

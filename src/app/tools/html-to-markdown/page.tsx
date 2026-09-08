@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ChevronLeft, Copy, Check, X } from "lucide-react";
+import { usePersistedText } from "@/hooks/usePersistedText";
 
 function htmlToMarkdown(html: string): string {
   if (!html.trim()) return "";
@@ -100,7 +101,7 @@ function htmlToMarkdown(html: string): string {
 }
 
 export default function HtmlToMarkdownPage() {
-  const [inputHtml, setInputHtml] = useState("");
+  const [inputHtml, setInputHtml] = usePersistedText("ff-draft-html-to-markdown");
   const [outputMd, setOutputMd] = useState("");
   const [copied, setCopied] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);

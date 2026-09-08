@@ -88,7 +88,7 @@ function FetchPanel({ onFetched }: {
           onChange={e => setDomain(e.target.value)}
           onKeyDown={e => e.key === "Enter" && fetch_()}
           placeholder="example.com"
-          className="flex-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2.5 text-slate-900 dark:text-white text-sm placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-blue-500/60 transition-colors"
+          className="flex-1 min-w-0 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2.5 text-slate-900 dark:text-white text-sm placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-blue-500/60 transition-colors"
         />
         <button
           onClick={fetch_}

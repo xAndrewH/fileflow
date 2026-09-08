@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useHistoryState } from "@/hooks/useHistoryState";
 import { useUndoRedoShortcut } from "@/hooks/useUndoRedoShortcut";
 import { UndoRedoButtons } from "@/components/UndoRedoButtons";
+import { ShareButton } from "@/components/ShareButton";
+import { decodeShareState } from "@/lib/shareState";
 
 const CELL_COLORS = [
   "bg-blue-500/70", "bg-purple-500/70", "bg-green-500/70", "bg-orange-500/70",
@@ -34,6 +36,15 @@ export default function CssGridPage() {
   const patch = (p: Partial<GridConfig>) => setConfig(c => ({ ...c, ...p }));
   useUndoRedoShortcut(configHistory);
   const [copied, setCopied] = useState(false);
+
+  // Restore a shared config from the URL (?s=...) after mount.
+  useEffect(() => {
+    const encoded = new URLSearchParams(window.location.search).get("s");
+    if (!encoded) return;
+    const saved = decodeShareState<GridConfig>(encoded);
+    if (saved) setConfig(saved);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const effectiveCols = useCustomTemplate ? templateColumns : `repeat(${columns}, 1fr)`;
   const effectiveRows = useCustomTemplate ? templateRows : `repeat(${rows}, 100px)`;
@@ -179,10 +190,11 @@ export default function CssGridPage() {
 
             {/* CSS Output */}
             <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-2xl p-5 space-y-3">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <h2 className="text-slate-900 dark:text-white text-sm font-semibold">Generated CSS</h2>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <UndoRedoButtons {...configHistory} />
+                  <ShareButton state={config} />
                   <button
                     onClick={copyCss}
                     className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-xs font-medium text-white transition-colors"

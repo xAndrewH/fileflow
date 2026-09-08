@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { ChevronLeft, Plus, Trash2, RefreshCw, Copy, Check, Download, Database } from "lucide-react";
 
@@ -226,6 +226,8 @@ const DEFAULT_FIELDS: Field[] = [
 
 type Format = "json" | "csv" | "sql";
 
+const DRAFT_KEY = "ff-draft-mock-data";
+
 export default function MockDataPage() {
   const [fields, setFields] = useState<Field[]>(DEFAULT_FIELDS);
   const [rowCount, setRowCount] = useState(10);
@@ -233,6 +235,31 @@ export default function MockDataPage() {
   const [tableName, setTableName] = useState("users");
   const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
+  const hydratedRef = useRef(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { fields?: Field[]; rowCount?: number; format?: Format; tableName?: string };
+        if (Array.isArray(saved.fields) && saved.fields.length) setFields(saved.fields);
+        if (typeof saved.rowCount === "number") setRowCount(saved.rowCount);
+        if (saved.format === "json" || saved.format === "csv" || saved.format === "sql") setFormat(saved.format);
+        if (typeof saved.tableName === "string") setTableName(saved.tableName);
+      }
+    } catch { /* ignore unreadable storage */ }
+    hydratedRef.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    const timer = setTimeout(() => {
+      try {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({ fields, rowCount, format, tableName }));
+      } catch { /* storage full or unavailable */ }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [fields, rowCount, format, tableName]);
 
   const generate = useCallback(() => {
     const count = Math.max(1, Math.min(1000, rowCount || 1));
@@ -324,7 +351,7 @@ export default function MockDataPage() {
         </div>
         <p className="text-slate-500 dark:text-slate-400 text-sm mb-8">Build a schema and generate fake records as JSON, CSV, or SQL.</p>
 
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="space-y-4">
             <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
               <div className="flex items-center justify-between mb-4">
@@ -343,12 +370,12 @@ export default function MockDataPage() {
                         value={field.name}
                         onChange={(e) => updateField(field.id, { name: e.target.value })}
                         placeholder="field name"
-                        className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                        className="flex-1 min-w-0 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                       />
                       <select
                         value={field.type}
                         onChange={(e) => updateField(field.id, { type: e.target.value as FieldType })}
-                        className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
+                        className="flex-1 min-w-0 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-lg px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500/60 transition-colors"
                       >
                         {TYPE_OPTIONS.map((opt) => (
                           <option key={opt.value} value={opt.value}>{opt.label}</option>

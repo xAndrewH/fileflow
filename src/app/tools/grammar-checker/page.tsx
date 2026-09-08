@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePersistedText } from "@/hooks/usePersistedText";
 
 interface Match {
   message: string;
@@ -26,7 +27,7 @@ const LANGUAGES = [
 ];
 
 export default function GrammarCheckerPage() {
-  const [text, setText] = useState("");
+  const [text, setText] = usePersistedText("ff-draft-grammar-checker");
   const [language, setLanguage] = useState("en-US");
   const [matches, setMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(false);
@@ -42,7 +43,7 @@ export default function GrammarCheckerPage() {
     setChecked(false);
     setActiveIdx(null);
     setError("");
-  }, []);
+  }, [setText]);
 
   const copyText = useCallback(async () => {
     try {
@@ -93,7 +94,7 @@ export default function GrammarCheckerPage() {
         .map(m => m.offset > match.offset ? { ...m, offset: m.offset + diff } : m)
     );
     setActiveIdx(null);
-  }, [text]);
+  }, [text, setText]);
 
   const fixAll = useCallback(() => {
     // Apply all first-suggestion fixes from last to first to preserve offsets
@@ -108,7 +109,7 @@ export default function GrammarCheckerPage() {
     setMatches([]);
     setChecked(false);
     setActiveIdx(null);
-  }, [text, matches]);
+  }, [text, matches, setText]);
 
   const categoryColor: Record<string, string> = {
     GRAMMAR: "text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-800/50",

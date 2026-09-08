@@ -2,9 +2,11 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { Eraser, Brush, Undo2, RotateCcw, Check, X, Eye, Download } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Eraser, Brush, Undo2, RotateCcw, Check, X, Eye, Download, Send } from "lucide-react";
 import { ErrorAlert } from "@/components/ErrorAlert";
 import { RelatedTools } from "@/components/RelatedTools";
+import { setToolHandoff, urlToFile } from "@/lib/toolHandoff";
 
 type BgOption = "transparent" | "white" | "black" | "custom" | "blur";
 type ModelSize = "isnet_quint8" | "isnet";
@@ -78,6 +80,7 @@ let uid = 0;
 const nextId = () => `item-${Date.now()}-${uid++}`;
 
 export default function BackgroundRemoverPage() {
+  const router = useRouter();
   const [items, setItems]           = useState<RemovalItem[]>([]);
   const [activeId, setActiveId]     = useState<string | null>(null);
   const [progress, setProgress]     = useState("");
@@ -191,6 +194,13 @@ export default function BackgroundRemoverPage() {
     a.href = item.display;
     a.download = `${item.fileName}_no_bg.png`;
     a.click();
+  };
+
+  const sendToImageToPdf = async (item: RemovalItem) => {
+    if (!item.display) return;
+    const file = await urlToFile(item.display, `${item.fileName}_no_bg.png`);
+    setToolHandoff({ file, sourceTool: "background-remover" });
+    router.push("/tools/image-to-pdf");
   };
 
   const downloadAll = async () => {
@@ -414,7 +424,7 @@ export default function BackgroundRemoverPage() {
               </>
             )}
             <input ref={fileRef} type="file" accept="image/*" multiple className="hidden"
-              onChange={(e) => { const f = e.target.files; e.currentTarget.value = ""; if (f) handleFiles(f); }} />
+              onChange={(e) => { const f = Array.from(e.target.files ?? []); e.currentTarget.value = ""; if (f.length) handleFiles(f); }} />
           </div>
 
           <ErrorAlert message={error} />
@@ -617,6 +627,14 @@ export default function BackgroundRemoverPage() {
                   className="flex-1 inline-flex items-center justify-center gap-2 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 text-slate-800 dark:text-slate-200 font-semibold rounded-xl transition-colors">
                   <Download className="w-4 h-4" />
                   Download all (ZIP)
+                </button>
+              )}
+              {active?.display && (
+                <button onClick={() => sendToImageToPdf(active)}
+                  title="Send this cutout to the Image to PDF tool"
+                  className="shrink-0 inline-flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700/60 text-slate-800 dark:text-slate-200 font-semibold rounded-xl transition-colors">
+                  <Send className="w-4 h-4" />
+                  <span className="hidden sm:inline">Send to Image to PDF</span>
                 </button>
               )}
             </div>

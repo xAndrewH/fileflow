@@ -237,7 +237,7 @@ export default function ResponsiveViewerPage() {
               if (e.key === "Enter") capture();
             }}
             placeholder="example.com or https://example.com/page"
-            className="flex-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600"
+            className="flex-1 min-w-0 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3.5 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-blue-500/60 placeholder:text-slate-600"
           />
           <button
             onClick={capture}
@@ -317,7 +317,7 @@ export default function ResponsiveViewerPage() {
             ))}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <input
               type="number"
               value={customWidth}

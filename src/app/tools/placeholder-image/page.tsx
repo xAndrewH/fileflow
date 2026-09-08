@@ -164,14 +164,14 @@ export default function PlaceholderImagePage() {
                   <label className="text-xs text-slate-500">Background</label>
                   <div className="flex gap-2 items-center">
                     <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="w-9 h-9 rounded cursor-pointer bg-transparent border-0 p-0" />
-                    <input value={bgColor} onChange={e => setBgColor(e.target.value)} className="flex-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                    <input value={bgColor} onChange={e => setBgColor(e.target.value)} className="flex-1 min-w-0 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-500">Text</label>
                   <div className="flex gap-2 items-center">
                     <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} className="w-9 h-9 rounded cursor-pointer bg-transparent border-0 p-0" />
-                    <input value={textColor} onChange={e => setTextColor(e.target.value)} className="flex-1 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
+                    <input value={textColor} onChange={e => setTextColor(e.target.value)} className="flex-1 min-w-0 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-200 text-sm font-mono focus:outline-none focus:border-blue-500/60 transition-colors" />
                   </div>
                 </div>
               </div>

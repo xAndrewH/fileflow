@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 
 type DiffLine = { type: "same" | "added" | "removed"; text: string; leftNum?: number; rightNum?: number };
@@ -116,11 +116,37 @@ function InlineText({ tokens, side }: { tokens: WordToken[]; side: "left" | "rig
   );
 }
 
+const DRAFT_KEY = "ff-draft-diff";
+
 export default function DiffPage() {
   const [left, setLeft] = useState("");
   const [right, setRight] = useState("");
   const [viewMode, setViewMode] = useState<"split" | "inline">("split");
   const [copied, setCopied] = useState(false);
+  const hydratedRef = useRef(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { left?: string; right?: string };
+        if (typeof saved.left === "string") setLeft(saved.left);
+        if (typeof saved.right === "string") setRight(saved.right);
+      }
+    } catch { /* ignore unreadable storage */ }
+    hydratedRef.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    const timer = setTimeout(() => {
+      try {
+        const payload = JSON.stringify({ left, right });
+        if (payload.length <= 100_000) localStorage.setItem(DRAFT_KEY, payload);
+      } catch { /* storage full or unavailable */ }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [left, right]);
 
   const lines = useMemo(() => (left || right) ? diff(left, right) : [], [left, right]);
   const added = lines.filter(l => l.type === "added").length;

@@ -48,7 +48,7 @@ export function InstallPrompt() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/60 rounded-xl shadow-2xl px-4 py-3 max-w-sm w-[calc(100%-2rem)]">
+    <div className="print:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/60 rounded-xl shadow-2xl px-4 py-3 max-w-sm w-[calc(100%-2rem)]">
       <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center shrink-0">
         <Download className="w-4 h-4 text-white" />
       </div>

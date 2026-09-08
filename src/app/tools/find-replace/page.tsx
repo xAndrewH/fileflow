@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { ChevronLeft, Copy, Check } from "lucide-react";
+import { usePersistedText } from "@/hooks/usePersistedText";
 
 function countMatches(text: string, find: string, caseSensitive: boolean, regexMode: boolean): number {
   if (!find || !text) return 0;
@@ -23,7 +24,7 @@ function buildRegex(find: string, caseSensitive: boolean, regexMode: boolean): R
 }
 
 export default function FindReplacePage() {
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = usePersistedText("ff-draft-find-replace");
   const [findStr, setFindStr] = useState("");
   const [replaceStr, setReplaceStr] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(false);

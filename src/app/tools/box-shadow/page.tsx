@@ -1,17 +1,20 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { CopyButton } from "@/components/CopyButton";
 import { RelatedTools } from "@/components/RelatedTools";
 import { useHistoryState } from "@/hooks/useHistoryState";
 import { useUndoRedoShortcut } from "@/hooks/useUndoRedoShortcut";
 import { UndoRedoButtons } from "@/components/UndoRedoButtons";
+import { ShareButton } from "@/components/ShareButton";
+import { decodeShareState } from "@/lib/shareState";
 
 interface Shadow {
   x: number; y: number; blur: number; spread: number;
   color: string; opacity: number; inset: boolean;
 }
+interface ShareState { shadows: Shadow[]; active: number; bgColor: string; boxColor: string }
 
 const DEFAULT: Shadow = { x: 0, y: 8, blur: 24, spread: 0, color: "#000000", opacity: 25, inset: false };
 
@@ -39,6 +42,19 @@ export default function BoxShadowPage() {
   const [bgColor, setBgColor] = useState("#1e293b");
   const [boxColor, setBoxColor] = useState("#ffffff");
   useUndoRedoShortcut(shadowsHistory);
+
+  // Restore a shared config from the URL (?s=...) after mount.
+  useEffect(() => {
+    const encoded = new URLSearchParams(window.location.search).get("s");
+    if (!encoded) return;
+    const saved = decodeShareState<ShareState>(encoded);
+    if (!saved) return;
+    if (Array.isArray(saved.shadows) && saved.shadows.length) setShadows(saved.shadows);
+    if (typeof saved.active === "number") setActive(saved.active);
+    if (typeof saved.bgColor === "string") setBgColor(saved.bgColor);
+    if (typeof saved.boxColor === "string") setBoxColor(saved.boxColor);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const css = `box-shadow: ${shadows.map(shadowToCss).join(",\n             ")};`;
 
@@ -87,8 +103,9 @@ export default function BoxShadowPage() {
           </div>
 
           {/* CSS output */}
-          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-3 flex items-start gap-3">
+          <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/60 rounded-xl px-4 py-3 flex flex-wrap items-start gap-3">
             <code className="flex-1 text-blue-700 dark:text-blue-300 text-xs font-mono break-all whitespace-pre">{css}</code>
+            <ShareButton state={{ shadows, active, bgColor, boxColor } satisfies ShareState} className="shrink-0" />
             <CopyButton text={css} label="Copy CSS" className="shrink-0" />
           </div>
 
