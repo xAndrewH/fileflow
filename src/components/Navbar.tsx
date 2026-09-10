@@ -42,12 +42,8 @@ export default function Navbar({ historyCount, onHistoryClick, onKeyClick }: Pro
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Brand */}
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center shadow-lg shadow-blue-500/25 shrink-0">
-            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2 8h4M10 8h4M8 2v4M8 10v4" />
-              <circle cx="8" cy="8" r="2" fill="currentColor" stroke="none" />
-            </svg>
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/mark-32.png" alt="FileSpark" className="w-8 h-8 rounded-lg shadow-lg shadow-blue-500/25 shrink-0" width={32} height={32} />
           <span className="font-bold text-slate-900 dark:text-white text-[17px] tracking-tight shrink-0">FileSpark</span>
           <span className="hidden min-[880px]:flex items-center gap-1 text-slate-400 dark:text-slate-600 text-sm font-normal shrink-0">
             <span className="mx-1">·</span>
